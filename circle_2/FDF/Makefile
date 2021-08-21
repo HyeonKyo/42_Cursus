@@ -5,7 +5,8 @@ MLX_FLAGS = -framework OpenGL -framework AppKit
 
 SRCS_DIR = ./src
 SRCS_NAME = fdf.c ft_utils.c get_next_line.c get_next_line_utils.c parse1.c \
-			parse2.c parse_utils.c
+			parse2.c parse_utils.c event_move.c event_zoom.c make_ptr.c		\
+			iso_vector.c vector.c
 SRCS = $(addprefix $(SRCS_DIR)/, $(SRCS_NAME))
 
 OBJS_DIR = ./obj
@@ -21,12 +22,12 @@ RM = rm -rf
 
 all		:	$(NAME)
 
-$(NAME)	:	$(OBJS)
-			$(CC) -o $@ $(MLX_FLAGS) $^ $(LIBS)
-
 $(OBJS_DIR)/%.o	:	$(SRCS_DIR)/%.c
 					mkdir -p $(OBJS_DIR)
-					$(CC) $(CFLAGS) -I$(INC_DIR) -c $^
+					$(CC) $(CFLAGS) -I$(INC_DIR) -c $< -o $@
+
+$(NAME)	:	$(OBJS)
+			$(CC) -I$(INC_DIR) -o $@ $(MLX_FLAGS) $^ $(LIBS)
 
 clean	:
 			$(RM) $(OBJS)

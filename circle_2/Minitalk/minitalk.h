@@ -20,6 +20,7 @@ typedef union u_info
 
 pid_t	g_server_pid;
 
+void	send_len(unsigned int str_len);
 void	send_message(char *str, int len);
 
 #endif

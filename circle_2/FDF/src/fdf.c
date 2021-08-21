@@ -1,15 +1,15 @@
 #include "fdf.h"
 
-void	print_data(t_map *data)
-{
-	printf("data\n");
-	for (int i = 0; i < data->size; i++)
-	{
-		printf("(%.1f %.1f %.1f) ", data->crd[i].x, data->crd[i].y, data->crd[i].z);
-		if (i % data->map->x == data->map->x - 1)
-			printf("\n");
-	}
-}
+// void	print_data(t_map *data)
+// {
+// 	printf("data\n");
+// 	for (int i = 0; i < data->size; i++)
+// 	{
+// 		printf("(%.1f %.1f %.1f) ", data->crd[i].x, data->crd[i].y, data->crd[i].z);
+// 		if (i % data->map->x == data->map->x - 1)
+// 			printf("\n");
+// 	}
+// }
 
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 {
@@ -27,8 +27,6 @@ t_2d_crd	*multiplied_pixel(t_map *data)
 
 	mul.x = IMG_X_SIZE / data->map->x;
 	mul.y = IMG_Y_SIZE / data->map->y;
-	//mul.x = 40;
-	//mul.y = 40;
 	crd2 = (t_2d_crd *)malloc(sizeof(t_2d_crd) * data->size);
 	i = 0;
 	while (i < data->size)
@@ -45,8 +43,6 @@ void	based_x(t_2d_crd start, t_2d_crd end, t_delta *diff, t_img *img)
 	int	p;
 	t_2d_crd	crd;
 	t_2d_crd	inc;
-	int	x;
-	int	y;
 
 	crd.x = start.x;
 	crd.y = start.y;
@@ -157,14 +153,14 @@ void	print_pixel_in_vector(t_img *img, t_map *data)
 		5. 일반적으론 i+1과 i+map->x벡터와 이어주기
 		6. i가 map->x * (map->y - 1)부터는 오른쪽과만 이어주기
 	*/
-	size_t	i;
+	int		i;
 	t_2d_crd	*crd2;
 	t_map_len	*map;
 
 	crd2 = multiplied_pixel(data);
 	map = data->map;
 	i = 0;
-	while (i < data->size - 1)
+	while (i < (int)data->size - 1)
 	{
 		if (i < map->x * (map->y - 1))
 			bresenham(crd2[i], crd2[i + map->x], img);
@@ -206,7 +202,6 @@ void	print_map(t_ptr *ptr)
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
 	ptr->img = img;
 	print_pixel_in_vector(&img, ptr->data);
-	print_data(ptr->data);
 	mlx_put_image_to_window(ptr->mlx, ptr->win, img.img, 50, 50);
 	mlx_hook(ptr->win, 2, 1L<<0, &key_press, ptr);
 	mlx_loop(ptr->mlx);

@@ -1,6 +1,6 @@
 #include "minitalk.h"
 #include "utils.h"
-int g_flag = 0;
+int	g_flag = 0;
 
 int	check_pid(char *argv1)
 {
@@ -17,16 +17,7 @@ int	check_pid(char *argv1)
 	return (mt_atoi(argv1));
 }
 
-void	send_len(unsigned int str_len)
-{
-	t_info	info;
-
-	ft_memset(&info, 0, sizeof(t_info));
-	info.num = str_len;
-	send_message(info.arr, 4);
-}
-
-int		return_mask_number(int mask_num)
+int	return_mask_number(int mask_num)
 {
 	if (mask_num == 8)
 		return (MASK8);
@@ -69,48 +60,11 @@ void	catch_signal(int sig, siginfo_t *info, void *context)
 	}
 }
 
-void	send_bit(char c, int mask_num)
-{
-	int	ret;
-	int	bit_mask;
-
-	bit_mask = return_mask_number(mask_num);
-	ret = 0;
-	if (c & bit_mask)
-		ret = kill(g_server_pid, SIGUSR2);
-	else
-		ret = kill(g_server_pid, SIGUSR1);
-	if (ret < 0)
-		sigerror();
-}
-
-void	send_all_bits(char c)
-{
-	int	i;
-
-	i = 8;
-	while (i > 0)
-	{
-		usleep(120);
-		send_bit(c, i--);
-		pause();
-	}
-}
-
-void	send_message(char *str, int len)
-{
-	int	i;
-
-	i = -1;
-	while (++i < len)
-		send_all_bits(str[i]);
-}
-
 int	main(int ac, char **argv)
 {
-	char	*str;
+	char			*str;
 	unsigned int	str_len;
-	t_act	act;
+	t_act			act;
 
 	if (ac < 2)
 		return (1);

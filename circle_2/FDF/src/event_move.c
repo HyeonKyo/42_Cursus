@@ -13,7 +13,6 @@ void	right(t_map *data)
 	i = 0;
 	while (i < data->size)
 		data->crd[i++].x -= 1;
-	printf("--right--\n");
 }
 
 void	left(t_map *data)
@@ -23,7 +22,6 @@ void	left(t_map *data)
 	i = 0;
 	while (i < data->size)
 		data->crd[i++].x += 1;
-	printf("--left--\n");
 }
 
 void	up(t_map *data)
@@ -33,7 +31,6 @@ void	up(t_map *data)
 	i = 0;
 	while (i < data->size)
 		data->crd[i++].y += 1;
-	printf("--up--\n");
 }
 
 void	down(t_map *data)
@@ -43,5 +40,4 @@ void	down(t_map *data)
 	i = 0;
 	while (i < data->size)
 		data->crd[i++].y -= 1;
-	printf("--down--\n");
 }

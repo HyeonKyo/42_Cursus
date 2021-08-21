@@ -1,3 +1,19 @@
+
+# =============================================================================
+# Color Variables
+# =============================================================================
+
+BLACK		= 	"\033[0;30m"
+GRAY		= 	"\033[1;30m"
+RED			=	"\033[1;31m"
+GREEN		=	"\033[1;32m"
+YELLOW		=	"\033[1;33m"
+PURPLE		=	"\033[0;35m"
+CYAN		=	"\033[1;36m"
+WHITE		=	"\033[1;37m"
+EOC			=	"\033[0;0m"
+LINE_CLEAR	=	"\x1b[1A\x1b[M"
+
 # =============================================================================
 # Command Variables
 # =============================================================================
@@ -50,33 +66,41 @@ OBJS		=	$(addprefix $(OBJ_DIR), $(OBJ_LIST))
 # Target Generating
 # =============================================================================
 
-$(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_SBJ)%.c
-					mkdir -p $(OBJ_DIR)
-					$(CC) $(CFLAGS) -I$(INC) -c $< -o $@
+$(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_SBJ)%.c dir
+					@$(CC) $(CFLAGS) -I$(INC) -c $< -o $@
+					@echo $(YELLOW) "Compiling...\t" $< $(EOC) $(LINE_CLEAR)
 
-$(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_HFT)%.c
-					mkdir -p $(OBJ_DIR)
-					$(CC) $(CFLAGS) -I$(INC) -c $< -o $@
+$(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_HFT)%.c dir
+					@$(CC) $(CFLAGS) -I$(INC) -c $< -o $@
+					@echo $(YELLOW) "Compiling...\t" $< $(EOC) $(LINE_CLEAR)
 
-$(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_UTL)%.c
-					mkdir -p $(OBJ_DIR)
-					$(CC) $(CFLAGS) -I$(INC) -c $< -o $@
+$(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_UTL)%.c dir
+					@$(CC) $(CFLAGS) -I$(INC) -c $< -o $@
+					@echo $(YELLOW) "Compiling...\t" $< $(EOC) $(LINE_CLEAR)
 
 $(NAME)			:	$(OBJS)
-					$(CC) $(CFLAGS) -I$(INC) -o $@ $^
+					@echo $(GREEN) "Source files are compiled!\n" $(EOC)
+					@echo $(WHITE) "Building '$(NAME)' for" $(YELLOW) "Mandatory" $(WHITE) "..." $(EOC)
+					@$(CC) $(CFLAGS) -I$(INC) -o $@ $^
+					@echo $(CYAN) "'$(NAME)'(execute file) is created!\n" $(EOC)
 
 # =============================================================================
 # Rule
 # =============================================================================
 
-all		:	$(NAME)
+all				:	$(NAME)
 
-clean	:
-			$(RM) $(OBJ_DIR)
+clean			:
+					@$(RM) $(OBJ_DIR)
+					@echo $(RED) "Object files are cleaned!\n" $(EOC)
 
-fclean	:	clean
-			$(RM) $(NAME)
+fclean			:	clean
+					@$(RM) $(NAME)
+					@echo $(RED) "Execute file is removed!\n" $(EOC)
 
-re		:	fclean all
+re				:	fclean all
 
-.PHONY	:	all clean fclean re
+dir				:
+					mkdir -p $(OBJ_DIR)
+
+.PHONY			:	all clean fclean re dir

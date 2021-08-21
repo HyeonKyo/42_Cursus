@@ -14,7 +14,6 @@
 void	rotate_z_axis(t_map *data, double rad)
 {
 	size_t	i;
-	t_map	*new;
 	t_crd	*vec;
 	t_crd	crd;
 

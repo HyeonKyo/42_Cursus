@@ -1,31 +1,6 @@
 #include "minitalk.h"
 #include "utils.h"
 
-//전역변수 쓰지 말고 이전 pid와 현 pid를 비교하는 방법으로 변경
-
-void	bit_masking(char *c, int signo)
-{
-	*c = *c << 1;
-	if (signo == SIGUSR2)
-		*c |= ADD_BIT;
-}
-
-void	get_client_pid(pid_t *client_pid, siginfo_t *info)
-{
-	if (*client_pid <= 0)
-		*client_pid = info->si_pid;
-}
-
-void	check_incorrect_pid(pid_t *client_pid, siginfo_t *info)
-{
-	if (info->si_pid != *client_pid)
-	{
-		kill(*client_pid, SIGUSR1);
-		kill(info->si_pid, SIGUSR1);
-		*client_pid = 0;
-		sigerror();
-	}
-}
 
 void	len_handler(int sig, siginfo_t *info, void *context)
 {

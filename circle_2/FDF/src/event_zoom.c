@@ -4,7 +4,6 @@ void	zoom(t_map *data)
 {
 	size_t	i;
 
-	printf("--zoom--\n");
 	i = 0;
 	while (i < data->size)
 	{
@@ -17,7 +16,6 @@ void	unzoom(t_map *data)
 {
 	size_t	i;
 
-	printf("--unzoom--\n");
 	i = 0;
 	while (i < data->size)
 	{
