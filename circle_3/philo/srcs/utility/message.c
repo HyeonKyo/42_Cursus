@@ -2,8 +2,11 @@
 
 void	print_ms_time(t_philo *philo)
 {
+	long long	cur;
+
+	save_time(&cur);
 	ft_putstr("\033[30;47m", STDOUT_FILENO);
-	ft_putnbr(philo->tm_save - philo->inf->begin, STDOUT_FILENO);
+	ft_putnbr(cur - philo->inf->begin, STDOUT_FILENO);
 	ft_putstr("\033[0;0m\t", STDOUT_FILENO);
 }
 
@@ -22,8 +25,8 @@ void	print_grab(void)
 
 void	print_eat(void)
 {
-	ft_putstr("\033[1;34m", STDOUT_FILENO);
-	ft_putendl("is eating", STDOUT_FILENO);
+	ft_putstr("\033[1;37;42m", STDOUT_FILENO);
+	ft_putendl("is eating\033[0;0m", STDOUT_FILENO);
 }
 
 void	print_sleep(void)

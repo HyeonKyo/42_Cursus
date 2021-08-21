@@ -8,7 +8,7 @@ void	pickup_fork(t_philo *philo)
 	while (TRUE)
 	{
 		pthread_mutex_lock(&(inf->fk_mtx));
-		if (philo->i & ISODD)
+		if (philo->i & ISEVEN)
 			usleep(DELTA);
 		if (inf->fork[philo->i] == AVAILABLE)
 		{
@@ -51,7 +51,9 @@ void	eating(t_philo *philo)
 	save_time(&start_eat);
 	philo->tm_save = start_eat;
 	state_message(philo);
+	pthread_mutex_lock(&inf->full_mtx);
 	philo->n_eat++;
+	pthread_mutex_unlock(&inf->full_mtx);
 	usleep(inf->tm_eat * MILLI / 2);
 	while (TRUE)
 	{
@@ -102,7 +104,7 @@ void	*routine(void *data)
 	t_philo	*philo;
 
 	philo = (t_philo *)data;
-	if (philo->inf->n_philo == 1)
+	if (philo->inf->n_philo == 1)//철학자 1명일 때 예외처리
 		usleep(philo->inf->tm_die * MILLI);
 	while (TRUE)
 	{

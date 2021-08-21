@@ -27,7 +27,7 @@
 # define MILLI 1000
 # define DELTA 10
 # define AVAILABLE 2
-# define ISODD 1
+# define ISEVEN 0
 
 /*
 ** =============================================================================
@@ -70,7 +70,8 @@ typedef struct	s_info
 	int			*fork;
 	int			full_cnt;
 	long long	begin;
-	t_mutex		tm_mtx;
+	t_pth		ck;
+	t_mutex		full_mtx;
 	t_mutex		fk_mtx;
 	t_mutex		pt_mtx;
 }				t_info;
@@ -85,7 +86,6 @@ typedef struct	s_philo
 	long long	tm_life;
 	long long	tm_save;
 	t_pth		th;
-	t_pth		ck;
 	t_cond		cond;
 	t_info		*inf;
 }				t_philo;

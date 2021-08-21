@@ -12,11 +12,13 @@ RM			=	rm -rf
 # =============================================================================
 
 NAME		=	philo
-INC			=	./include/
-SRC_DIR		=	./srcs/
+
+INC			=	./include
 DIR_HFT		=	hk_function/
 DIR_UTL		=	utility/
 DIR_SBJ		=	subject/
+
+SRC_DIR		=	./srcs/
 SRC_LIST	=	$(DIR_SBJ)philo.c		\
 				$(DIR_SBJ)routine.c		\
 				$(DIR_SBJ)lifetime.c	\
@@ -29,7 +31,8 @@ SRC_LIST	=	$(DIR_SBJ)philo.c		\
 				$(DIR_HFT)ft_putstr.c	\
 				$(DIR_HFT)ft_putendl.c
 SRCS		=	$(addprefix $(SRC_DIR), $(SRC_LIST))
-OBJS_DIR	=	./objs
+
+OBJ_DIR		=	./objs/
 OBJ_LIST	=	philo.o		\
 				routine.o	\
 				lifetime.o	\
@@ -41,19 +44,26 @@ OBJ_LIST	=	philo.o		\
 				ft_putnbr.o	\
 				ft_putstr.o	\
 				ft_putendl.o
-OBJS		=	$(addprefix $(OBJS_DIR)/, $(OBJ_LIST))
+OBJS		=	$(addprefix $(OBJ_DIR), $(OBJ_LIST))
 
 # =============================================================================
 # Target Generating
 # =============================================================================
 
-$(OBJS_DIR)/%.o	:	$(SRC_DIR)$(DIR_SBJ)%c $(SRC_DIR)$(DIR_HFT)%c $(SRC_DIR)$(DIR_UTL)%c
-					mkdir -p $(OBJS_DIR)
+$(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_SBJ)%.c
+					mkdir -p $(OBJ_DIR)
+					$(CC) $(CFLAGS) -I$(INC) -c $< -o $@
+
+$(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_HFT)%.c
+					mkdir -p $(OBJ_DIR)
+					$(CC) $(CFLAGS) -I$(INC) -c $< -o $@
+
+$(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_UTL)%.c
+					mkdir -p $(OBJ_DIR)
 					$(CC) $(CFLAGS) -I$(INC) -c $< -o $@
 
 $(NAME)			:	$(OBJS)
 					$(CC) $(CFLAGS) -I$(INC) -o $@ $^
-
 
 # =============================================================================
 # Rule
@@ -62,7 +72,7 @@ $(NAME)			:	$(OBJS)
 all		:	$(NAME)
 
 clean	:
-			$(RM) $(OBJS)
+			$(RM) $(OBJ_DIR)
 
 fclean	:	clean
 			$(RM) $(NAME)
