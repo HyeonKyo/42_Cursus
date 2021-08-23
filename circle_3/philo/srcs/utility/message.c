@@ -17,56 +17,11 @@ void	print_philo_nbr(t_philo *philo)
 	ft_putstr("\033[0;0m ", STDOUT_FILENO);
 }
 
-void	print_grab(void)
-{
-	ft_putstr("\033[1;33m", STDOUT_FILENO);
-	ft_putendl("has taken a fork\033[0;0m", STDOUT_FILENO);
-}
-
-void	print_eat(void)
-{
-	ft_putstr("\033[1;37;42m", STDOUT_FILENO);
-	ft_putendl("is eating\033[0;0m", STDOUT_FILENO);
-}
-
-void	print_sleep(void)
-{
-	ft_putstr("\033[0;32m", STDOUT_FILENO);
-	ft_putendl("is sleeping", STDOUT_FILENO);
-}
-
-void	print_think(void)
-{
-	ft_putstr("\033[0;36m", STDOUT_FILENO);
-	ft_putendl("is thinking", STDOUT_FILENO);
-}
-
-void	print_dead(void)
-{
-	ft_putstr("\033[1;31m", STDOUT_FILENO);
-	ft_putendl("died", STDOUT_FILENO);
-	exit(0);
-}
-
 void	all_is_full(void)
 {
 	ft_putstr("\033[1;33m", STDOUT_FILENO);
 	ft_putendl("\nEvery is finishing dinner!!\n\033[0;0m", STDOUT_FILENO);
 	exit(0);
-}
-
-void	print_state(t_philo *philo)
-{
-	if (philo->cond == GRAB)
-		print_grab();
-	else if (philo->cond == EATING)
-		print_eat();
-	else if (philo->cond == SLEEPING)
-		print_sleep();
-	else if (philo->cond == THINKING)
-		print_think();
-	else if (philo->cond == DEAD)
-		print_dead();
 }
 
 void	state_message(t_philo *philo)

@@ -37,9 +37,11 @@ DIR_SBJ		=	subject/
 SRC_DIR		=	./srcs/
 SRC_LIST	=	$(DIR_SBJ)philo.c		\
 				$(DIR_SBJ)routine.c		\
+				$(DIR_SBJ)routine2.c	\
 				$(DIR_SBJ)lifetime.c	\
 				$(DIR_UTL)error.c		\
 				$(DIR_UTL)message.c		\
+				$(DIR_UTL)print_state.c	\
 				$(DIR_UTL)time.c		\
 				$(DIR_HFT)ft_atoi.c		\
 				$(DIR_HFT)ft_strlen.c	\
@@ -49,16 +51,18 @@ SRC_LIST	=	$(DIR_SBJ)philo.c		\
 SRCS		=	$(addprefix $(SRC_DIR), $(SRC_LIST))
 
 OBJ_DIR		=	./objs/
-OBJ_LIST	=	philo.o		\
-				routine.o	\
-				lifetime.o	\
-				error.o		\
-				message.o	\
-				time.o		\
-				ft_atoi.o	\
-				ft_strlen.o	\
-				ft_putnbr.o	\
-				ft_putstr.o	\
+OBJ_LIST	=	philo.o			\
+				routine.o		\
+				routine2.o		\
+				lifetime.o		\
+				error.o			\
+				message.o		\
+				print_state.o	\
+				time.o			\
+				ft_atoi.o		\
+				ft_strlen.o		\
+				ft_putnbr.o		\
+				ft_putstr.o		\
 				ft_putendl.o
 OBJS		=	$(addprefix $(OBJ_DIR), $(OBJ_LIST))
 

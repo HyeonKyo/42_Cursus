@@ -18,7 +18,8 @@ static void	usage(void)
 	ft_putstr("\nUsage : ./philo [number of philo] ", STDERR_FILENO);
 	ft_putstr("[time to die] [time to eat] ", STDERR_FILENO);
 	ft_putendl("[time to sleep]", STDERR_FILENO);
-	ft_putendl("([number_of_times_each_philosopher_must_eat])\n",STDERR_FILENO);
+	ft_putstr("([number_of_times_each", STDERR_FILENO);
+	ft_putendl("_philosopher_must_eat])\n", STDERR_FILENO);
 }
 
 void	input_error(void)

@@ -1,47 +1,33 @@
 #include "philo.h"
 
-void	pickup_fork(t_philo *philo)
+static void	pickup_fork(t_philo *philo)
 {
 	t_info	*inf;
 
 	inf = philo->inf;
 	while (TRUE)
 	{
-		pthread_mutex_lock(&(inf->fk_mtx));
-		if (philo->i & ISEVEN)
-			usleep(DELTA);
-		if (inf->fork[philo->i] == AVAILABLE)
+		if (philo->priority == HUNGRY)
 		{
-			save_time(&(philo->tm_save));
-			state_message(philo);
-			inf->fork[philo->left] -= 1;
-			state_message(philo);
-			inf->fork[philo->right] -= 1;
-			pthread_mutex_unlock(&(inf->fk_mtx));
-			philo->cond = EATING;
-			return ;
+			pthread_mutex_lock(&(inf->fk_mtx));
+			if (inf->fork[philo->i] == AVAILABLE)
+			{
+				state_message(philo);
+				inf->fork[philo->left] -= 1;
+				state_message(philo);
+				inf->fork[philo->right] -= 1;
+				pthread_mutex_unlock(&(inf->fk_mtx));
+				philo->cond = EATING;
+				return ;
+			}
+			else
+				pthread_mutex_unlock(&(inf->fk_mtx));
 		}
-		else
-		{
-			pthread_mutex_unlock(&(inf->fk_mtx));
-			usleep(DELTA);
-		}
+		usleep(DELTA);
 	}
 }
 
-void	putdown_fork(t_philo *philo)
-{
-	t_info	*inf;
-
-	inf = philo->inf;
-	pthread_mutex_lock(&(inf->fk_mtx));
-	inf->fork[philo->left] += 1;
-	inf->fork[philo->right] += 1;
-	pthread_mutex_unlock(&(inf->fk_mtx));
-	philo->cond = SLEEPING;
-}
-
-void	eating(t_philo *philo)
+static void	eating(t_philo *philo)
 {
 	t_info		*inf;
 	long long	start_eat;
@@ -49,7 +35,6 @@ void	eating(t_philo *philo)
 
 	inf = philo->inf;
 	save_time(&start_eat);
-	philo->tm_save = start_eat;
 	state_message(philo);
 	pthread_mutex_lock(&inf->full_mtx);
 	philo->n_eat++;
@@ -68,7 +53,7 @@ void	eating(t_philo *philo)
 	}
 }
 
-void	sleeping(t_philo *philo)
+static void	sleeping(t_philo *philo)
 {
 	t_info		*inf;
 	long long	start_sleep;
@@ -76,7 +61,6 @@ void	sleeping(t_philo *philo)
 
 	inf = philo->inf;
 	save_time(&start_sleep);
-	philo->tm_save = start_sleep;
 	state_message(philo);
 	usleep(inf->tm_sleep * MILLI / 2);
 	while (TRUE)
@@ -91,13 +75,12 @@ void	sleeping(t_philo *philo)
 	}
 }
 
-void	thinking(t_philo *philo)
+static void	thinking(t_philo *philo)
 {
-	save_time(&(philo->tm_save));
 	state_message(philo);
+	usleep(200);
 	philo->cond = GRAB;
 }
-
 
 void	*routine(void *data)
 {
@@ -106,6 +89,8 @@ void	*routine(void *data)
 	philo = (t_philo *)data;
 	if (philo->inf->n_philo == 1)//철학자 1명일 때 예외처리
 		usleep(philo->inf->tm_die * MILLI);
+	if (philo->i & ISEVEN)
+		usleep((philo->inf->tm_eat - DELTA) * MILLI);//짝수 철학자는 홀수 철학자가 절반정도 먹었을 때 부터 실행
 	while (TRUE)
 	{
 		pickup_fork(philo);
