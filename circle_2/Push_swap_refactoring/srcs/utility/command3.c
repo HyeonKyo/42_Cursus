@@ -6,7 +6,7 @@
 /*   By: hyeonkyokim <hyeonkyokim@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 14:42:19 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/08/24 23:59:52 by hyeonkyokim      ###   ########.fr       */
+/*   Updated: 2021/08/26 01:02:19 by hyeonkyokim      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,19 @@ void	rrb(t_deque *deq)
 	t_list		*pre;
 	t_cmd_deq	*cmd;
 
-	if (deq->cursor->end_flag == 1)
+	if (deq->size_b <= 1)
 		return ;
 	cmd = deq->cmd;
+
 	end = deq->end_B;
+	deq->end_B = deq->end_B->prev;
 	pre = deq->cursor->prev;
 	tmp = create_node();
 	tmp->data = end->data;
 	link_node(tmp, deq->cursor);
 	link_node(pre, tmp);
-	deq->end_B = deq->end_B->prev;
 	remove_node(end);
-	deq->end_B->next = NULL;
-	deq->cursor = tmp;
+	deq->cursor = deq->cursor->prev;
 	add_command(3, "rrb", cmd);
 }
 

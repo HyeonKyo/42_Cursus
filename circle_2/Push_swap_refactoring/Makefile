@@ -15,12 +15,12 @@ EOC			=	"\033[0;0m"
 LINE_CLEAR	=	"\x1b[1A\x1b[M"
 
 # =============================================================================
-# Command Variables
+# Command Variables -fsanitize=address
 # =============================================================================
 
 CC			=	gcc
 CFLAGS		=	-Wall -Werror -Wextra
-CDEBUG		=	-g -fsanitize=address
+CDEBUG		=	-g
 RM			=	rm -rf
 
 # =============================================================================

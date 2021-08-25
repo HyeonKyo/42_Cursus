@@ -6,7 +6,7 @@
 /*   By: hyeonkyokim <hyeonkyokim@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 14:42:43 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/08/25 15:27:28 by hyeonkyokim      ###   ########.fr       */
+/*   Updated: 2021/08/26 00:29:11 by hyeonkyokim      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,10 @@ void	link_node(t_list *n1, t_list *n2)
 {
 	if (n1 == NULL && n2 == NULL)
 		return ;
-	n1->next = n2;
-	n2->prev = n1;
+	if (n1 != NULL)
+		n1->next = n2;
+	if (n2 != NULL)
+		n2->prev = n1;
 }
 
 t_deque	*create_deque(void)
@@ -37,10 +39,10 @@ t_deque	*create_deque(void)
 	deq = (t_deque *)malloc(sizeof(t_deque));
 	merror(deq);
 	ft_memset(deq, 0, sizeof(t_deque));
-	deq->end_B = create_node();
-	deq->end_B->end_flag = 1;
-	deq->end_node = deq->end_B;
-	deq->cursor = deq->end_B;
+	deq->end_node = create_node();
+	deq->end_node->end_flag = 1;
+	deq->end_B = deq->end_node;
+	deq->cursor = deq->end_node;
 	deq->end_A = deq->cursor;
 	deq->cmd = create_cmd_deque();
 	return (deq);
@@ -75,14 +77,13 @@ void	clear_deque(t_deque *deq)
 
 void	remove_node(t_list *cur)
 {
-	t_list	*del;
-	t_list	*tmp;
+	t_list	*next;
+	t_list	*pre;
 
 	if (cur == NULL)
 		return ;
-	del = cur;
-	cur = cur->prev;
-	tmp = cur->next;
-	link_node(cur, tmp);
-	free(del);
+	next = cur->next;
+	pre = cur->prev;
+	link_node(pre, next);
+	free(cur);
 }

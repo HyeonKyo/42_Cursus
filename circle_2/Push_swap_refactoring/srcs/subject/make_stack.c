@@ -59,7 +59,7 @@ static t_deque	*check_duplicated_num(char *str)
 		tmp = cur->next;
 		while (tmp)
 		{
-			if (tmp->data == ck_num)//겹치는 숫자
+			if (!tmp->end_flag && tmp->data == ck_num)//겹치는 숫자
 				error("Duplicated numbers");
 			tmp = tmp->next;
 		}

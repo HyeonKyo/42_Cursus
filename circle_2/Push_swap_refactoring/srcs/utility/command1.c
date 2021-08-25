@@ -6,7 +6,7 @@
 /*   By: hyeonkyokim <hyeonkyokim@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 14:42:15 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/08/25 13:42:05 by hyeonkyokim      ###   ########.fr       */
+/*   Updated: 2021/08/26 00:33:16 by hyeonkyokim      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,10 @@ void	pa(t_deque *deq)
 	deq->cursor = deq->cursor->next;
 	deq->size_a++;
 	deq->size_b--;
+	if (deq->size_b == 0)
+		deq->end_B = deq->end_node;
+	if (deq->end_A == NULL)
+		deq->end_A = deq->cursor->prev;
 	add_command(2, "pa", cmd);
 }
 
@@ -75,7 +79,7 @@ void	pb(t_deque *deq)
 {
 	t_cmd_deq	*cmd;
 
-	if (deq->cursor == deq->end_A)
+	if (deq->size_a == 0)
 		return ;
 	cmd = deq->cmd;
 	deq->cursor = deq->cursor->prev;
@@ -83,5 +87,7 @@ void	pb(t_deque *deq)
 		deq->end_B = deq->end_B->prev;
 	deq->size_a--;
 	deq->size_b++;
+	if (deq->size_a == 0)
+		deq->end_A = NULL;
 	add_command(2, "pb", cmd);
 }

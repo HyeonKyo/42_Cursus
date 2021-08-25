@@ -33,7 +33,9 @@ void	print_deq(t_deque *deq)
 	tp_B = deq->cursor;
 	printf("========================\n");
 	printf("      Stack State!\n");
-	printf("========================\n\n");
+	printf("========================\n");
+	printf("Size_all : %3d\nSize_A   : %3d\nSize_B   : %3d\n", deq->size, deq->size_a, deq->size_b);
+	printf("========================\n");
 	while (tp_A != NULL || tp_B->end_flag != 1)
 	{
 		if (tp_A != NULL && tp_B->end_flag != 1)
