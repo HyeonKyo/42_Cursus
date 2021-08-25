@@ -55,6 +55,8 @@ void	sort(t_deque *deq)
 		return ;
 	if (deq->size == 2)
 		return (sa(deq));
+	else if (deq->size == 3)
+		return (except_sort_fix(deq, 3, DESCEND));
 	len[LEFT] = deq->size / 3;
 	len[MID] = deq->size / 3;
 	len[RIGHT] = deq->size / 3 + deq->size % 3;

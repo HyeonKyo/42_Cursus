@@ -6,7 +6,7 @@
 /*   By: hyeonkyokim <hyeonkyokim@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 14:42:55 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/08/25 23:46:33 by hyeonkyokim      ###   ########.fr       */
+/*   Updated: 2021/08/26 02:44:15 by hyeonkyokim      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	main(int ac, char **av)
 	print_deq(deq);
 	sort(deq);
 	print_deq(deq);
+	printf("cmd : %d\n", deq->cmd->size);
 	/*
 	2. sort
 	3. optimizing

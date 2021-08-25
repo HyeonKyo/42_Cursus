@@ -12,16 +12,16 @@ static void	only_three_sort(t_deque *deq, int order)
 	bot = deq->end_A->data;
 	if (order == ASCEND)
 	{
-		if (top == find_max(top, mid, bot))
+		if (top == find_min(top, mid, bot))
 			ra(deq);
-		else if (mid == find_max(top, mid, bot))
+		else if (mid == find_min(top, mid, bot))
 			rra(deq);
 	}
 	else
 	{
-		if (top == find_min(top, mid, bot))
+		if (top == find_max(top, mid, bot))
 			ra(deq);
-		else if (mid == find_min(top, mid, bot))
+		else if (mid == find_max(top, mid, bot))
 			rra(deq);
 	}
 	top = deq->cursor->prev->data;
@@ -52,9 +52,7 @@ static void	usual_three_sort_fix(t_deque *deq, int order)
 static void	usual_three_sort_skip(t_deque *deq, int order)
 {
 	t_list	*cur;
-	int		i;
 
-	i = -1;
 	cur = deq->cursor;
 	if ((cur->prev->prev->data < cur->prev->data) != order)
 		sa(deq);
@@ -65,7 +63,7 @@ static void	usual_three_sort_skip(t_deque *deq, int order)
 	pb(deq);
 	cur = deq->cursor;
 	if ((cur->data < cur->next->data) != order)
-		sa(deq);
+		sb(deq);
 	pb(deq);
 }
 
@@ -94,7 +92,7 @@ void	except_sort_fix(t_deque *deq, int size, int order)
 void	except_sort_skip(t_deque *deq, int size, int order)
 {
 	t_list	*cur;
-
+//DESCEND
 	cur = deq->cursor;
 	if (size == 0)
 		return ;
