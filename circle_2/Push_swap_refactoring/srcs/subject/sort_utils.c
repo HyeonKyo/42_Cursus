@@ -2,7 +2,6 @@
 
 static void	only_three_sort(t_deque *deq, int order)
 {
-	//deq_A에 숫자 딱 3개 있는 경우
 	int			top;
 	int			mid;
 	int			bot;
@@ -92,7 +91,7 @@ void	except_sort_fix(t_deque *deq, int size, int order)
 void	except_sort_skip(t_deque *deq, int size, int order)
 {
 	t_list	*cur;
-//DESCEND
+
 	cur = deq->cursor;
 	if (size == 0)
 		return ;

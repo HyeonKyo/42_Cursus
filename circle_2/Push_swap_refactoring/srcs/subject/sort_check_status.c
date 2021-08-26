@@ -1,6 +1,6 @@
 #include "push_swap.h"
 
-int		check_already_sorted(t_deque *deq, int size, int order)
+int	check_already_sorted(t_deque *deq, int size, int order)
 {
 	t_list	*cur;
 
@@ -13,5 +13,5 @@ int		check_already_sorted(t_deque *deq, int size, int order)
 			return (0);
 		cur = cur->prev;
 	}
-	return (1);//정렬되있는 상태
+	return (1);
 }

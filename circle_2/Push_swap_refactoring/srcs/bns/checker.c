@@ -1,62 +1,62 @@
 #include "bonus.h"
 
-t_cmd_deq	*make_cmd_list(void)
+void	make_cmd_list(t_cmd_deq *cmd)
 {
-	t_cmd_deq	*cmd;
 	char		*line;
 	int			len;
 
-	cmd = create_cmd_deque();
-	while (get_next_line(0, &line) > 0)
+	while (get_next_line(STDIN_FILENO, &line) > 0)
 	{
 		len = (int)ft_strlen(line);
 		add_command(len, line, cmd);
 		free(line);
 		line = 0;
 	}
-	return (cmd);
+	return ;
 }
 
-void	execute_cmd(t_cmd_deq *cmd, t_deque *deq_A, t_deque *deq_B)
+void	execute_cmd(t_deque *deq)
 {
+	t_cmd_deq	*cmd;
 	t_cmd_lst	*cur;
 	char		*str;
 
+	cmd = deq->cmd;
 	cur = cmd->head;
 	while (cur)
 	{
 		str = cur->cmd;
 		if (!ft_strcmp(str, "sa"))
-			sa_bns(deq_A);
+			sa_bns(deq);
 		else if (!ft_strcmp(str, "sb"))
-			sb_bns(deq_B);
+			sb_bns(deq);
 		else if (!ft_strcmp(str, "ss"))
-			ss_bns(deq_A, deq_B);
+			ss_bns(deq);
 		else if (!ft_strcmp(str, "pa"))
-			pa_bns(deq_A, deq_B);
+			pa_bns(deq);
 		else if (!ft_strcmp(str, "pb"))
-			pb_bns(deq_A, deq_B);
+			pb_bns(deq);
 		else if (!ft_strcmp(str, "ra"))
-			ra_bns(deq_A);
+			ra_bns(deq);
 		else if (!ft_strcmp(str, "rb"))
-			rb_bns(deq_B);
+			rb_bns(deq);
 		else if (!ft_strcmp(str, "rr"))
-			rr_bns(deq_A, deq_B);
+			rr_bns(deq);
 		else if (!ft_strcmp(str, "rra"))
-			rra_bns(deq_A);
+			rra_bns(deq);
 		else if (!ft_strcmp(str, "rrb"))
-			rrb_bns(deq_B);
+			rrb_bns(deq);
 		else if (!ft_strcmp(str, "rrr"))
-			rrr_bns(deq_A, deq_B);
+			rrr_bns(deq);
 		cur = cur->next;
 	}
 }
 
-int	check_sorted(t_deque *deq_A, t_deque *deq_B, int len)
+int	check_sorted(t_deque *deq, int len)
 {
-	if (deq_A->size != len || deq_B->size != 0)
+	if (deq->size_a != len || deq->size_b != 0)
 		return (0);
-	if (!check_already_sorted(deq_A))
+	if (!check_already_sorted(deq, deq->size, DESCEND))
 		return (0);
 	return (1);
 }
@@ -64,15 +64,14 @@ int	check_sorted(t_deque *deq_A, t_deque *deq_B, int len)
 void	print_result(int ret)
 {
 	if (ret == 1)
-		write(1, "OK\n", 3);
+		ft_putendl("OK", STDOUT_FILENO);
 	else
-		write(1, "KO\n", 3);
+		ft_putendl("KO", STDOUT_FILENO);
 }
 
 int	main(int ac, char **av)
 {
 	t_deque		*deq;
-	t_cmd_deq	*cmd;
 	int			ret;
 	int			len;
 
@@ -80,9 +79,9 @@ int	main(int ac, char **av)
 		return (1);
 	deq = make_stack(ac, av);
 	len = deq->size;
-	cmd = make_cmd_list();
-	execute_cmd(cmd, deq);
-	ret = check_sorted(deq, deq_B, len);
+	make_cmd_list(deq->cmd);
+	execute_cmd(deq);
+	ret = check_sorted(deq, len);
 	print_result(ret);
 	clear_deque(deq);
 	/*

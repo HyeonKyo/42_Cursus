@@ -2,13 +2,13 @@
 
 void	print_cmd(t_cmd_deq *cmd)
 {
-	t_cmd_lst *mm;
+	t_cmd_lst	*cur;
 
-	mm = cmd->head;
-	while (mm->cmd != NULL)
+	cur = cmd->head;
+	while (cur->cmd != NULL)
 	{
-		ft_putendl(mm->cmd, STDOUT_FILENO);
-		mm = mm->next;
+		ft_putendl(cur->cmd, STDOUT_FILENO);
+		cur = cur->next;
 	}
 }
 
@@ -86,8 +86,6 @@ void	optimizing_check2(t_cmd_deq *cmd, t_cmd_lst **cur)
 	char	*next_str;
 
 	cur_str = (*cur)->cmd;
-	// while (*cur && !ft_strcmp((*cur)->next->cmd, "rrr"))
-	// 	*cur = (*cur)->next;
 	next_str = (*cur)->next->cmd;
 	if (!ft_strcmp(cur_str, "rra"))
 	{

@@ -39,17 +39,16 @@ DIR_BNS		=	bns/
 SRC_DIR		=	./srcs/
 
 OBJ_DIR		=	./objs/
-SBJ_OBJ_LST	=	push_swap.o				\
+OBJ_LIST	=	push_swap.o				\
 				check_input.o			\
 				make_stack.o			\
 				merge_to_a.o			\
 				merge_to_b.o			\
-				optimize.o				\
-				sort_check_status.o		\
+				sort.o					\
 				sort_utils.o			\
-				sort.o
-
-HKF_OBJ_LST	=	ft_absol.o				\
+				sort_check_status.o		\
+				optimize.o				\
+				ft_absol.o				\
 				ft_isdigit.o			\
 				ft_memset.o				\
 				ft_putendl.o			\
@@ -60,28 +59,43 @@ HKF_OBJ_LST	=	ft_absol.o				\
 				ft_strjoin.o			\
 				ft_strlen.o				\
 				get_next_line.o			\
-				get_next_line_utils.o
-
-UTL_OBJ_LST	=	error.o					\
+				get_next_line_utils.o	\
+				error.o					\
 				list.o					\
 				list_cmd.o				\
 				command1.o				\
 				command2.o				\
 				command3.o				\
 				ft_utils.o
+OBJS		=	$(addprefix $(OBJ_DIR), $(OBJ_LIST))
 
-SBJ_OBJS	=	$(addprefix $(OBJ_DIR), $(SBJ_OBJ_LST))
-HKF_OBJS	=	$(addprefix $(OBJ_DIR), $(HKF_OBJ_LST))
-UTL_OBJS	=	$(addprefix $(OBJ_DIR), $(UTL_OBJ_LST))
+# BNS_LIST	=	$(DIR_BNS)checker.c
+# 				$(DIR_BNS)command1_bonus.c
+# 				$(DIR_BNS)command2_bonus.c
+# 				$(DIR_BNS)command3_bonus.c
+# BNS_SRCS	=	$(addprefix $(SRC_DIR), $(BNS_LIST))
 
 BNS_OBJ_LST	=	checker.o				\
 				command1_bonus.o		\
 				command2_bonus.o		\
 				command3_bonus.o		\
+				sort_check_status.o		\
 				check_input.o			\
 				make_stack.o			\
-				sort_check_status.o
-
+				list.o					\
+				list_cmd.o				\
+				ft_utils.o				\
+				error.o					\
+				get_next_line.o			\
+				get_next_line_utils.o	\
+				ft_absol.o				\
+				ft_isdigit.o			\
+				ft_memset.o				\
+				ft_putendl.o			\
+				ft_putstr.o				\
+				ft_strcmp.o				\
+				ft_strchr.o				\
+				ft_strlen.o
 BNS_OBJS	=	$(addprefix $(OBJ_DIR), $(BNS_OBJ_LST))
 
 # =============================================================================
@@ -104,17 +118,17 @@ $(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_BNS)%.c dir
 					@$(CC) $(CFLAGS) $(CDEBUG) -I$(INC) -c $< -o $@
 					@echo $(YELLOW) "Compiling...\t" $< $(EOC) $(LINE_CLEAR)
 
-$(NAME)			:	$(SBJ_OBJS) $(UTL_OBJS) $(HKF_OBJS)
+$(NAME)			:	$(OBJS)
 					@echo $(GREEN) "Source files are compiled!\n" $(EOC)
-					@echo $(WHITE) "Building [$@] for" $(YELLOW) "Mandatory" $(WHITE) "..." $(EOC)
+					@echo $(WHITE) "Building '$@' for" $(YELLOW) "Mandatory" $(WHITE) "..." $(EOC)
 					@$(CC) $(CFLAGS) $(CDEBUG) -I$(INC) -o $@ $^
-					@echo $(CYAN) "[$@] is created!\n" $(EOC)
+					@echo $(CYAN) "'$@'(execute file) is created!\n" $(EOC)
 
-$(BNS_NAME)		:	$(BNS_OBJS) $(UTL_OBJS) $(HKF_OBJS)
-					@echo $(GREEN) "Bonus source files are compiled!\n" $(EOC)
-					@echo $(WHITE) "Building [$@] for" $(YELLOW) "BONUS" $(WHITE) "..." $(EOC)
-					@$(CC) $(CFLAGS) $(CDEBUG) -I$(INC) -o $@ $^
-					@echo $(CYAN) "[$@] is created!\n" $(EOC)
+$(BNS_NAME)		:	$(BNS_OBJS)
+					@echo $(CYAN) "Bonus source files are compiled!\n" $(EOC)
+					@echo $(WHITE) "Building '$@' for" $(YELLOW) "BONUS" $(WHITE) "..." $(EOC)
+					@$(CC) $(CFLAGS) $(CDEBUG) -I$(INC) -o $(BNS_NAME) $^
+					@echo $(CYAN) "'$(BNS_NAME)'(execute file) is created!\n" $(EOC)
 
 # =============================================================================
 # Rule
@@ -130,7 +144,6 @@ clean			:
 
 fclean			:	clean
 					@$(RM) $(NAME)
-					@$(RM) $(BNS_NAME)
 					@echo $(RED) "Execute file is removed!\n" $(EOC)
 
 re				:	fclean all

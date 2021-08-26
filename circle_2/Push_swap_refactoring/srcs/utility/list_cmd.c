@@ -6,7 +6,7 @@
 /*   By: hyeonkyokim <hyeonkyokim@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 14:42:51 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/08/26 15:20:33 by hyeonkyokim      ###   ########.fr       */
+/*   Updated: 2021/08/26 20:31:38 by hyeonkyokim      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,19 @@ void	del_cmd_last_node(t_cmd_deq *cmd)
 	free(del->cmd);
 	free(del);
 	cmd->size--;
+}
+
+void	clear_cmd_deq(t_cmd_deq *cmd)
+{
+	int	size;
+
+	size = cmd->size;
+	while (size--)
+	{
+		del_cmd_last_node(cmd);
+	}
+	if (cmd->last->cmd)
+		free(cmd->last->cmd);
+	free(cmd->last);
+	free(cmd);
 }
