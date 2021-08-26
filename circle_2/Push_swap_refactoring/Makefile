@@ -43,6 +43,7 @@ SRC_LIST	=	$(DIR_SBJ)push_swap.c			\
 				$(DIR_SBJ)sort.c				\
 				$(DIR_SBJ)sort_utils.c			\
 				$(DIR_SBJ)sort_check_status.c	\
+				$(DIR_SBJ)optimize.c			\
 				$(DIR_HKF)ft_absol.c			\
 				$(DIR_HKF)ft_isdigit.c			\
 				$(DIR_HKF)ft_memset.c			\
@@ -73,6 +74,7 @@ OBJ_LIST	=	push_swap.o				\
 				sort.o					\
 				sort_utils.o			\
 				sort_check_status.o		\
+				optimize.o				\
 				ft_absol.o				\
 				ft_isdigit.o			\
 				ft_memset.o				\

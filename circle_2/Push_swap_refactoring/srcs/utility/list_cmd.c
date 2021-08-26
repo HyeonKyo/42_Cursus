@@ -6,13 +6,13 @@
 /*   By: hyeonkyokim <hyeonkyokim@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 14:42:51 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/08/25 23:45:04 by hyeonkyokim      ###   ########.fr       */
+/*   Updated: 2021/08/26 15:20:33 by hyeonkyokim      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static char	*new_str(int len, const char *str)
+char	*new_str(int len, const char *str)
 {
 	int		i;
 	char	*new;
@@ -26,7 +26,7 @@ static char	*new_str(int len, const char *str)
 	return (new);
 }
 
-static t_cmd_lst	*create_cmd_list(void)
+t_cmd_lst	*create_cmd_list(void)
 {
 	t_cmd_lst	*lst;
 
@@ -60,12 +60,16 @@ t_cmd_deq	*create_cmd_deque(void)
 void	del_cmd_last_node(t_cmd_deq *cmd)
 {
 	t_cmd_lst	*del;
+	t_cmd_lst	*pre;
 
-	if (cmd == NULL || cmd->last == NULL)
+	if (cmd == NULL || cmd->size == 0)
 		return ;
-	del = cmd->last;
-	cmd->last = cmd->last->prev;
-	cmd->last->next = NULL;
+	del = cmd->last->prev;
+	pre = del->prev;
+	if (pre != NULL)
+		pre->next = cmd->last;
+	cmd->last->prev = pre;
 	free(del->cmd);
 	free(del);
+	cmd->size--;
 }

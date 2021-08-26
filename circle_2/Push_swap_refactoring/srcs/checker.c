@@ -71,22 +71,20 @@ void	print_result(int ret)
 
 int	main(int ac, char **av)
 {
-	t_deque		*deq_A;
-	t_deque		*deq_B;
+	t_deque		*deq;
 	t_cmd_deq	*cmd;
 	int			ret;
 	int			len;
 
 	if (ac <= 1)//ac = 2 -> 인자 1개 => "1 2 34" 이런식으로 여러개 들어올 수 있음.
 		return (1);
-	deq_B = make_stack(ac, av, &deq_A);
-	len = deq_A->size;
+	deq = make_stack(ac, av);
+	len = deq->size;
 	cmd = make_cmd_list();
-	execute_cmd(cmd, deq_A, deq_B);
-	ret = check_sorted(deq_A, deq_B, len);
+	execute_cmd(cmd, deq);
+	ret = check_sorted(deq, deq_B, len);
 	print_result(ret);
-	clear_deque(deq_A);
-	clear_deque(deq_B);
+	clear_deque(deq);
 	/*
 	입력으로 들어오는 명령들 리스트 저장(read함수 사용)
 	리스트 문자 하나씩 strcmp로 비교 후 맞는 명령어 실행

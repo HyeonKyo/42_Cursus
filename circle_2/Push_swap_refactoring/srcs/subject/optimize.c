@@ -1,18 +1,13 @@
-#include "ft_type.h"
-#include "ft_utils.h"
-#include "list.h"
 #include "push_swap.h"
 
-void	print_cmd(t_info *info)
+void	print_cmd(t_cmd_deq *cmd)
 {
-	int	i;
 	t_cmd_lst *mm;
 
-	mm = info->cmd->head;
-	i = -1;
-	while (++i < info->cmd->size)
+	mm = cmd->head;
+	while (mm->cmd != NULL)
 	{
-		printf("%s\n", mm->cmd);
+		ft_putendl(mm->cmd, STDOUT_FILENO);
 		mm = mm->next;
 	}
 }
@@ -120,7 +115,7 @@ void	optimizing_check3(t_cmd_deq *cmd, t_cmd_lst **cur)
 		if (!ft_strcmp(str, "rra"))
 			replace_command(cmd, cur, "rb");
 		else if (!ft_strcmp(str, "rrb"))
-			replace_command(cmd, cur, "ra");	
+			replace_command(cmd, cur, "ra");
 		else if (!ft_strcmp(str, "rrr"))
 			delete_command(cmd, cur);
 	}
@@ -129,7 +124,7 @@ void	optimizing_check3(t_cmd_deq *cmd, t_cmd_lst **cur)
 		if (!ft_strcmp(str, "ra"))
 			replace_command(cmd, cur, "rrb");
 		else if (!ft_strcmp(str, "rb"))
-			replace_command(cmd, cur, "rra");	
+			replace_command(cmd, cur, "rra");
 		else if (!ft_strcmp(str, "rr"))
 			delete_command(cmd, cur);
 	}
@@ -143,7 +138,7 @@ void	optimizing_check4(t_cmd_deq *cmd, t_cmd_lst **cur)
 	if (!ft_strcmp((*cur)->cmd, "pa"))
 	{
 		if (!ft_strcmp(str, "pb"))
-			delete_command(cmd, cur);		
+			delete_command(cmd, cur);
 	}
 	else if (!ft_strcmp((*cur)->cmd, "pb"))
 	{
@@ -158,6 +153,8 @@ int		optimize_command(t_cmd_deq *cmd)
 	t_cmd_lst	*tmp;
 	int			fg;
 
+	if (cmd == NULL)
+		return (0);
 	cur = cmd->head;
 	fg = 0;
 	while (cur && cur->next)

@@ -6,7 +6,7 @@
 /*   By: hyeonkyokim <hyeonkyokim@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 14:42:58 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/08/26 02:44:53 by hyeonkyokim      ###   ########.fr       */
+/*   Updated: 2021/08/26 14:32:53 by hyeonkyokim      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,8 @@ void	clear_deque(t_deque *deq);
 void	remove_node(t_list *cur);
 
 //list_cmd
+char	*new_str(int len, const char *str);
+t_cmd_lst	*create_cmd_list(void);
 t_cmd_deq	*create_cmd_deque(void);
 void		add_command(int len, const char *str, t_cmd_deq *cmd);
 void		del_cmd_last_node(t_cmd_deq *cmd);
@@ -159,20 +161,24 @@ void		del_cmd_last_node(t_cmd_deq *cmd);
 ** =============================================================================
 */
 
-void	sort_skip(t_deque *deq, int size, int order);
-void	sort_fix(t_deque *deq, int size, int order);
-void	sort(t_deque *deq);
+
 //sort_check_status
 int		check_already_sorted(t_deque *deq, int size, int order);
 //sort
 void	merge_to_a(t_deque *deq, int *len, int order);
 void	merge_to_b(t_deque *deq, int *len, int order);
+void	sort_skip(t_deque *deq, int size, int order);
+void	sort_fix(t_deque *deq, int size, int order);
+void	sort(t_deque *deq);
 
 //sort_optimize
 void	except_sort_fix(t_deque *deq, int size, int order);
 void	except_sort_skip(t_deque *deq, int size, int order);
 
 void	print_deq(t_deque *deq);
+//cmd
+void	print_cmd(t_cmd_deq *cmd);
+
 
 //optimize
 int		optimize_command(t_cmd_deq *cmd);

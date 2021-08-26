@@ -6,7 +6,7 @@
 /*   By: hyeonkyokim <hyeonkyokim@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 14:42:00 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/08/26 00:58:05 by hyeonkyokim      ###   ########.fr       */
+/*   Updated: 2021/08/26 17:18:19 by hyeonkyokim      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	rb(t_deque *deq)
 		return ;
 	cmd = deq->cmd;
 	top = deq->cursor;
+	deq->cursor = deq->cursor->next;
 	tmp = create_node();
 	tmp->data = top->data;
 	link_node(deq->end_B, tmp);
