@@ -1,34 +1,53 @@
-CC = gcc
-CFLAGS = -g
-SEV_SRCS = server.c ft_utils.c
-CLT_SRCS = client.c client_send.c ft_utils.c
-SRCS = $(SEV_SRCS) $(CLT_SRCS)
-SEV_OBJS = $(SEV_SRCS:.c=.o)
-CLT_OBJS = $(CLT_SRCS:.c=.o)
-INC_DIR = ./
-NAME = server
-CLT_NAME = client
-RM = rm -rf
+CC			=	gcc
+CFLAGS		=	-Wall -Werror -Wextra
+RM			=	rm -rf
 
-all	:	$(NAME) $(CLT_NAME)
+NAME		=	server
+CLT_NAME	=	client
 
-$(NAME)	:	$(SEV_OBJS)
-			$(CC) $(CFLAGS) -o $@ $^
+INC_DIR		=	./includes/
+SRC_DIR		=	./srcs/
+OBJ_DIR		=	./objs/
 
-$(CLT_NAME)	:	$(CLT_OBJS)
-				$(CC) $(CFLAGS) -o $@ $^
+DIR_SEV		=	sev/
+DIR_CLT		=	clt/
+DIR_UTL		=	utility/
 
-.c.o	:
-			$(CC) $(CFLAGS) -c $(SRCS) -I$(INC_DIR)
+SEV_OBJS	=	server.o		\
+				server_get.o
+CLT_OBJS	=	client.o		\
+				client_send.o
+UTL_OBJS	=	ft_utils1.o		\
+				ft_utils2.o
 
-clean	:
-			$(RM) $(SEV_OBJS) $(CLT_OBJS)
+$(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_SEV)%.c dir
+					$(CC) $(CFLAGS) -I$(INC_DIR) -c $< -o $@
 
-fclean	:	clean
-			$(RM) $(NAME) $(CLT_NAME)
+$(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_CLT)%.c dir
+					$(CC) $(CFLAGS) -I$(INC_DIR) -c $< -o $@
 
-re	:	fclean all
+$(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_UTL)%.c dir
+					$(CC) $(CFLAGS) -I$(INC_DIR) -c $< -o $@
 
-bonus	:	re
+$(NAME)			:	$(OBJ_DIR)$(SEV_OBJS) $(OBJ_DIR)$(UTL_OBJS)
+					$(CC) $(CFLAGS) -I$(INC_DIR) -o $@ $^
 
-.PHONY	:	all clean fclean re bonus
+$(CLT_NAME)		:	$(OBJ_DIR)$(CLT_OBJS) $(OBJ_DIR)$(UTL_OBJS)
+					$(CC) $(CFLAGS) -I$(INC_DIR) -o $@ $^
+
+all				:	$(NAME)	$(CLT_NAME)
+
+clean			:
+					$(RM) $(OBJ_DIR)
+
+fclean			:	clean
+					$(RM) $(NAME) $(CLT_NAME)
+
+re				:	fclean all
+
+bonus			:	re
+
+dir				:
+					mkdir -p $(OBJ_DIR)
+
+.PHONY			:	all clean fclean re bonus dir

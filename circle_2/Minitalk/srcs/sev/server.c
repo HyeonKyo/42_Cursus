@@ -1,6 +1,4 @@
 #include "minitalk.h"
-#include "utils.h"
-
 
 void	len_handler(int sig, siginfo_t *info, void *context)
 {
@@ -11,7 +9,6 @@ void	len_handler(int sig, siginfo_t *info, void *context)
 	static int		cnt;
 
 	get_client_pid(&client_pid, info);
-	check_incorrect_pid(&client_pid, info);
 	if (i < 4)
 		bit_masking(&(len.arr[i]), sig);
 	else

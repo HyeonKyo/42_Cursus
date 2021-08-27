@@ -1,39 +1,144 @@
 
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror
-SRCS =  command1.c command2.c command3.c ft_utils1.c ft_utils2.c \
-		input1.c input2.c list.c list_cmd.c optimize.c \
-		pre_sort1.c pre_sort2.c pre_sort3.c push_swap.c \
-		sort1.c sort2.c sort_check_status.c sort_optimize.c sort_utils.c
-BNS_SRCS = checker.c ft_utils1.c ft_utils2.c list_cmd.c list.c input1.c \
-			input2.c sort_check_status.c command1_bonus.c command2_bonus.c \
-			command3_bonus.c get_next_line.c get_next_line_utils.c
-OBJS = $(SRCS:.c=.o)
-BNS_OBJS = $(BNS_SRCS:.c=.o)
-INC_DIR = ./includes
-NAME = push_swap
-BNS_NAME = checker
-RM = rm -rf
+# =============================================================================
+# Color Variables
+# =============================================================================
 
-all		:	$(NAME)
+BLACK		= 	"\033[0;30m"
+GRAY		= 	"\033[1;30m"
+RED			=	"\033[1;31m"
+GREEN		=	"\033[1;32m"
+YELLOW		=	"\033[1;33m"
+PURPLE		=	"\033[0;35m"
+CYAN		=	"\033[1;36m"
+WHITE		=	"\033[1;37m"
+EOC			=	"\033[0;0m"
+LINE_CLEAR	=	"\x1b[1A\x1b[M"
 
-$(NAME)	:	$(OBJS)
-			$(CC) $(CFLAGS) -o $@ $^
+# =============================================================================
+# Command Variables -fsanitize=address
+# =============================================================================
 
-.c.o	:
-			$(CC) $(CFLAGS) -c $(SRCS) -I$(INC_DIR)
+CC			=	gcc
+CFLAGS		=	-Wall -Werror -Wextra
+CDEBUG		=	-g
+RM			=	rm -rf
 
-clean	:
-			$(RM) $(OBJS) $(BNS_OBJS)
+# =============================================================================
+# File Variables
+# =============================================================================
 
-fclean	:	clean
-			$(RM) $(NAME) $(BNS_NAME)
+NAME		=	push_swap
+BNS_NAME	=	checker
 
-re		:	fclean all
+INC			=	./includes
 
-bonus	:	$(BNS_OBJS)
-			$(CC) $(CFLAGS) -c $(BNS_SRCS) -I$(INC_DIR)
-			$(CC) $(CFLAGS) -o $(BNS_NAME) $^
+SRC_DIR		=	./srcs/
+OBJ_DIR		=	./objs/
 
-.PHONY	:	all clean fclean re bonus
- 
+DIR_HKF		=	hk_func/
+DIR_UTL		=	utility/
+DIR_SBJ		=	subject/
+DIR_BNS		=	bns/
+
+SBJ_OBJ_LST	=	push_swap.o				\
+				check_input.o			\
+				make_stack.o			\
+				merge_to_a.o			\
+				merge_to_b.o			\
+				optimize_command.o		\
+				sort_check_status.o		\
+				sort_utils.o			\
+				sort.o
+
+HKF_OBJ_LST	=	ft_absol.o				\
+				ft_isdigit.o			\
+				ft_memset.o				\
+				ft_putendl.o			\
+				ft_putstr.o				\
+				ft_strchr.o				\
+				ft_strcmp.o				\
+				ft_strdup.o				\
+				ft_strjoin.o			\
+				ft_strlen.o				\
+				get_next_line.o			\
+				get_next_line_utils.o
+
+UTL_OBJ_LST	=	error.o					\
+				list.o					\
+				list_cmd.o				\
+				cmd_utils.o				\
+				command1.o				\
+				command2.o				\
+				command3.o				\
+				ft_utils.o
+
+SBJ_OBJS	=	$(addprefix $(OBJ_DIR), $(SBJ_OBJ_LST))
+HKF_OBJS	=	$(addprefix $(OBJ_DIR), $(HKF_OBJ_LST))
+UTL_OBJS	=	$(addprefix $(OBJ_DIR), $(UTL_OBJ_LST))
+
+BNS_OBJ_LST	=	checker.o				\
+				cmd_bonus.o				\
+				command1_bonus.o		\
+				command2_bonus.o		\
+				command3_bonus.o		\
+				check_input.o			\
+				make_stack.o			\
+				sort_check_status.o
+
+BNS_OBJS	=	$(addprefix $(OBJ_DIR), $(BNS_OBJ_LST))
+
+# =============================================================================
+# Target Generating
+# =============================================================================
+
+$(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_HKF)%.c	dir
+					@$(CC) $(CFLAGS) $(CDEBUG) -I$(INC) -c $< -o $@
+					@echo $(YELLOW) "Compiling...\t" $< $(EOC) $(LINE_CLEAR)
+
+$(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_UTL)%.c dir
+					@$(CC) $(CFLAGS) $(CDEBUG) -I$(INC) -c $< -o $@
+					@echo $(YELLOW) "Compiling...\t" $< $(EOC) $(LINE_CLEAR)
+
+$(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_SBJ)%.c dir
+					@$(CC) $(CFLAGS) $(CDEBUG) -I$(INC) -c $< -o $@
+					@echo $(YELLOW) "Compiling...\t" $< $(EOC) $(LINE_CLEAR)
+
+$(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_BNS)%.c dir
+					@$(CC) $(CFLAGS) $(CDEBUG) -I$(INC) -c $< -o $@
+					@echo $(YELLOW) "Compiling...\t" $< $(EOC) $(LINE_CLEAR)
+
+$(NAME)			:	$(SBJ_OBJS) $(UTL_OBJS) $(HKF_OBJS)
+					@echo $(GREEN) "Source files are compiled!\n" $(EOC)
+					@echo $(WHITE) "Building [$@] for" $(YELLOW) "Mandatory" $(WHITE) "..." $(EOC)
+					@$(CC) $(CFLAGS) $(CDEBUG) -I$(INC) -o $@ $^
+					@echo $(CYAN) "[$@] is created!\n" $(EOC)
+
+$(BNS_NAME)		:	$(BNS_OBJS) $(UTL_OBJS) $(HKF_OBJS)
+					@echo $(GREEN) "Bonus source files are compiled!\n" $(EOC)
+					@echo $(WHITE) "Building [$@] for" $(YELLOW) "BONUS" $(WHITE) "..." $(EOC)
+					@$(CC) $(CFLAGS) $(CDEBUG) -I$(INC) -o $@ $^
+					@echo $(CYAN) "[$@] is created!\n" $(EOC)
+
+# =============================================================================
+# Rule
+# =============================================================================
+
+all				:	$(NAME)
+
+bonus			:	$(BNS_NAME)
+
+clean			:
+					@$(RM) $(OBJ_DIR)
+					@echo $(RED) "Object files are cleaned!\n" $(EOC)
+
+fclean			:	clean
+					@$(RM) $(NAME)
+					@$(RM) $(BNS_NAME)
+					@echo $(RED) "Execute file is removed!\n" $(EOC)
+
+re				:	fclean all
+
+dir				:
+					mkdir -p $(OBJ_DIR)
+
+.PHONY			:	all bonus clean fclean re dir
