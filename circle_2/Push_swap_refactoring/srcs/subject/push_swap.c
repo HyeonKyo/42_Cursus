@@ -6,7 +6,7 @@
 /*   By: hyeonkyokim <hyeonkyokim@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 14:42:55 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/08/26 16:56:59 by hyeonkyokim      ###   ########.fr       */
+/*   Updated: 2021/08/27 14:13:49 by hyeonkyokim      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@ int	main(int ac, char **av)
 	while (optimize_command(deq->cmd))
 		;
 	print_cmd(deq->cmd);
-	exit(0);
+	clear_deque(deq);
 	return (0);
 }

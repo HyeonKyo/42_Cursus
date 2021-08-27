@@ -1,5 +1,4 @@
 #include "push_swap.h"
-#include "stdio.h"
 
 void	error(char *str)
 {

@@ -6,7 +6,7 @@
 /*   By: hyeonkyokim <hyeonkyokim@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/24 16:20:48 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/08/23 15:24:10 by hyeonkyokim      ###   ########.fr       */
+/*   Updated: 2021/08/27 14:39:53 by hyeonkyokim      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ft_bzero(void *ptr, size_t size)
 	}
 }
 
-int		gnl_strmove(int fd, char **backup, char *src)
+int	gnl_strmove(int fd, char **backup, char *src)
 {
 	char	*str;
 	size_t	i;

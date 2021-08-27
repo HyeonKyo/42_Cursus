@@ -6,7 +6,7 @@
 /*   By: hyeonkyokim <hyeonkyokim@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/24 16:19:54 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/08/23 15:23:13 by hyeonkyokim      ###   ########.fr       */
+/*   Updated: 2021/08/27 14:44:20 by hyeonkyokim      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,18 +78,18 @@ static int	gnl_get_one_line(int fd, char **line, char **backup, char *buf)
 		return (clean(fd, buf, backup, 0));
 }
 
-int		get_next_line(int fd, char **line)
+int	get_next_line(int fd, char **line)
 {
 	ssize_t		n_bytes;
 	char		*buf;
 	static char	*backup[OPEN_MAX + 1];
 
-	buf = 0;
-	if (BUFFER_SIZE < 1 || !(buf = (char *)malloc(BUFFER_SIZE + 1))
-	|| fd < 0 || fd > OPEN_MAX || !line)
+	buf = (char *)malloc(BUFFER_SIZE + 1);
+	if (BUFFER_SIZE < 1 || !buf || fd < 0 || fd > OPEN_MAX || !line)
 		return (clean(fd, buf, backup, -1));
 	ft_bzero(buf, BUFFER_SIZE + 1);
-	while ((n_bytes = read(fd, buf, BUFFER_SIZE)) > 0)
+	n_bytes = read(fd, buf, BUFFER_SIZE);
+	while (n_bytes > 0)
 	{
 		backup[fd] = gnl_strjoin(backup[fd], buf);
 		if (!backup[fd])
@@ -97,6 +97,7 @@ int		get_next_line(int fd, char **line)
 		if (ft_strchr(backup[fd], '\n'))
 			return (gnl_get_one_line(fd, line, backup, buf));
 		ft_bzero(buf, BUFFER_SIZE + 1);
+		n_bytes = read(fd, buf, BUFFER_SIZE);
 	}
 	if (n_bytes == 0)
 		return (gnl_get_one_line(fd, line, backup, buf));

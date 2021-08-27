@@ -6,7 +6,7 @@
 /*   By: hyeonkyokim <hyeonkyokim@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 14:42:00 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/08/26 17:18:19 by hyeonkyokim      ###   ########.fr       */
+/*   Updated: 2021/08/27 14:46:17 by hyeonkyokim      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,3 @@ void	rr(t_deque *deq)
 	del_cmd_last_node(cmd);
 	add_command(2, "rr", cmd);
 }
-

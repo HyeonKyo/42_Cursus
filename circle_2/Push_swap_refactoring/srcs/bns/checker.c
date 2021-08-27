@@ -1,6 +1,6 @@
 #include "bonus.h"
 
-void	make_cmd_list(t_cmd_deq *cmd)
+static void	make_cmd_list(t_cmd_deq *cmd)
 {
 	char		*line;
 	int			len;
@@ -15,44 +15,7 @@ void	make_cmd_list(t_cmd_deq *cmd)
 	return ;
 }
 
-void	execute_cmd(t_deque *deq)
-{
-	t_cmd_deq	*cmd;
-	t_cmd_lst	*cur;
-	char		*str;
-
-	cmd = deq->cmd;
-	cur = cmd->head;
-	while (cur)
-	{
-		str = cur->cmd;
-		if (!ft_strcmp(str, "sa"))
-			sa_bns(deq);
-		else if (!ft_strcmp(str, "sb"))
-			sb_bns(deq);
-		else if (!ft_strcmp(str, "ss"))
-			ss_bns(deq);
-		else if (!ft_strcmp(str, "pa"))
-			pa_bns(deq);
-		else if (!ft_strcmp(str, "pb"))
-			pb_bns(deq);
-		else if (!ft_strcmp(str, "ra"))
-			ra_bns(deq);
-		else if (!ft_strcmp(str, "rb"))
-			rb_bns(deq);
-		else if (!ft_strcmp(str, "rr"))
-			rr_bns(deq);
-		else if (!ft_strcmp(str, "rra"))
-			rra_bns(deq);
-		else if (!ft_strcmp(str, "rrb"))
-			rrb_bns(deq);
-		else if (!ft_strcmp(str, "rrr"))
-			rrr_bns(deq);
-		cur = cur->next;
-	}
-}
-
-int	check_sorted(t_deque *deq, int len)
+static int	check_sorted(t_deque *deq, int len)
 {
 	if (deq->size_a != len || deq->size_b != 0)
 		return (0);
@@ -61,7 +24,7 @@ int	check_sorted(t_deque *deq, int len)
 	return (1);
 }
 
-void	print_result(int ret)
+static void	print_result(int ret)
 {
 	if (ret == 1)
 		ft_putendl("OK", STDOUT_FILENO);

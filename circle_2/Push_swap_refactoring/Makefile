@@ -31,20 +31,21 @@ NAME		=	push_swap
 BNS_NAME	=	checker
 
 INC			=	./includes
+
+SRC_DIR		=	./srcs/
+OBJ_DIR		=	./objs/
+
 DIR_HKF		=	hk_func/
 DIR_UTL		=	utility/
 DIR_SBJ		=	subject/
 DIR_BNS		=	bns/
 
-SRC_DIR		=	./srcs/
-
-OBJ_DIR		=	./objs/
 SBJ_OBJ_LST	=	push_swap.o				\
 				check_input.o			\
 				make_stack.o			\
 				merge_to_a.o			\
 				merge_to_b.o			\
-				optimize.o				\
+				optimize_command.o		\
 				sort_check_status.o		\
 				sort_utils.o			\
 				sort.o
@@ -65,6 +66,7 @@ HKF_OBJ_LST	=	ft_absol.o				\
 UTL_OBJ_LST	=	error.o					\
 				list.o					\
 				list_cmd.o				\
+				cmd_utils.o				\
 				command1.o				\
 				command2.o				\
 				command3.o				\
@@ -75,6 +77,7 @@ HKF_OBJS	=	$(addprefix $(OBJ_DIR), $(HKF_OBJ_LST))
 UTL_OBJS	=	$(addprefix $(OBJ_DIR), $(UTL_OBJ_LST))
 
 BNS_OBJ_LST	=	checker.o				\
+				cmd_bonus.o				\
 				command1_bonus.o		\
 				command2_bonus.o		\
 				command3_bonus.o		\

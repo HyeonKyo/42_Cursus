@@ -15,4 +15,6 @@ void	rra_bns(t_deque *deq);
 void	rrb_bns(t_deque *deq);
 void	rrr_bns(t_deque *deq);
 
+void	execute_cmd(t_deque *deq);
+
 #endif
