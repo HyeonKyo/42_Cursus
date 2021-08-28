@@ -12,7 +12,7 @@ void	print_cmd(t_cmd_deq *cmd)
 	}
 }
 
-void	replace_command(t_cmd_deq *cmd, t_cmd_lst **cur, const char *str)
+void	replace_cmd(t_cmd_deq *cmd, t_cmd_lst **cur, const char *str)
 {
 	t_cmd_lst	*lst;
 	t_cmd_lst	*tmp;
