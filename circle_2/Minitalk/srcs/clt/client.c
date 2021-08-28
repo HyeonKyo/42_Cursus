@@ -1,20 +1,24 @@
 #include "minitalk.h"
-#include "utils.h"
-int	g_flag = 0;
 
-int	check_pid(char *argv1)
+void	catch_signal(int sig, siginfo_t *info, void *context)
 {
-	int	i;
-
-	i = -1;
-	if (argv1[0] == '+')
-		i++;
-	while (argv1[++i])
+	if (context == NULL)
+		return ;
+	if (info->si_pid != g_server_pid)
+		sigerror();
+	if (g_flag == 0)//g_flag는 문자열을 다 전달하면 1이 된다.
 	{
-		if (!ft_isdigit(argv1[i]))
-			error("Input error");
+		if (sig == SIGUSR1)//문자열 보내는 중에 서버가 USR1시그널을 보내면 오류.
+			sigerror();
 	}
-	return (mt_atoi(argv1));
+	else
+	{
+		if (sig == SIGUSR2)
+			write(1, "\nComplete send message!\n", 25);
+		else
+			error("\nSend error!!\n");
+		exit(0);
+	}
 }
 
 int	return_mask_number(int mask_num)
@@ -39,44 +43,43 @@ int	return_mask_number(int mask_num)
 		return (0);
 }
 
-void	catch_signal(int sig, siginfo_t *info, void *context)
+static int	check_pid(char *av1)
 {
-	if (info->si_pid != g_server_pid)
-		sigerror();
-	if (g_flag == 0)//g_flag는 문자열을 다 전달하면 1이 된다.
+	int	i;
+
+	i = -1;
+	if (av1[0] == '+')
+		i++;
+	while (av1[++i])
 	{
-		if (sig == SIGUSR1)
-			sigerror();
+		if (!ft_isdigit(av1[i]))
+			error("Input error");
 	}
-	else
-	{
-		if (sig == SIGUSR2)
-			write(1, "\nComplete send message!\n", 25);
-		else
-			error("\nSend error!!!");
-		g_flag = 0;
-		g_server_pid = 0;
-		exit(0);
-	}
+	return (mt_atoi(av1));
 }
 
-int	main(int ac, char **argv)
+void	setup_input(char **av, t_act *act, char **str, int *len)
 {
-	char			*str;
-	unsigned int	str_len;
-	t_act			act;
+	g_flag = 0;
+	g_server_pid = check_pid(av[1]);
+	setup_act(act, catch_signal);
+	*str = av[2];
+	*len = (int)ft_strlen(*str);
+}
+
+int	main(int ac, char **av)
+{
+	char	*str;
+	int		str_len;
+	t_act	act;
 
 	if (ac < 2)
-		return (1);
-	setup_act(&act, catch_signal);
-	g_server_pid = check_pid(argv[1]);
-	str = argv[2];
-	str_len = (unsigned int)ft_strlen(str);
+		input_error();
+	setup_input(av, &act, &str, &str_len);
 	sigaction(SIGUSR1, &act, 0);
 	sigaction(SIGUSR2, &act, 0);
 	send_len(str_len);
 	send_message(str, str_len);
-	g_flag = 1;
 	while (1)
 		pause();
 	return (0);

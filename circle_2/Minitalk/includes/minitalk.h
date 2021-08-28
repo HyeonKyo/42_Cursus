@@ -28,6 +28,9 @@
 # define MASK2 2
 # define MASK1 1
 
+int		g_flag;
+pid_t	g_server_pid;
+
 /*
 ** =============================================================================
 ** Union Type Definitions
@@ -36,7 +39,7 @@
 
 typedef union u_info
 {
-	unsigned int	num;
+	int		num;
 	char	arr[4];
 }			t_info;
 
@@ -48,23 +51,25 @@ typedef union u_info
 
 typedef struct sigaction t_act;
 
-pid_t	g_server_pid;
-
 /*
 ** =============================================================================
 ** Utility Functions
 ** =============================================================================
 */
 
-int	ft_isdigit(int c);
+int		ft_isdigit(int c);
 void	ft_putnbr(unsigned int n);
 void	print_char(char c);
+void	ft_putstr(char *str, int fd);
+void	ft_putendl(char *str, int fd);
 void	*ft_memset(void *ptr, int value, size_t num);
 size_t	ft_strlen(const char *str);
-int	mt_atoi(const char *str);
-void	sigerror(void);
-void	error(char *str);
+int		mt_atoi(const char *str);
 void	setup_act(t_act *act, void (*handler)(int, siginfo_t *, void *));
+
+void	error(char *str);
+void	input_error(void);
+void	sigerror(void);
 
 /*
 ** =============================================================================
@@ -74,7 +79,7 @@ void	setup_act(t_act *act, void (*handler)(int, siginfo_t *, void *));
 void	bit_masking(char *c, int signo);
 void	get_client_pid(pid_t *client_pid, siginfo_t *info);
 
-void	send_len(unsigned int str_len);
+void	send_len(int str_len);
 void	send_message(char *str, int len);
 
 /*
@@ -83,6 +88,7 @@ void	send_message(char *str, int len);
 ** =============================================================================
 */
 
+int	return_mask_number(int mask_num);
 
 
 #endif

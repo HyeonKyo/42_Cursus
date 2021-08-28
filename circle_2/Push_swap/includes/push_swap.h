@@ -6,7 +6,7 @@
 /*   By: hyeonkyokim <hyeonkyokim@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 14:42:58 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/08/28 13:46:00 by hyeonkyokim      ###   ########.fr       */
+/*   Updated: 2021/08/28 16:05:00 by hyeonkyokim      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,18 +134,23 @@ void			rrb(t_deque *deq);
 void			rrr(t_deque *deq);
 
 t_list			*create_node(void);
-void			link_node(t_list *n1, t_list *n2);
 t_deque			*create_deque(void);
-void			fillin_deque(t_deque *deq, int num);
 void			clear_deque(t_deque *deq);
 void			remove_node(t_list *cur);
+
+void			fillin_deque(t_deque *deq, int num);
+void			link_node(t_list *n1, t_list *n2);
 
 char			*new_str(int len, const char *str);
 t_cmd_lst		*create_cmd_list(void);
 t_cmd_deq		*create_cmd_deque(void);
-void			add_command(int len, const char *str, t_cmd_deq *cmd);
 void			del_cmd_last_node(t_cmd_deq *cmd);
 void			clear_cmd_deq(t_cmd_deq *cmd);
+
+void			add_command(int len, const char *str, t_cmd_deq *cmd);
+void			print_cmd(t_cmd_deq *cmd);
+void			replace_cmd(t_cmd_deq *cmd, t_cmd_lst **cur, const char *str);
+void			delete_command(t_cmd_deq *cmd, t_cmd_lst **cur);
 
 /*
 ** =============================================================================
@@ -165,10 +170,6 @@ void			except_sort_fix(t_deque *deq, int size, int order);
 void			except_sort_skip(t_deque *deq, int size, int order);
 
 void			print_deq(t_deque *deq);
-
-void			print_cmd(t_cmd_deq *cmd);
-void			replace_cmd(t_cmd_deq *cmd, t_cmd_lst **cur, const char *str);
-void			delete_command(t_cmd_deq *cmd, t_cmd_lst **cur);
 
 int				optimize_command(t_cmd_deq *cmd);
 #endif

@@ -22,32 +22,3 @@ void	input_error(void)
 {
 	error("Input error");
 }
-
-void	print_deq(t_deque *deq)
-{
-	t_list	*tp_A;
-	t_list	*tp_B;
-
-	tp_A = deq->cursor->prev;
-	tp_B = deq->cursor;
-	printf("========================\n");
-	printf("      Stack State!\n");
-	printf("========================\n");
-	printf("Size_all : %3d\nSize_A   : %3d\nSize_B   : %3d\n", deq->size, deq->size_a, deq->size_b);
-	printf("========================\n");
-	while (tp_A != NULL || tp_B->end_flag != 1)
-	{
-		if (tp_A != NULL && tp_B->end_flag != 1)
-			printf("%11d | %11d\n", tp_A->data, tp_B->data);
-		else if (tp_A == NULL && tp_B->end_flag != 1)
-			printf("%11c | %11d\n", ' ', tp_B->data);
-		else
-			printf("%11d | %11c\n", tp_A->data, ' ');
-		if (tp_A != NULL)
-			tp_A = tp_A->prev;
-		if (tp_B->end_flag != 1)
-			tp_B = tp_B->next;
-	}
-	printf(" ---------     --------- \n");
-	printf(" [Stack A]  |  [Stack B] \n");
-}

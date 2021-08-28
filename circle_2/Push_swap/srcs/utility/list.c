@@ -6,7 +6,7 @@
 /*   By: hyeonkyokim <hyeonkyokim@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 14:42:43 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/08/26 20:32:19 by hyeonkyokim      ###   ########.fr       */
+/*   Updated: 2021/08/28 16:03:21 by hyeonkyokim      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,6 @@ t_list	*create_node(void)
 	merror(lst);
 	ft_memset(lst, 0, sizeof(t_list));
 	return (lst);
-}
-
-void	link_node(t_list *n1, t_list *n2)
-{
-	if (n1 == NULL && n2 == NULL)
-		return ;
-	if (n1 != NULL)
-		n1->next = n2;
-	if (n2 != NULL)
-		n2->prev = n1;
 }
 
 t_deque	*create_deque(void)
@@ -48,16 +38,7 @@ t_deque	*create_deque(void)
 	return (deq);
 }
 
-void	fillin_deque(t_deque *deq, int num)
-{
-	t_list	*tmp;
 
-	tmp = create_node();
-	tmp->data = num;
-	link_node(tmp, deq->end_A);
-	deq->end_A = tmp;
-	deq->size++;
-}
 
 void	clear_deque(t_deque *deq)
 {

@@ -6,7 +6,7 @@
 /*   By: hyeonkyokim <hyeonkyokim@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 14:42:51 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/08/26 20:31:38 by hyeonkyokim      ###   ########.fr       */
+/*   Updated: 2021/08/28 16:02:30 by hyeonkyokim      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,6 @@ t_cmd_lst	*create_cmd_list(void)
 	merror(lst);
 	ft_memset(lst, 0, sizeof(t_cmd_lst));
 	return (lst);
-}
-
-void	add_command(int len, const char *str, t_cmd_deq *cmd)
-{
-	cmd->last->cmd = new_str(len, str);
-	cmd->last->next = create_cmd_list();
-	cmd->last->next->prev = cmd->last;
-	cmd->last = cmd->last->next;
-	cmd->size++;
 }
 
 t_cmd_deq	*create_cmd_deque(void)

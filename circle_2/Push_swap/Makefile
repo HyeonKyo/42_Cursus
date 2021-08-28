@@ -65,6 +65,7 @@ HKF_OBJ_LST	=	ft_absol.o				\
 
 UTL_OBJ_LST	=	error.o					\
 				list.o					\
+				list_utils.o			\
 				list_cmd.o				\
 				cmd_utils.o				\
 				command1.o				\

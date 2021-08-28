@@ -1,6 +1,6 @@
 #include "minitalk.h"
 
-void	send_len(unsigned int str_len)
+void	send_len(int str_len)
 {
 	t_info	info;
 
@@ -24,16 +24,16 @@ static void	send_bit(char c, int mask_num)
 		sigerror();
 }
 
-static void	send_all_bits(char c)
+static void	send_eight_bits(char c)
 {
 	int	i;
 
 	i = 8;
 	while (i > 0)
 	{
-		usleep(120);
 		send_bit(c, i--);
 		pause();
+		usleep(120);
 	}
 }
 
@@ -43,5 +43,6 @@ void	send_message(char *str, int len)
 
 	i = -1;
 	while (++i < len)
-		send_all_bits(str[i]);
+		send_eight_bits(str[i]);
+	g_flag = 1;
 }

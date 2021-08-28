@@ -12,6 +12,15 @@ void	print_cmd(t_cmd_deq *cmd)
 	}
 }
 
+void	add_command(int len, const char *str, t_cmd_deq *cmd)
+{
+	cmd->last->cmd = new_str(len, str);
+	cmd->last->next = create_cmd_list();
+	cmd->last->next->prev = cmd->last;
+	cmd->last = cmd->last->next;
+	cmd->size++;
+}
+
 void	replace_cmd(t_cmd_deq *cmd, t_cmd_lst **cur, const char *str)
 {
 	t_cmd_lst	*lst;
