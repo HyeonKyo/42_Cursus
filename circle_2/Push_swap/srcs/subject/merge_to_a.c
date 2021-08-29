@@ -56,8 +56,7 @@ void	merge_to_a(t_deque *deq, int *len, int order)
 {
 	int	n[3];
 
-	if (deq->size_a != len[LEFT])//sort함수의 merge_to_a인 경우만 이 if문이 실행 안됨.(가독성을 위해 이 swap을 많이 실행함.)
-		swap_number(&len[MID], &len[RIGHT]);
+	swap_number(&len[MID], &len[RIGHT]);
 	while (len[RIGHT] || len[MID] || len[LEFT])
 	{
 		n[LEFT] = deq->end_A->data;

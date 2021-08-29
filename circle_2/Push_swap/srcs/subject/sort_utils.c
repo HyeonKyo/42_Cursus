@@ -34,17 +34,15 @@ static void	usual_three_sort_fix(t_deque *deq, int order)
 	t_list	*cur;
 
 	cur = deq->cursor;
-	if ((cur->prev->data > cur->prev->prev->data) == order)
+	if ((cur->prev->prev->data < cur->prev->data) != order)
 		sa(deq);
 	if (check_already_sorted(deq, 3, order))
 		return ;
 	ra(deq);
-	if ((cur->prev->data > cur->prev->prev->data) == order)
+	if ((cur->prev->prev->data < cur->prev->data) != order)
 		sa(deq);
-	if (check_already_sorted(deq, 3, order))
-		return ;
 	rra(deq);
-	if ((cur->prev->data > cur->prev->prev->data) == order)
+	if ((cur->prev->prev->data < cur->prev->data) != order)
 		sa(deq);
 }
 
@@ -84,7 +82,6 @@ void	except_sort_fix(t_deque *deq, int size, int order)
 			only_three_sort(deq, order);
 		else
 			usual_three_sort_fix(deq, order);
-			//size는 3이 주어졌지만 실제 stack_a엔 3만큼 있지 않을 때 오류
 	}
 }
 

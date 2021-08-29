@@ -32,6 +32,8 @@ void	sort_fix(t_deque *deq, int size, int order)
 {
 	int	len[3];
 
+	if (check_already_sorted(deq, size, order))
+		return ;
 	if (size <= 3)
 	{
 		except_sort_fix(deq, size, order);
@@ -57,11 +59,12 @@ void	sort(t_deque *deq)
 		return (sa(deq));
 	else if (deq->size == 3)
 		return (except_sort_fix(deq, 3, DESCEND));
-	len[LEFT] = deq->size / 3;
+	len[LEFT] = deq->size / 3 + deq->size % 3;
 	len[MID] = deq->size / 3;
-	len[RIGHT] = deq->size / 3 + deq->size % 3;
+	len[RIGHT] = deq->size / 3;
 	sort_skip(deq, len[RIGHT], ASCEND);
 	sort_skip(deq, len[MID], DESCEND);
 	sort_fix(deq, len[LEFT], DESCEND);
+	swap_number(&len[MID], &len[RIGHT]);
 	merge_to_a(deq, len, DESCEND);
 }
