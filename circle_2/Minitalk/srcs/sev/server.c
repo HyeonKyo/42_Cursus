@@ -17,51 +17,52 @@ static int	get_string(t_info *len, int sig, int client_pid)
 {
 	static char	c;
 	static int	sig_cnt;
+	static int	print_cnt;
 
 	bit_masking(&c, sig);
 	sig_cnt++;
-	if (sig_cnt % 8 == 0)
+	if (sig_cnt == 8)
 	{
-		print_char(c);
+		ft_putchar(c);
+		print_cnt++;
+		sig_cnt = 0;
 		c = 0;
 	}
-	if (sig_cnt / 8 == len->num)//다 받았을 때
+	if (print_cnt == len->num)//다 받았을 때
 	{
 		write(1, "\n", 1);
 		kill(client_pid, SIGUSR2);
-		usleep(500);
+		usleep(300);
 		kill(client_pid, SIGUSR2);
-		sig_cnt = 0;
+		print_cnt = 0;
 		return (0);
 	}
-	usleep(100);
-	kill(client_pid, SIGUSR2);
 	return (1);
 }
 
 void	len_handler(int sig, siginfo_t *info, void *context)
 {
 	static t_info	len;
-	static int		client_pid;
+	static pid_t	client_pid;
 	static int		len_idx;
 	int				ret;
 
-	if (context == NULL)
-		return ;
-	ret = 0;
+	// if (context == NULL)
+	// 	return ;
+	ret = 1;
 	get_client_pid(&client_pid, info);//클라이언트 시그널을 계속 확인함.
 	if (len_idx < 4)
 		get_strlen(&len, sig, &len_idx);
 	else
 		ret = get_string(&len, sig, client_pid);
-	if (ret == 0)
+	if (ret == 0)//다 보냈을 때
 	{
 		len.num = 0;
 		len_idx = 0;
 		client_pid = -1;
 		return ;
 	}
-	usleep(100);
+	usleep(150);
 	kill(client_pid, SIGUSR2);
 }
 

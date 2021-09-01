@@ -33,7 +33,7 @@ static void	send_eight_bits(char c)
 	{
 		send_bit(c, i--);
 		pause();
-		usleep(120);
+		usleep(50);
 	}
 }
 
@@ -44,5 +44,10 @@ void	send_message(char *str, int len)
 	i = -1;
 	while (++i < len)
 		send_eight_bits(str[i]);
+}
+
+void	send_string(char *str, int len)
+{
+	send_message(str, len);
 	g_flag = 1;
 }

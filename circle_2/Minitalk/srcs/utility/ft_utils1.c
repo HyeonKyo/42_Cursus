@@ -38,7 +38,7 @@ void	ft_putnbr(unsigned int n)
 	write(1, "\n", 1);
 }
 
-void	print_char(char c)
+void	ft_putchar(char c)
 {
 	write(1, &c, 1);
 }

@@ -59,7 +59,7 @@ typedef struct sigaction t_act;
 
 int		ft_isdigit(int c);
 void	ft_putnbr(unsigned int n);
-void	print_char(char c);
+void	ft_putchar(char c);
 void	ft_putstr(char *str, int fd);
 void	ft_putendl(char *str, int fd);
 void	*ft_memset(void *ptr, int value, size_t num);
@@ -81,6 +81,7 @@ void	get_client_pid(pid_t *client_pid, siginfo_t *info);
 
 void	send_len(int str_len);
 void	send_message(char *str, int len);
+void	send_string(char *str, int len);
 
 /*
 ** =============================================================================
