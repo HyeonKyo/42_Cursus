@@ -34,7 +34,7 @@ void	philo_initialization(t_philo **philo, t_info *inf)
 			(*philo)[i].right = 0;
 		(*philo)[i].num = i + 1;
 		(*philo)[i].n_eat = 0;
-		(*philo)[i].priority = USUAL;
+		(*philo)[i].priority = HUNGRY;
 		(*philo)[i].cond = GRAB;
 		(*philo)[i++].inf = inf;
 	}
@@ -48,7 +48,7 @@ void	setup_dinner(t_philo **philo, t_info *inf)
 	inf->fork = (int *)malloc(sizeof(int) * inf->n_philo);
 	merror(inf->fork);
 	inf->full_cnt = 0;
-	inf->flag = 0;
+	inf->flag = inf->n_philo;
 	philo_initialization(philo, inf);
 }
 
@@ -59,13 +59,15 @@ void	dinning(t_philo *philo)
 
 	inf = philo->inf;
 	save_time(&inf->begin);
-	i = 0;
-	while (i < inf->n_philo)
+	i = -1;
+	while (++i < inf->n_philo)
+		philo[i].tm_life = inf->begin;
+	i = -1;
+	while (++i < inf->n_philo)
 	{
 		philo[i].tm_life = inf->begin;
 		pthread_create(&philo[i].th, NULL, routine, &(philo[i]));
 		pthread_create(&philo[i].ck, NULL, lifetime, &(philo[i]));
-		i++;
 	}
 	i = 0;
 	while (i < inf->n_philo)

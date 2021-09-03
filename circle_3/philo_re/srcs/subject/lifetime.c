@@ -1,5 +1,13 @@
 #include "philo.h"
 
+static void	check_current_life(t_philo *philo, t_ll *life)
+{
+	t_ll	cur;
+
+	save_time(&cur);
+	*life = cur - philo->tm_life;
+}
+
 static void	full_check(t_philo *philo)
 {
 	t_info	*inf;
@@ -22,14 +30,17 @@ static void	full_check(t_philo *philo)
 
 static void	check_priority(t_philo *philo, t_info *inf, t_ll life)
 {
-	if (philo->priority == GOOD && life >= inf->tm_die / 4)//우선 순위의 기준
+	if (philo->priority == GOOD && life >= (inf->tm_die - inf->tm_eat - 100))//우선 순위의 기준
 		philo->priority = USUAL;
-	else if (philo->priority == USUAL && life >= inf->tm_die * 4 / 5)
+	else if (philo->priority == USUAL)
 	{
-		philo->priority = HUNGRY;
-		pthread_mutex_lock(&(inf->fg_mtx));
-		inf->flag++;
-		pthread_mutex_unlock(&(inf->fg_mtx));
+		if (life >= inf->tm_die - (inf->tm_eat + 20))
+		{
+			philo->priority = HUNGRY;
+			pthread_mutex_lock(&(inf->fg_mtx));
+			inf->flag++;
+			pthread_mutex_unlock(&(inf->fg_mtx));
+		}
 	}
 }
 
@@ -37,20 +48,19 @@ void	*lifetime(void *data)
 {
 	t_philo	*philo;
 	t_info	*inf;
-	t_ll	cur;
 	t_ll	life;
 
 	philo = (t_philo *)data;
 	inf = philo->inf;
-	usleep(inf->tm_die * MILLI * 2 / 3);//철학자(쓰레드)생성이 되는 시간을 기다리고 수명 체크 시작
+	usleep(inf->tm_die * MILLI * 3 / 5);//철학자(쓰레드)생성이 되는 시간을 기다리고 수명 체크 시작
 	while (TRUE)
 	{
-		save_time(&cur);
-		life = cur - philo->tm_life;
+		check_current_life(philo, &life);
 		if (philo->priority == HUNGRY)
 		{
 			while (TRUE)
 			{
+				check_current_life(philo, &life);
 				if (life >= inf->tm_die)
 				{
 					philo->cond = DEAD;

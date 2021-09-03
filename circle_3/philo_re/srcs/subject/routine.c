@@ -108,7 +108,7 @@ void	*routine(void *data)
 	if (philo->inf->n_philo == 1)//철학자 1명일 때 예외처리
 		usleep(philo->inf->tm_die * MILLI);
 	if (philo->i & ISEVEN)
-		usleep(philo->inf->tm_eat * MILLI);//짝수 철학자는 홀수 철학자가 절반정도 먹었을 때 부터 실행
+		usleep((philo->inf->tm_eat - DELTA) * MILLI);//짝수 철학자는 홀수 철학자가 절반정도 먹었을 때 부터 실행
 	while (TRUE)
 	{
 		pickup_fork(philo);
