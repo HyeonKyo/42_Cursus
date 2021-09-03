@@ -25,4 +25,3 @@ void	sigerror(void)
 {
 	error("\nSignal Error!");
 }
-

@@ -1,5 +1,5 @@
 CC			=	gcc
-CFLAGS		=	-g
+CFLAGS		=	-Wall -Werror -Wextra
 RM			=	rm -rf
 
 NAME		=	server
@@ -35,13 +35,13 @@ $(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_CLT)%.c dir
 $(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_UTL)%.c dir
 					$(CC) $(CFLAGS) -I$(INC_DIR) -c $< -o $@
 
+all				:	$(CLT_NAME)	$(NAME)
+
 $(NAME)			:	$(SEV_OBJS) $(UTL_OBJS)
 					$(CC) $(CFLAGS) -I$(INC_DIR) -o $@ $^
 
 $(CLT_NAME)		:	$(CLT_OBJS) $(UTL_OBJS)
 					$(CC) $(CFLAGS) -I$(INC_DIR) -o $@ $^
-
-all				:	$(CLT_NAME)	$(NAME)
 
 clean			:
 					$(RM) $(OBJ_DIR)
@@ -51,7 +51,7 @@ fclean			:	clean
 
 re				:	fclean all
 
-bonus			:	re
+bonus			:	all
 
 dir				:
 					mkdir -p $(OBJ_DIR)

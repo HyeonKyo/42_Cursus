@@ -2,6 +2,8 @@
 
 void	catch_signal(int sig, siginfo_t *info, void *context)
 {
+	if (context == NULL)
+		return ;
 	if (info->si_pid != g_server_pid)
 		sigerror();
 	if (g_flag == 0)//g_flag는 문자열을 다 전달하면 1이 된다.

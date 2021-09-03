@@ -47,8 +47,8 @@ void	len_handler(int sig, siginfo_t *info, void *context)
 	static int		len_idx;
 	int				ret;
 
-	// if (context == NULL)
-	// 	return ;
+	if (context == NULL)
+		return ;
 	ret = 1;
 	get_client_pid(&client_pid, info);//클라이언트 시그널을 계속 확인함.
 	if (len_idx < 4)
