@@ -6,8 +6,12 @@ int	save_arg(int ac, char **av, t_info *inf)
 		&& ft_atoi(av[3], &inf->tm_eat) && ft_atoi(av[4], &inf->tm_sleep)))
 		return (FALSE);
 	if (ac == 6)
+	{
 		if (!ft_atoi(av[5], &inf->n_must))
 			return (FALSE);
+	}
+	else
+		inf->n_must = -1;
 	return (TRUE);
 }
 
@@ -20,7 +24,7 @@ void	philo_initialization(t_philo **philo, t_info *inf)
 	i = 0;
 	while (i < inf->n_philo)
 	{
-		inf->fork[i] = 2;
+		inf->fork[i] = AVAILABLE;
 		(*philo)[i].i = i;
 		(*philo)[i].left = i - 1;
 		if ((*philo)[i].left < 0)
@@ -30,7 +34,6 @@ void	philo_initialization(t_philo **philo, t_info *inf)
 			(*philo)[i].right = 0;
 		(*philo)[i].num = i + 1;
 		(*philo)[i].n_eat = 0;
-		(*philo)[i].priority = HUNGRY;
 		(*philo)[i].cond = GRAB;
 		(*philo)[i++].inf = inf;
 	}
@@ -54,20 +57,20 @@ void	dinning(t_philo *philo)
 
 	inf = philo->inf;
 	save_time(&inf->begin);
-	i = 0;
-	while (i < inf->n_philo)
-	{
+	i = -1;
+	while (++i < inf->n_philo)
 		philo[i].tm_life = inf->begin;
+	i = -1;
+	while (++i < inf->n_philo)
+	{
 		pthread_create(&philo[i].th, NULL, routine, &(philo[i]));
 		pthread_create(&philo[i].ck, NULL, lifetime, &(philo[i]));
-		i++;
 	}
-	i = 0;
+	i = -1;
 	while (i < inf->n_philo)
 	{
 		pthread_join(philo[i].th, NULL);
 		pthread_join(philo[i].ck, NULL);
-		i++;
 	}
 }
 

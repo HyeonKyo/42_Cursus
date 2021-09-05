@@ -24,12 +24,12 @@
 
 # define FALSE 0
 # define TRUE 1
+
 # define MILLI 1000
-# define DELTA 5
+# define DELTA 10
+
 # define AVAILABLE 2
 # define ISEVEN 1
-# define HUNGRY 2
-# define GOOD 1
 
 /*
 ** =============================================================================
@@ -86,7 +86,6 @@ typedef struct	s_philo
 	int			left;
 	int			right;
 	int			n_eat;
-	int			priority;
 	long long	tm_life;
 	t_pth		th;
 	t_pth		ck;

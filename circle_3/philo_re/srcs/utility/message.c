@@ -7,7 +7,7 @@ void	print_ms_time(t_philo *philo)
 	save_time(&cur);
 	ft_putstr("\033[30;47m", STDOUT_FILENO);
 	ft_putnbr(cur - philo->inf->begin, STDOUT_FILENO);
-	ft_putstr("\033[0;0m\t", STDOUT_FILENO);
+	ft_putstr("ms\033[0;0m\t", STDOUT_FILENO);
 }
 
 void	print_philo_nbr(t_philo *philo)

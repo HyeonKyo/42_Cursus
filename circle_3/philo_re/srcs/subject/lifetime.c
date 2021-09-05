@@ -30,7 +30,7 @@ static void	full_check(t_philo *philo)
 
 static void	check_priority(t_philo *philo, t_info *inf, t_ll life)
 {
-	if (philo->priority == GOOD && life >= (inf->tm_die - inf->tm_eat - 100))//우선 순위의 기준
+	if (philo->priority == GOOD && life >= (inf->tm_die / 6))//우선 순위의 기준
 		philo->priority = USUAL;
 	else if (philo->priority == USUAL)
 	{

@@ -19,12 +19,10 @@ void	print_state(t_philo *philo)
 	}
 	else if (cond == THINKING)
 	{
-		ft_putstr("\033[0;36m", STDOUT_FILENO);
 		ft_putendl("is thinking", STDOUT_FILENO);
 	}
 	else if (cond == SLEEPING)
 	{
-		ft_putstr("\033[0;32m", STDOUT_FILENO);
 		ft_putendl("is sleeping", STDOUT_FILENO);
 	}
 	else if (cond == GRAB)

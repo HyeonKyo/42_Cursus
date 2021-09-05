@@ -7,22 +7,18 @@ static void	pickup_fork(t_philo *philo)
 	inf = philo->inf;
 	while (TRUE)
 	{
-		if (philo->priority == HUNGRY)
+		pthread_mutex_lock(&(inf->fk_mtx));
+		if (inf->fork[philo->i] == AVAILABLE)
 		{
-			pthread_mutex_lock(&(inf->fk_mtx));
-			if (inf->fork[philo->i] == AVAILABLE)
-			{
-				state_message(philo);
-				inf->fork[philo->left] -= 1;
-				state_message(philo);
-				inf->fork[philo->right] -= 1;
-				pthread_mutex_unlock(&(inf->fk_mtx));
-				philo->cond = EATING;
-				return ;
-			}
-			else
-				pthread_mutex_unlock(&(inf->fk_mtx));
+			state_message(philo);
+			state_message(philo);
+			inf->fork[philo->left] -= 1;
+			inf->fork[philo->right] -= 1;
+			pthread_mutex_unlock(&(inf->fk_mtx));
+			philo->cond = EATING;
+			return ;
 		}
+		pthread_mutex_unlock(&(inf->fk_mtx));
 		usleep(DELTA);
 	}
 }
@@ -34,11 +30,14 @@ static void	eating(t_philo *philo)
 	long long	cur;
 
 	inf = philo->inf;
-	save_time(&start_eat);
 	state_message(philo);
-	pthread_mutex_lock(&inf->full_mtx);
-	philo->n_eat++;
-	pthread_mutex_unlock(&inf->full_mtx);
+	save_time(&start_eat);
+	if (inf->n_must > 0)
+	{
+		pthread_mutex_lock(&inf->full_mtx);
+		philo->n_eat++;
+		pthread_mutex_unlock(&inf->full_mtx);
+	}
 	usleep(inf->tm_eat * MILLI - 2);
 	while (TRUE)
 	{
@@ -60,8 +59,8 @@ static void	sleeping(t_philo *philo)
 	long long	cur;
 
 	inf = philo->inf;
-	save_time(&start_sleep);
 	state_message(philo);
+	save_time(&start_sleep);
 	usleep(inf->tm_sleep * MILLI / 2);
 	while (TRUE)
 	{
@@ -90,7 +89,7 @@ void	*routine(void *data)
 	if (philo->inf->n_philo == 1)//철학자 1명일 때 예외처리
 		usleep(philo->inf->tm_die * MILLI);
 	if (philo->i & ISEVEN)
-		usleep((philo->inf->tm_eat - (DELTA * 5)) * MILLI);//짝수 철학자는 홀수 철학자가 절반정도 먹었을 때 부터 실행
+		usleep((philo->inf->tm_eat - DELTA) * MILLI);//짝수 철학자는 홀수 철학자가 절반정도 먹었을 때 부터 실행
 	while (TRUE)
 	{
 		pickup_fork(philo);

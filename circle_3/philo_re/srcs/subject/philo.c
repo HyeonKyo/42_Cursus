@@ -69,12 +69,11 @@ void	dinning(t_philo *philo)
 		pthread_create(&philo[i].th, NULL, routine, &(philo[i]));
 		pthread_create(&philo[i].ck, NULL, lifetime, &(philo[i]));
 	}
-	i = 0;
-	while (i < inf->n_philo)
+	i = -1;
+	while (++i < inf->n_philo)
 	{
 		pthread_join(philo[i].th, NULL);
 		pthread_join(philo[i].ck, NULL);
-		i++;
 	}
 }
 

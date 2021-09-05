@@ -34,15 +34,10 @@ void	*lifetime(void *data)
 	{
 		save_time(&cur);
 		life = cur - philo->tm_life;
-		if (philo->priority == GOOD && life >= inf->tm_die * 3 / 5)//우선 순위의 기준
-			philo->priority = HUNGRY;
-		if (philo->priority == HUNGRY)
+		if (life >= inf->tm_die)
 		{
-			if (life >= inf->tm_die)
-			{
-				philo->cond = DEAD;
-				state_message(philo);
-			}
+			philo->cond = DEAD;
+			state_message(philo);
 		}
 		full_check(philo);
 		usleep(DELTA);
