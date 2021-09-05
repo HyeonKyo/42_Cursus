@@ -24,7 +24,7 @@ void	philo_initialization(t_philo **philo, t_info *inf)
 	i = 0;
 	while (i < inf->n_philo)
 	{
-		inf->fork[i] = 2;
+		inf->fork[i] = AVAILABLE;
 		(*philo)[i].i = i;
 		(*philo)[i].left = i - 1;
 		if ((*philo)[i].left < 0)

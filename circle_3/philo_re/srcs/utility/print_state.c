@@ -4,6 +4,8 @@ static void	print_dead(void)
 {
 	ft_putstr("\033[1;31m", STDOUT_FILENO);
 	ft_putendl("died", STDOUT_FILENO);
+	//system("leaks philo > leaks_result; cat leaks_result | grep leaked && rm -rf leaks_result");
+	//지우기
 	exit(0);
 }
 

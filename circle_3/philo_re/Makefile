@@ -20,7 +20,7 @@ LINE_CLEAR	=	"\x1b[1A\x1b[M"
 
 CC			=	gcc
 CFLAGS		=	-Wall -Werror -Wextra
-CDEBUG		=	-g -fsanitize=address
+CDEBUG		=	-g -fsanitize=leaks
 RM			=	rm -rf
 
 # =============================================================================

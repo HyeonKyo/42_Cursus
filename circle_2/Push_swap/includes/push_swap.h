@@ -6,7 +6,7 @@
 /*   By: hyeonkyokim <hyeonkyokim@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 14:42:58 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/08/29 16:15:10 by hyeonkyokim      ###   ########.fr       */
+/*   Updated: 2021/09/04 17:19:31 by hyeonkyokim      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,11 +126,11 @@ void			sb(t_deque *deq);
 void			ss(t_deque *deq);
 void			pa(t_deque *deq);
 void			pb(t_deque *deq);
-void			ra(t_deque *deq);
-void			rb(t_deque *deq);
+int				ra(t_deque *deq);
+int				rb(t_deque *deq);
 void			rr(t_deque *deq);
-void			rra(t_deque *deq);
-void			rrb(t_deque *deq);
+int				rra(t_deque *deq);
+int				rrb(t_deque *deq);
 void			rrr(t_deque *deq);
 
 t_list			*create_node(void);

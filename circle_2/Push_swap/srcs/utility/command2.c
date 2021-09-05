@@ -6,20 +6,20 @@
 /*   By: hyeonkyokim <hyeonkyokim@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 14:42:00 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/08/27 14:46:17 by hyeonkyokim      ###   ########.fr       */
+/*   Updated: 2021/09/04 17:17:44 by hyeonkyokim      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	ra(t_deque *deq)
+int	ra(t_deque *deq)
 {
 	t_list		*top;
 	t_list		*tmp;
 	t_cmd_deq	*cmd;
 
 	if (deq->size_a <= 1)
-		return ;
+		return (0);
 	cmd = deq->cmd;
 	top = deq->cursor->prev;
 	tmp = create_node();
@@ -28,16 +28,17 @@ void	ra(t_deque *deq)
 	deq->end_A = tmp;
 	remove_node(top);
 	add_command(2, "ra", cmd);
+	return (1);
 }
 
-void	rb(t_deque *deq)
+int	rb(t_deque *deq)
 {
 	t_list		*top;
 	t_list		*tmp;
 	t_cmd_deq	*cmd;
 
 	if (deq->size_b <= 1)
-		return ;
+		return (0);
 	cmd = deq->cmd;
 	top = deq->cursor;
 	deq->cursor = deq->cursor->next;
@@ -48,16 +49,18 @@ void	rb(t_deque *deq)
 	remove_node(top);
 	deq->end_B = tmp;
 	add_command(2, "rb", cmd);
+	return (1);
 }
 
 void	rr(t_deque *deq)
 {
 	t_cmd_deq	*cmd;
+	int			i;
 
 	cmd = deq->cmd;
-	ra(deq);
-	rb(deq);
-	del_cmd_last_node(cmd);
-	del_cmd_last_node(cmd);
+	i = ra(deq);
+	i += rb(deq);
+	while (i--)
+		del_cmd_last_node(cmd);
 	add_command(2, "rr", cmd);
 }

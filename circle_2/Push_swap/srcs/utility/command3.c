@@ -6,13 +6,13 @@
 /*   By: hyeonkyokim <hyeonkyokim@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 14:42:19 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/08/26 16:43:08 by hyeonkyokim      ###   ########.fr       */
+/*   Updated: 2021/09/04 17:20:59 by hyeonkyokim      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	rra(t_deque *deq)
+int	rra(t_deque *deq)
 {
 	t_list		*end;
 	t_list		*tmp;
@@ -20,7 +20,7 @@ void	rra(t_deque *deq)
 	t_cmd_deq	*cmd;
 
 	if (deq->size_a <= 1)
-		return ;
+		return (0);
 	cmd = deq->cmd;
 	end = deq->end_A;
 	deq->end_A = deq->end_A->next;
@@ -32,9 +32,10 @@ void	rra(t_deque *deq)
 	remove_node(end);
 	deq->end_A->prev = NULL;
 	add_command(3, "rra", cmd);
+	return (1);
 }
 
-void	rrb(t_deque *deq)
+int	rrb(t_deque *deq)
 {
 	t_list		*end;
 	t_list		*tmp;
@@ -42,7 +43,7 @@ void	rrb(t_deque *deq)
 	t_cmd_deq	*cmd;
 
 	if (deq->size_b <= 1)
-		return ;
+		return (0);
 	cmd = deq->cmd;
 	end = deq->end_B;
 	deq->end_B = deq->end_B->prev;
@@ -54,16 +55,18 @@ void	rrb(t_deque *deq)
 	remove_node(end);
 	deq->cursor = deq->cursor->prev;
 	add_command(3, "rrb", cmd);
+	return (1);
 }
 
 void	rrr(t_deque *deq)
 {
 	t_cmd_deq	*cmd;
+	int			i;
 
 	cmd = deq->cmd;
-	rra(deq);
-	rrb(deq);
-	del_cmd_last_node(cmd);
-	del_cmd_last_node(cmd);
+	i = rra(deq);
+	i += rrb(deq);
+	while (i--)
+		del_cmd_last_node(cmd);
 	add_command(3, "rrr", cmd);
 }
