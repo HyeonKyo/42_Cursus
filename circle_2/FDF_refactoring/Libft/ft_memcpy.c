@@ -1,28 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.c                                        :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeonkyokim <hyeonkyokim@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/05 14:42:55 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/09/07 00:29:46 by hyeonkyokim      ###   ########.fr       */
+/*   Created: 2021/05/05 16:18:08 by hyeonkki          #+#    #+#             */
+/*   Updated: 2021/07/25 23:15:29 by hyeonkyokim      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "libft.h"
 
-int	main(int ac, char **av)
+void	*ft_memcpy(void *dest, const void *source, size_t num)
 {
-	t_deque	*deq;
+	unsigned char		*dst;
+	unsigned char		*src;
+	size_t				i;
 
-	if (ac <= 1)
-		return (1);
-	deq = make_stack(ac, av);
-	sort(deq);
-	while (optimize_command(deq->cmd))
-		;
-	print_cmd(deq->cmd);
-	clear_deque(deq);
-	return (0);
+	i = 0;
+	if (dest == 0 || source == 0)
+		return (0);
+	dst = (unsigned char *)dest;
+	src = (unsigned char *)source;
+	while (i < num)
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	return (dest);
 }

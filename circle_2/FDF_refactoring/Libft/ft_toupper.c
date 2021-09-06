@@ -1,28 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.c                                        :+:      :+:    :+:   */
+/*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeonkyokim <hyeonkyokim@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hyeonkki <hyeonkki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/05 14:42:55 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/09/07 00:29:46 by hyeonkyokim      ###   ########.fr       */
+/*   Created: 2021/05/05 16:20:43 by hyeonkki          #+#    #+#             */
+/*   Updated: 2021/05/15 14:26:02 by hyeonkki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
-
-int	main(int ac, char **av)
+int	ft_toupper(int c)
 {
-	t_deque	*deq;
-
-	if (ac <= 1)
-		return (1);
-	deq = make_stack(ac, av);
-	sort(deq);
-	while (optimize_command(deq->cmd))
-		;
-	print_cmd(deq->cmd);
-	clear_deque(deq);
-	return (0);
+	if (c >= 'a' && c <= 'z')
+		return (c - 32);
+	else
+		return (c);
 }

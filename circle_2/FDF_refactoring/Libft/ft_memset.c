@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.c                                        :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeonkyokim <hyeonkyokim@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/05 14:42:55 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/09/07 00:29:46 by hyeonkyokim      ###   ########.fr       */
+/*   Created: 2021/05/05 16:19:13 by hyeonkki          #+#    #+#             */
+/*   Updated: 2021/07/24 23:17:09 by hyeonkyokim      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "libft.h"
 
-int	main(int ac, char **av)
+void	*ft_memset(void *ptr, int value, size_t num)
 {
-	t_deque	*deq;
+	char	*str;
+	size_t	i;
 
-	if (ac <= 1)
-		return (1);
-	deq = make_stack(ac, av);
-	sort(deq);
-	while (optimize_command(deq->cmd))
-		;
-	print_cmd(deq->cmd);
-	clear_deque(deq);
-	return (0);
+	i = 0;
+	if (ptr == 0)
+		return (0);
+	str = ptr;
+	while (i < num)
+		str[i++] = value;
+	return (ptr);
 }

@@ -1,28 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.c                                        :+:      :+:    :+:   */
+/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeonkyokim <hyeonkyokim@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hyeonkki <hyeonkki@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/05 14:42:55 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/09/07 00:29:46 by hyeonkyokim      ###   ########.fr       */
+/*   Created: 2021/05/07 16:14:22 by hyeonkki          #+#    #+#             */
+/*   Updated: 2021/05/07 17:29:57 by hyeonkki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "libft.h"
 
-int	main(int ac, char **av)
+void	ft_lstdelone(t_list *lst, void (*del)(void *))
 {
-	t_deque	*deq;
-
-	if (ac <= 1)
-		return (1);
-	deq = make_stack(ac, av);
-	sort(deq);
-	while (optimize_command(deq->cmd))
-		;
-	print_cmd(deq->cmd);
-	clear_deque(deq);
-	return (0);
+	(*del)(lst->content);
+	free(lst);
 }

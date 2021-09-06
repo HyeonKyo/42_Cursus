@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.c                                        :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeonkyokim <hyeonkyokim@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hyeonkki <hyeonkki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/05 14:42:55 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/09/07 00:29:46 by hyeonkyokim      ###   ########.fr       */
+/*   Created: 2021/05/05 16:17:28 by hyeonkki          #+#    #+#             */
+/*   Updated: 2021/05/18 13:28:43 by hyeonkki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "libft.h"
 
-int	main(int ac, char **av)
+void	*ft_memchr(void *ptr, int value, size_t num)
 {
-	t_deque	*deq;
+	unsigned char	*s;
+	size_t			i;
 
-	if (ac <= 1)
-		return (1);
-	deq = make_stack(ac, av);
-	sort(deq);
-	while (optimize_command(deq->cmd))
-		;
-	print_cmd(deq->cmd);
-	clear_deque(deq);
+	s = ptr;
+	i = 0;
+	while (i < num)
+	{
+		if (s[i] == (unsigned char)value)
+			return (ptr + i);
+		i++;
+	}
 	return (0);
 }

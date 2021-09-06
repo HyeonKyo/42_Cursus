@@ -6,7 +6,7 @@
 /*   By: hyeonkyokim <hyeonkyokim@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 14:42:15 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/08/26 22:09:49 by hyeonkyokim      ###   ########.fr       */
+/*   Updated: 2021/09/07 01:14:50 by hyeonkyokim      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void	pa_bns(t_deque *deq)
 	deq->size_a++;
 	if (deq->size_b == 0)
 		deq->end_B = deq->end_node;
+	if (deq->end_A == NULL)
+		deq->end_A = deq->cursor->prev;
 }
 
 void	pb_bns(t_deque *deq)
@@ -58,4 +60,6 @@ void	pb_bns(t_deque *deq)
 	deq->size_b++;
 	if (deq->size_a == 0)
 		deq->end_A = NULL;
+	if (deq->end_B->end_flag == TRUE)
+		deq->end_B = deq->cursor;
 }

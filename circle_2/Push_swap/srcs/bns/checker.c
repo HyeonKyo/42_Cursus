@@ -1,17 +1,37 @@
 #include "bonus.h"
 
+static int	check_cmd(char *line, int len)
+{
+	if (len < 2 || len > 3)
+		return (FALSE);
+	if (ft_strcmp(line, "sa") == 0 || ft_strcmp(line, "sb") == 0
+		|| ft_strcmp(line, "ss") == 0 || ft_strcmp(line, "pa") == 0
+		|| ft_strcmp(line, "pb") == 0 || ft_strcmp(line, "ra") == 0
+		|| ft_strcmp(line, "rb") == 0 || ft_strcmp(line, "rr") == 0
+		|| ft_strcmp(line, "rra") == 0 || ft_strcmp(line, "rrb") == 0
+		|| ft_strcmp(line, "rrr") == 0)
+		return (TRUE);
+	return (FALSE);
+}
+
 static void	make_cmd_list(t_cmd_deq *cmd)
 {
 	char		*line;
 	int			len;
+	int			flag;
 
+	flag = TRUE;
 	while (get_next_line(STDIN_FILENO, &line) > 0)
 	{
 		len = (int)ft_strlen(line);
+		if (check_cmd(line, len) == FALSE)
+			flag = FALSE;
 		add_command(len, line, cmd);
 		free(line);
 		line = 0;
 	}
+	if (flag == FALSE)
+		error();
 	return ;
 }
 
@@ -38,7 +58,7 @@ int	main(int ac, char **av)
 	int			ret;
 	int			len;
 
-	if (ac <= 1)//ac = 2 -> 인자 1개 => "1 2 34" 이런식으로 여러개 들어올 수 있음.
+	if (ac <= 1)
 		return (1);
 	deq = make_stack(ac, av);
 	len = deq->size;

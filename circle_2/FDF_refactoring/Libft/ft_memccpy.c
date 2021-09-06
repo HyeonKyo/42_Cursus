@@ -1,28 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.c                                        :+:      :+:    :+:   */
+/*   ft_memccpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeonkyokim <hyeonkyokim@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/05 14:42:55 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/09/07 00:29:46 by hyeonkyokim      ###   ########.fr       */
+/*   Created: 2021/05/05 16:18:18 by hyeonkki          #+#    #+#             */
+/*   Updated: 2021/07/25 23:14:11 by hyeonkyokim      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "libft.h"
 
-int	main(int ac, char **av)
+void	*ft_memccpy(void *dest, const void *src, int c, size_t n)
 {
-	t_deque	*deq;
+	unsigned char		*dst;
+	unsigned char		*s;
+	unsigned char		find_c;
+	size_t				i;
 
-	if (ac <= 1)
-		return (1);
-	deq = make_stack(ac, av);
-	sort(deq);
-	while (optimize_command(deq->cmd))
-		;
-	print_cmd(deq->cmd);
-	clear_deque(deq);
+	i = 0;
+	dst = (unsigned char *)dest;
+	s = (unsigned char *)src;
+	find_c = c;
+	while (i < n)
+	{
+		dst[i] = s[i];
+		if (s[i] == find_c)
+			return (dest + i + 1);
+		i++;
+	}
 	return (0);
 }

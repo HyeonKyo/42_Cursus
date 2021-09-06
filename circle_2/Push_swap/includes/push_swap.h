@@ -6,7 +6,7 @@
 /*   By: hyeonkyokim <hyeonkyokim@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 14:42:58 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/09/04 17:19:31 by hyeonkyokim      ###   ########.fr       */
+/*   Updated: 2021/09/07 00:32:16 by hyeonkyokim      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,9 +113,8 @@ void			swap_number(int *a, int *b);
 int				find_max(int n1, int n2, int n3);
 int				find_min(int n1, int n2, int n3);
 
-void			error(char *str);
+void			error(void);
 void			merror(void *ptr);
-void			input_error(void);
 
 void			check_valid_argv(int ac, char **argv);
 char			*merge_input(int ac, char **av);

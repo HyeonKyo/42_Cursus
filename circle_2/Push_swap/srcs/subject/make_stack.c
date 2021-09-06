@@ -14,7 +14,7 @@ static void	ps_atoi(int *idx, int sign, char *str, t_deque *deq)
 	}
 	num = num * sign;
 	if (digit_len > 10 || num < INT_MIN || num > INT_MAX)
-		error("Input number out of range!");
+		error();
 	fillin_deque(deq, (int)num);
 }
 
@@ -60,7 +60,7 @@ static t_deque	*check_duplicated_num(char *str)
 		while (tmp)
 		{
 			if (!tmp->end_flag && (tmp->data == ck_num))//겹치는 숫자
-				error("Duplicated numbers");
+				error();
 			tmp = tmp->next;
 		}
 		cur = cur->next;

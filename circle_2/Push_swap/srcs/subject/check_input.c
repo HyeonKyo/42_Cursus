@@ -17,15 +17,15 @@ static void	check_argv(char *argv)
 		else if (argv[i] == '-' || argv[i] == '+')
 		{
 			if (!ft_isdigit(argv[++i]))
-				input_error();
+				error();
 			else
 				fg = 1;
 		}
 		else
-			input_error();
+			error();
 	}
 	if (fg == 0)
-		input_error();
+		error();
 }
 
 void	check_valid_argv(int ac, char **argv)
