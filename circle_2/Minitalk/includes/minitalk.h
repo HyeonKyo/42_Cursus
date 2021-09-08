@@ -28,7 +28,6 @@
 # define MASK2 2
 # define MASK1 1
 
-int		g_flag;
 pid_t	g_server_pid;
 
 /*
@@ -81,7 +80,7 @@ void	get_client_pid(pid_t *client_pid, siginfo_t *info);
 
 void	send_len(int str_len);
 void	send_message(char *str, int len);
-void	send_string(char *str, int len);
+void	send_string(char *str, int len, t_act *act);
 
 /*
 ** =============================================================================

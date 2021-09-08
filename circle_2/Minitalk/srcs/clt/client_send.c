@@ -46,8 +46,20 @@ void	send_message(char *str, int len)
 		send_eight_bits(str[i]);
 }
 
-void	send_string(char *str, int len)
+void	end_signal(int sig)
+{
+	if (sig == SIGUSR2)
+		write(1, "\nComplete send message!\n", 25);
+	else
+		error("\nSend error!!\n");
+	exit(0);
+}
+
+void	send_string(char *str, int len, t_act *act)
 {
 	send_message(str, len);
-	g_flag = 1;
+	act->sa_handler = end_signal;
+	act->sa_flags = 0;
+	sigaction(SIGUSR1, act, 0);
+	sigaction(SIGUSR2, act, 0);
 }

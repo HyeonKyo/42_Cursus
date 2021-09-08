@@ -6,19 +6,8 @@ void	catch_signal(int sig, siginfo_t *info, void *context)
 		return ;
 	if (info->si_pid != g_server_pid)
 		sigerror();
-	if (g_flag == 0)//g_flag는 문자열을 다 전달하면 1이 된다.
-	{
-		if (sig == SIGUSR1)//문자열 보내는 중에 서버가 USR1시그널을 보내면 오류.
-			sigerror();
-	}
-	else
-	{
-		if (sig == SIGUSR2)
-			write(1, "\nComplete send message!\n", 25);
-		else
-			error("\nSend error!!\n");
-		exit(0);
-	}
+	if (sig == SIGUSR1)//문자열 보내는 중에 서버가 USR1시그널을 보내면 오류.
+		sigerror();
 }
 
 int	return_mask_number(int mask_num)
@@ -60,7 +49,6 @@ static int	check_pid(char *av1)
 
 void	setup_input(char **av, t_act *act, char **str, int *len)
 {
-	g_flag = 0;
 	g_server_pid = check_pid(av[1]);
 	setup_act(act, catch_signal);
 	*str = av[2];
@@ -79,7 +67,7 @@ int	main(int ac, char **av)
 	sigaction(SIGUSR1, &act, 0);
 	sigaction(SIGUSR2, &act, 0);
 	send_len(str_len);
-	send_string(str, str_len);
+	send_string(str, str_len, &act);
 	while (1)
 		pause();
 	return (0);
