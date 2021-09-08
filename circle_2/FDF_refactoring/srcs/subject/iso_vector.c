@@ -117,42 +117,85 @@ void	change_view_to_camera(t_crd eye, t_unit unit, t_map *data)
 	}
 }
 
-static void	translate_iso(t_crd *crd, double alpha)
+static void	translate_iso(t_map *data, double alpha)
 {
-	t_crd	tmp;
+	t_2d_crd	*crd_2d;
+	t_crd		*tmp;
+	int			i;
 
-	tmp = *crd;
-	crd->x = (tmp.x * cos(alpha)) - (tmp.y * cos(alpha));
-	crd->y = (tmp.x * sin(alpha)) + (tmp.y * sin(alpha)) - tmp.z;
-	crd->z = 0;
+	crd_2d = (t_2d_crd *)malloc(sizeof(t_2d_crd) * data->size);
+	merror(crd_2d);
+	tmp = data->crd;
+	i = -1;
+	while (++i < data->size)
+	{
+		crd_2d[i].x = (tmp[i].x * cos(alpha)) - (tmp[i].y * cos(alpha));
+		crd_2d[i].y = (tmp[i].x * sin(alpha)) + (tmp[i].y * sin(alpha)) - tmp[i].z;
+		crd_2d[i].color = tmp[i].color;
+	}
+	data->crd_2d = crd_2d;
 }
 
 static void	move_to_1quadrant(t_map *data)
 {
+	t_2d_crd	*crd_2d;
+	t_2d_crd	trans;
+	int			i;
+
+	crd_2d = data->crd_2d;
+	trans.x = crd_2d[data->map->x * (data->map->y - 1)].x;
+	if (trans.x < 0)
+		trans.x *= -1;
+	trans.y = data->map->z;
+	i = -1;
+	while (++i < data->size)
+	{
+		crd_2d[i].x += trans.x;
+		crd_2d[i].y += trans.y;
+	}
+}
+
+int	return_color(double cur_z, int max_z)
+{
+	if (cur_z <= (max_z / 4))
+		return (COLOR1);
+	else if (cur_z <= (max_z / 2))
+		return (COLOR2);
+	else if (cur_z <= (max_z * 3 / 4))
+		return (COLOR3);
+	else
+		return (COLOR4);
+}
+
+void	put_in_color(t_map *data)
+{
 	t_crd	*crd;
-	t_crd	trans;
+	int		max_z;
 	int		i;
 
 	crd = data->crd;
-	trans.x = crd[data->map->x * (data->map->y - 1)].x;
-	trans.y = -1 * data->map->z;
-	trans.z = 0;
+	max_z = data->map->z;
 	i = -1;
 	while (++i < data->size)
-		translation_vector(&crd[i], trans);
+	{
+		if (crd[i].color)
+			continue ;
+		crd[i].color = return_color(crd[i].z, max_z);
+	}
+	/*
+	1. max값을 4등분 함
+	2. 0~1/4, 1/4 ~ 2/4, 2/4 ~ 3/4, 3/4 ~ 4/4의 범위마다 색깔을 지정
+	3. 범위 확인 후 맞는 색깔 리턴 함수 생성
+	4. 그 함수로 각 노드마다 색깔 값을 넣어줌.
+	*/
 }
 
 void	isometric_view(t_map *data)
 {
-	t_crd	*crd;
 	double	alpha;
-	int		i;
 
 	alpha = atan(0.5);
-	crd = data->crd;
-	i = 0;
-	while (i < data->size)
-		translate_iso(&crd[i++], alpha);
-	print_data(data);
+	put_in_color(data);
+	translate_iso(data, alpha);
 	move_to_1quadrant(data);
 }

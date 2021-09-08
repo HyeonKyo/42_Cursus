@@ -47,8 +47,6 @@ static void	fill_value(char **buf, t_map *data)
 	expand_data(data, len_x);
 	i = -1;
 	size = data->size;
-	printf("size %d\n", size);
-	printf("save_y %d\n", save_y);
 	while (buf[++i])
 	{
 		data->crd[size + i].x = i;

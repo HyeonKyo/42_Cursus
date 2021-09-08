@@ -9,6 +9,7 @@
 # include <stdio.h>
 # define TRUE 1
 # define FALSE 0
+
 # define ESC 53
 # define KEY_W 13
 # define KEY_A 0
@@ -16,8 +17,15 @@
 # define KEY_D 2
 # define KEY_Z 6
 # define KEY_X 7
+
 # define GR 0x0000FF00
 # define RED 0x00FF0000
+# define COLOR1 0x00000033
+# define COLOR2 0x006666CC
+# define COLOR3 0x0099FF99
+# define COLOR4 0x00FFFFCC
+
+
 # define MLX_X_SIZE 1300
 # define MLX_Y_SIZE 800
 # define IMG_X_SIZE 800
@@ -33,8 +41,9 @@ typedef struct	s_crd
 
 typedef struct s_2d_crd
 {
-	int	x;
-	int	y;
+	double	x;
+	double	y;
+	int		color;
 }				t_2d_crd;
 
 
@@ -50,6 +59,7 @@ typedef struct	s_map
 	int			size;
 	t_map_len	*map;
 	t_crd		*crd;
+	t_2d_crd	*crd_2d;
 }				t_map;
 
 typedef struct s_img
@@ -132,4 +142,5 @@ void	make_ptr(t_ptr *ptr, t_map *data);
 int		ft_atoi_hex(char *str);
 
 void	print_data(t_map *data);
+void	print_2d_data(t_map *data);
 #endif

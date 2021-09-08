@@ -11,6 +11,17 @@ void	print_data(t_map *data)
 	}
 }
 
+void	print_2d_data(t_map *data)
+{
+	printf("data\n");
+	for (int i = 0; i < data->size; i++)
+	{
+		printf("(%.1f %.1f) ", data->crd_2d[i].x, data->crd_2d[i].y);
+		if (i % data->map->x == data->map->x - 1)
+			printf("\n");
+	}
+}
+
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 {
 	char *dst;
@@ -124,8 +135,8 @@ void	bresenham(t_2d_crd start, t_2d_crd end, t_img *img)
 {
 	t_delta	diff;
 
-	diff.x = abs(end.x - start.x);
-	diff.y = abs(end.y - start.y);
+	diff.x = (int)fabs(end.x - start.x);
+	diff.y = (int)fabs(end.y - start.y);
 	if (diff.x >= diff.y)
 		based_x(start, end, &diff, img);
 	else
@@ -221,7 +232,6 @@ int	main(int ac, char **av)
 
 	data = parsing_map(ac, av);
 	isometric_view(data);
-	print_data(data);
 	//make_graphic(data);
 	/*
 	3. 화면 출력(print_iso)
