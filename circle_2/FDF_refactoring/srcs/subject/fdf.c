@@ -30,23 +30,22 @@ void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-t_2d_crd	*multiplied_pixel(t_map *data)
+void	multiplied_pixel(t_map *data)
 {
-	t_2d_crd	*crd2;
+	t_2d_crd	*crd_2d;
 	t_2d_crd	mul;
 	int			i;
 
-	mul.x = IMG_X_SIZE / data->map->x;
-	mul.y = IMG_Y_SIZE / data->map->y;
-	crd2 = (t_2d_crd *)malloc(sizeof(t_2d_crd) * data->size);
+	crd_2d = data->crd_2d;
+	mul.x = IMG_X_SIZE / crd_2d[data->map->x - 1].x;//iso뷰에서 가장 큰 x값임.
+	mul.y = IMG_Y_SIZE / (data->map->y * 2);//기준 더 명확히 하기
 	i = 0;
 	while (i < data->size)
 	{
-		crd2[i].x = data->crd[i].x * mul.x;
-		crd2[i].y = data->crd[i].y * mul.y;
+		crd_2d[i].x = (int)(crd_2d[i].x * mul.x);
+		crd_2d[i].y = (int)(crd_2d[i].y * mul.y);
 		i++;
 	}
-	return (crd2);
 }
 
 void	based_x(t_2d_crd start, t_2d_crd end, t_delta *diff, t_img *img)
@@ -168,8 +167,9 @@ void	print_pixel_in_vector(t_img *img, t_map *data)
 	t_2d_crd	*crd2;
 	t_map_len	*map;
 
-	crd2 = multiplied_pixel(data);
+	multiplied_pixel(data);
 	map = data->map;
+	crd2 = data->crd_2d;
 	i = 0;
 	while (i < (int)data->size - 1)
 	{
@@ -232,7 +232,7 @@ int	main(int ac, char **av)
 
 	data = parsing_map(ac, av);
 	isometric_view(data);
-	//make_graphic(data);
+	make_graphic(data);
 	/*
 	3. 화면 출력(print_iso)
 		1. 일련의 과정 수행

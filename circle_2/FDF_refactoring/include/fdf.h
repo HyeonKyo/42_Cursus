@@ -20,14 +20,14 @@
 
 # define GR 0x0000FF00
 # define RED 0x00FF0000
-# define COLOR1 0x00000033
-# define COLOR2 0x006666CC
-# define COLOR3 0x0099FF99
+# define COLOR1 0x00000099
+# define COLOR2 0x00660000
+# define COLOR3 0x00FFFF33
 # define COLOR4 0x00FFFFCC
 
 
-# define MLX_X_SIZE 1300
-# define MLX_Y_SIZE 800
+# define MLX_X_SIZE 1600
+# define MLX_Y_SIZE 900
 # define IMG_X_SIZE 800
 # define IMG_Y_SIZE 450
 
@@ -45,7 +45,6 @@ typedef struct s_2d_crd
 	double	y;
 	int		color;
 }				t_2d_crd;
-
 
 typedef struct s_map_len
 {
@@ -124,7 +123,7 @@ void	rotate_z_axis(t_map *origin, double rad);
 void	rotate_x_axis(t_map *origin, double rad);
 void	isometric_view(t_map *data);
 //print_img
-t_2d_crd	*multiplied_pixel(t_map *data);
+void	multiplied_pixel(t_map *data);
 void	print_map(t_ptr *ptr);
 void	make_graphic(t_map *data);
 //event_move
