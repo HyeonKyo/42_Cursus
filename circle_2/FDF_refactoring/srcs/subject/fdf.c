@@ -48,6 +48,17 @@ void	multiplied_pixel(t_map *data)
 	}
 }
 
+void	print_pixel(t_2d_crd start, t_2d_crd end, t_2d_crd crd, t_img *img)
+{
+	//컬러 선정
+	/*
+	1. 시작 컬러를 준거로 삼음
+	2. 컬러가 같으면? 그냥 그 컬러로 찍음 -> 거의 이 경우 아닌가?
+	3. 컬러가 다르면 퍼센테이지 구해서 색 조합
+	*/
+	//my pixel put
+}
+
 void	based_x(t_2d_crd start, t_2d_crd end, t_delta *diff, t_img *img)
 {
 	int	p;
