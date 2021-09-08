@@ -47,7 +47,7 @@ typedef struct s_map_len
 
 typedef struct	s_map
 {
-	size_t		size;
+	int			size;
 	t_map_len	*map;
 	t_crd		*crd;
 }				t_map;
@@ -91,11 +91,7 @@ void	merror(void *ptr);
 int		find_max(int a, int b, int c);
 
 //parse
-int		check_input(int ac, char **av);
-void	expand_arr(int ***arr, t_map_len *map);
-void	fill_value(int **arr, char **buf, t_map_len *map);
 void	save_coordinate(int fd, t_map *data);
-t_crd	*make_coordinate(int **arr, t_map_len *map);
 t_map *parsing_map(int ac, char **av);
 //parse_utils
 void	clear_arr(int **arr, t_map_len *map);
@@ -116,7 +112,7 @@ void	translation_vector(t_crd *crd, t_crd trans);
 //iso_vector
 void	rotate_z_axis(t_map *origin, double rad);
 void	rotate_x_axis(t_map *origin, double rad);
-void	make_iso_vector(t_map *origin_data);
+void	isometric_view(t_map *data);
 //print_img
 t_2d_crd	*multiplied_pixel(t_map *data);
 void	print_map(t_ptr *ptr);
@@ -134,4 +130,6 @@ void	unzoom(t_map *data);
 void	make_ptr(t_ptr *ptr, t_map *data);
 
 int		ft_atoi_hex(char *str);
+
+void	print_data(t_map *data);
 #endif
