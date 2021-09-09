@@ -34,6 +34,11 @@ SRCS_OBJ	=	fdf.o					\
 				parse2.o				\
 				parse_utils.o			\
 				iso_vector.o			\
+				bresenham1.o			\
+				bresenham2.o			\
+				bresenham_utils.o		\
+				pixel_print.o			\
+				pixel_utils.o			\
 				make_ptr.o				\
 				vector.o				\
 				ft_utils.o				\

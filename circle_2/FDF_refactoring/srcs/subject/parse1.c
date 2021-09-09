@@ -28,7 +28,7 @@ static void	get_crd_z(t_map *data, char *buf, int idx)
 	tmp = ft_split(buf, ',');
 	data->crd[size + idx].z = ft_atoi(tmp[0]);
 	if (tmp[1] && tmp[1][0] != 0)
-		data->crd[size + idx].color = ft_atoi_hex(tmp[1]);
+		data->crd[size + idx].color.n = ft_atoi_hex(tmp[1]);
 }
 
 static void	fill_value(char **buf, t_map *data)

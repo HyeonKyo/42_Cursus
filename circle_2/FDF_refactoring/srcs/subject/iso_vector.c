@@ -131,7 +131,7 @@ static void	translate_iso(t_map *data, double alpha)
 	{
 		crd_2d[i].x = (tmp[i].x - tmp[i].y) * cos(alpha);
 		crd_2d[i].y = ((tmp[i].x + tmp[i].y) * sin(alpha)) - tmp[i].z;
-		crd_2d[i].color = tmp[i].color;
+		crd_2d[i].color.n = tmp[i].color.n;
 	}
 	data->crd_2d = crd_2d;
 }
@@ -157,14 +157,12 @@ static void	move_to_1quadrant(t_map *data)
 
 int	return_color(double cur_z, int max_z)
 {
-	if (cur_z <= (max_z / 4))
+	if (cur_z <= (max_z / 3))
 		return (COLOR1);
-	else if (cur_z <= (max_z / 2))
+	else if (cur_z <= (max_z * 2 / 3))
 		return (COLOR2);
-	else if (cur_z <= (max_z * 3 / 4))
-		return (COLOR3);
 	else
-		return (COLOR4);
+		return (COLOR3);
 }
 
 static void	put_in_color(t_map *data)
@@ -178,9 +176,9 @@ static void	put_in_color(t_map *data)
 	i = -1;
 	while (++i < data->size)
 	{
-		if (crd[i].color)
+		if (crd[i].color.n)
 			continue ;
-		crd[i].color = return_color(crd[i].z, max_z);
+		crd[i].color.n = return_color(crd[i].z, max_z);
 	}
 	/*
 	1. max값을 4등분 함
@@ -198,5 +196,4 @@ void	isometric_view(t_map *data)
 	put_in_color(data);
 	translate_iso(data, alpha);
 	move_to_1quadrant(data);
-	print_2d_data(data);
 }

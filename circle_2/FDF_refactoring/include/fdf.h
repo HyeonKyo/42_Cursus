@@ -7,6 +7,7 @@
 # include "mlx.h"
 # include "libft.h"
 # include <stdio.h>
+
 # define TRUE 1
 # define FALSE 0
 
@@ -20,30 +21,35 @@
 
 # define GR 0x0000FF00
 # define RED 0x00FF0000
-# define COLOR1 0x00000099
-# define COLOR2 0x00660000
-# define COLOR3 0x00FFFF33
-# define COLOR4 0x00FFFFCC
 
+# define COLOR1 0x00FF33FF
+# define COLOR2 0x00CC99FF
+# define COLOR3 0x00CC99FF
 
 # define MLX_X_SIZE 1600
 # define MLX_Y_SIZE 900
-# define IMG_X_SIZE 800
-# define IMG_Y_SIZE 450
+# define IMG_X_SIZE 1300
+# define IMG_Y_SIZE 700
+
+typedef	union	s_color
+{
+	unsigned char	c[4];
+	int				n;
+}				t_color;
 
 typedef struct	s_crd
 {
 	double	x;
 	double	y;
 	double	z;
-	int		color;
+	t_color	color;
 }				t_crd;//coordinate
 
 typedef struct s_2d_crd
 {
 	double	x;
 	double	y;
-	int		color;
+	t_color	color;
 }				t_2d_crd;
 
 typedef struct s_map_len
@@ -79,11 +85,12 @@ typedef struct s_ptr
 }				t_ptr;
 
 
-typedef struct	s_delta
+typedef struct	s_icrd
 {
-	int	x;
-	int	y;
-}				t_delta;
+	int		x;
+	int		y;
+	t_color	color;
+}				t_icrd;
 
 typedef struct	s_unit
 {
@@ -119,11 +126,21 @@ t_crd	cross_vector(t_crd v1, t_crd v2);
 void	translation_vector(t_crd *crd, t_crd trans);
 
 //iso_vector
-void	rotate_z_axis(t_map *origin, double rad);
-void	rotate_x_axis(t_map *origin, double rad);
 void	isometric_view(t_map *data);
+//bresenham
+void	get_color(t_2d_crd start, t_2d_crd end, t_icrd *crd, int flag);
+void	get_crd_x(t_icrd *crd, t_icrd inc, t_icrd diff, int *f);
+void	get_crd_y(t_icrd *crd, t_icrd inc, t_icrd diff, int *f);
+void	based_x(t_2d_crd start, t_2d_crd end, t_icrd diff, t_img *img);
+void	based_y(t_2d_crd start, t_2d_crd end, t_icrd diff, t_img *img);
+void	bresenham(t_2d_crd start, t_2d_crd end, t_img *img);
+
+//pixel
+void	print_pixel(t_icrd crd, t_img *img);
+
 //print_img
 void	multiplied_pixel(t_map *data);
+void	print_pixel_in_vector(t_img *img, t_map *data);
 void	print_map(t_ptr *ptr);
 void	make_graphic(t_map *data);
 //event_move
