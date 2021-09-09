@@ -139,7 +139,7 @@ void	bresenham(t_2d_crd start, t_2d_crd end, t_img *img);
 void	print_pixel(t_icrd crd, t_img *img);
 
 //print_img
-void	multiplied_pixel(t_map *data);
+t_2d_crd	*multiplied_pixel(t_map *data);
 void	print_pixel_in_vector(t_img *img, t_map *data);
 void	print_map(t_ptr *ptr);
 void	make_graphic(t_map *data);

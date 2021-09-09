@@ -49,7 +49,7 @@ void	print_map(t_ptr *ptr)
 {
 	t_img	img;
 
-	img.img = mlx_new_image(ptr->mlx, IMG_X_SIZE * 1.5, IMG_Y_SIZE * 1.5);
+	img.img = mlx_new_image(ptr->mlx, IMG_X_SIZE, IMG_Y_SIZE);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
 	ptr->img = img;
 	print_pixel_in_vector(&img, ptr->data);

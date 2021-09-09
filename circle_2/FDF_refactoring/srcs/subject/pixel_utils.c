@@ -1,21 +1,26 @@
 #include "fdf.h"
 
-void	multiplied_pixel(t_map *data)
+t_2d_crd	*multiplied_pixel(t_map *data)
 {
+	t_2d_crd	*new;
 	t_2d_crd	*crd_2d;
 	t_2d_crd	mul;
 	int			i;
 
+	new = (t_2d_crd *)malloc(sizeof(t_2d_crd) * data->size);
+	merror(new);
 	crd_2d = data->crd_2d;
 	mul.x = IMG_X_SIZE / crd_2d[data->map->x - 1].x;//iso뷰에서 가장 큰 x값임.
 	mul.y = IMG_Y_SIZE / (data->map->y + data->map->z + 1);//기준 더 명확히 하기
 	i = 0;
 	while (i < data->size)
 	{
-		crd_2d[i].x = (int)(crd_2d[i].x * mul.x);
-		crd_2d[i].y = (int)(crd_2d[i].y * mul.y);
+		new[i].x = (int)(crd_2d[i].x * mul.x);
+		new[i].y = (int)(crd_2d[i].y * mul.y);
+		new[i].color.n = crd_2d[i].color.n;
 		i++;
 	}
+	return (new);
 }
 
 void	print_pixel_in_vector(t_img *img, t_map *data)
@@ -43,11 +48,10 @@ void	print_pixel_in_vector(t_img *img, t_map *data)
 	t_2d_crd	*crd_2d;
 	t_map_len	*map;
 
-	multiplied_pixel(data);
+	crd_2d = multiplied_pixel(data);
 	map = data->map;
-	crd_2d = data->crd_2d;
 	i = 0;
-	while (i < (int)data->size - 1)
+	while (i < data->size)
 	{
 		if (i < map->x * (map->y - 1))
 			bresenham(crd_2d[i], crd_2d[i + map->x], img);
