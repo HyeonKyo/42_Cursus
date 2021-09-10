@@ -120,18 +120,18 @@
 static void	translate_iso(t_map *data, double alpha)
 {
 	t_2d_crd	*crd_2d;
-	t_crd		*tmp;
+	t_crd		*crd_3d;
 	int			i;
 
 	crd_2d = (t_2d_crd *)malloc(sizeof(t_2d_crd) * data->size);
 	merror(crd_2d);
-	tmp = data->crd;
+	crd_3d = data->crd;
 	i = -1;
 	while (++i < data->size)
 	{
-		crd_2d[i].x = (tmp[i].x - tmp[i].y) * cos(alpha);
-		crd_2d[i].y = ((tmp[i].x + tmp[i].y) * sin(alpha)) - tmp[i].z;
-		crd_2d[i].color.n = tmp[i].color.n;
+		crd_2d[i].x = (crd_3d[i].x - crd_3d[i].y) * cos(alpha);
+		crd_2d[i].y = ((crd_3d[i].x + crd_3d[i].y) * sin(alpha)) - crd_3d[i].z;
+		crd_2d[i].color.n = crd_3d[i].color.n;
 	}
 	data->crd_2d = crd_2d;
 }
@@ -157,9 +157,9 @@ static void	move_to_1quadrant(t_map *data)
 
 int	return_color(double cur_z, int max_z)
 {
-	if (cur_z <= (max_z / 3))
+	if (cur_z < (max_z / 3))
 		return (COLOR1);
-	else if (cur_z <= (max_z * 2 / 3))
+	else if (cur_z < (max_z * 2 / 3))
 		return (COLOR2);
 	else
 		return (COLOR3);

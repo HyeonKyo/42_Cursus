@@ -7,6 +7,7 @@ static void	expand_data(t_map *data, int len_x)
 
 	tmp = (t_crd *)malloc(sizeof(t_crd) * (data->size + len_x));
 	merror(tmp);
+	ft_memset(tmp, 0, sizeof(t_crd) * (data->size + len_x));
 	i = -1;
 	while (++i < data->size)
 	{
