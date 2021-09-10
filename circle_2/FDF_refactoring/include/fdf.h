@@ -22,9 +22,13 @@
 # define GR 0x0000FF00
 # define RED 0x00FF0000
 
-# define COLOR1 0x00FF33FF
-# define COLOR2 0x00CC99FF
-# define COLOR3 0x00CC99FF
+# define COLOR1 0x0033FF33
+# define COLOR2 0x006633CC
+# define COLOR3 0x00FF99FF
+
+# define TRANSPARENCY1 0xCC
+# define TRANSPARENCY2 0x73
+# define TRANSPARENCY3 0x26
 
 # define MLX_X_SIZE 1600
 # define MLX_Y_SIZE 900
@@ -129,12 +133,13 @@ void	translation_vector(t_crd *crd, t_crd trans);
 void	isometric_view(t_map *data);
 //bresenham
 void	get_color(t_2d_crd start, t_2d_crd end, t_icrd *crd, int flag);
-void	get_crd_x(t_icrd *crd, t_icrd inc, t_icrd diff, int *f);
-void	get_crd_y(t_icrd *crd, t_icrd inc, t_icrd diff, int *f);
+int		get_crd_x(t_icrd *crd, t_icrd inc, t_icrd diff, int *f);
+int		get_crd_y(t_icrd *crd, t_icrd inc, t_icrd diff, int *f);
 void	based_x(t_2d_crd start, t_2d_crd end, t_icrd diff, t_img *img);
 void	based_y(t_2d_crd start, t_2d_crd end, t_icrd diff, t_img *img);
 void	bresenham(t_2d_crd start, t_2d_crd end, t_img *img);
-
+void	anti_aliasing_x(t_icrd crd, t_icrd inc, int *cnt, t_img *img);
+void	anti_aliasing_y(t_icrd crd, t_icrd inc, int *cnt, t_img *img);
 //pixel
 void	print_pixel(t_icrd crd, t_img *img);
 
@@ -150,8 +155,8 @@ void	left(t_map *data);
 void	up(t_map *data);
 void	down(t_map *data);
 //event_zoom
-void	zoom(t_map *data);
-void	unzoom(t_map *data);
+void	zoom_in(t_map *data);
+void	zoom_out(t_map *data);
 //make_ptr
 void	make_ptr(t_ptr *ptr, t_map *data);
 

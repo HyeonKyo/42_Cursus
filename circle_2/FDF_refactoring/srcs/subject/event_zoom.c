@@ -1,6 +1,6 @@
 #include "fdf.h"
 
-void	zoom(t_map *data)
+void	zoom_in(t_map *data)
 {
 	int	i;
 	int	move_len;
@@ -18,7 +18,7 @@ void	zoom(t_map *data)
 	}
 }
 
-void	unzoom(t_map *data)
+void	zoom_out(t_map *data)
 {
 	int	i;
 	int	move_len;

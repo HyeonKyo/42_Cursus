@@ -39,9 +39,9 @@ int		key_press(int keycode, t_ptr *ptr)
 	else if (keycode == KEY_S)
 		down(ptr->data);
 	else if (keycode == KEY_Z)
-		zoom(ptr->data);
+		zoom_in(ptr->data);
 	else if (keycode == KEY_X)
-		unzoom(ptr->data);
+		zoom_out(ptr->data);
 	reprint_map(ptr);
 	return (0);
 }
