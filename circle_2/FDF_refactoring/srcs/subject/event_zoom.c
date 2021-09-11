@@ -35,3 +35,25 @@ void	zoom_out(t_map *data)
 		data->crd_2d[i++].y /= 1.5;
 	}
 }
+
+void	parallel_view(t_map *data, int *flag)
+{
+	int	i;
+
+	i = 0;
+	if (*flag == FALSE)
+	{
+		while (i < data->size)
+		{
+			data->crd_2d[i].x = data->crd[i].x;
+			data->crd_2d[i].y = data->crd[i].y;
+			i++;
+		}
+	}
+	else
+		isometric_view(data);
+	if (*flag == TRUE)
+		*flag = FALSE;
+	else
+		*flag = TRUE;
+}

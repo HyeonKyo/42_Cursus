@@ -18,6 +18,7 @@
 # define KEY_D 2
 # define KEY_Z 6
 # define KEY_X 7
+# define KEY_P 35
 
 # define GR 0x0000FF00
 # define RED 0x00FF0000
@@ -32,7 +33,7 @@
 
 # define MLX_X_SIZE 1600
 # define MLX_Y_SIZE 900
-# define IMG_X_SIZE 1300
+# define IMG_X_SIZE 1400
 # define IMG_Y_SIZE 700
 
 typedef	union	s_color
@@ -157,6 +158,7 @@ void	down(t_map *data);
 //event_zoom
 void	zoom_in(t_map *data);
 void	zoom_out(t_map *data);
+void	parallel_view(t_map *data, int *flag);
 //make_ptr
 void	make_ptr(t_ptr *ptr, t_map *data);
 

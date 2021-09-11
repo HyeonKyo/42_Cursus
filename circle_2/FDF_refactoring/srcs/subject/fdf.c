@@ -24,6 +24,8 @@ void	print_2d_data(t_map *data)
 
 int		key_press(int keycode, t_ptr *ptr)
 {
+	static int	flag;
+
 	if (keycode == ESC)
 	{
 		mlx_destroy_window(ptr->mlx, ptr->win);
@@ -42,6 +44,8 @@ int		key_press(int keycode, t_ptr *ptr)
 		zoom_in(ptr->data);
 	else if (keycode == KEY_X)
 		zoom_out(ptr->data);
+	else if (keycode == KEY_P)
+		parallel_view(ptr->data, &flag);
 	reprint_map(ptr);
 	return (0);
 }

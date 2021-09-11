@@ -123,8 +123,14 @@ static void	translate_iso(t_map *data, double alpha)
 	t_crd		*crd_3d;
 	int			i;
 
-	crd_2d = (t_2d_crd *)malloc(sizeof(t_2d_crd) * data->size);
-	merror(crd_2d);
+	if (data->crd_2d == NULL)
+	{
+		crd_2d = (t_2d_crd *)malloc(sizeof(t_2d_crd) * data->size);
+		merror(crd_2d);
+		data->crd_2d = crd_2d;
+	}
+	else
+		crd_2d = data->crd_2d;
 	crd_3d = data->crd;
 	i = -1;
 	while (++i < data->size)
@@ -133,7 +139,6 @@ static void	translate_iso(t_map *data, double alpha)
 		crd_2d[i].y = ((crd_3d[i].x + crd_3d[i].y) * sin(alpha)) - crd_3d[i].z;
 		crd_2d[i].color.n = crd_3d[i].color.n;
 	}
-	data->crd_2d = crd_2d;
 }
 
 static void	move_to_1quadrant(t_map *data)
