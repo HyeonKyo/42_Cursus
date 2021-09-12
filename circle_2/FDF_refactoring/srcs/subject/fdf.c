@@ -29,7 +29,7 @@ int		key_press(int keycode, t_ptr *ptr)
 	if (keycode == ESC)
 	{
 		mlx_destroy_window(ptr->mlx, ptr->win);
-		system("leaks fdf");
+		// system("leaks fdf");
 		exit(0);
 	}
 	else if (keycode == KEY_D)

@@ -14,8 +14,12 @@ static int	mix_color(t_color color1, t_color color2, double per)
 	c.c[1] = red;
 	c.c[2] = green;
 	c.c[3] = blue;
-	if (per <= 0.3 || per >= 0.7)//원래의 선도 투명도 적용
+	if (per >= 0.4 && per >= 0.6)//원래의 선도 투명도 적용
+		c.c[0] = TRANSPARENCY3;
+	else if (per >= 0.2 && per >= 0.8)
 		c.c[0] = TRANSPARENCY2;
+	else
+		c.c[0] = TRANSPARENCY1;
 	return (c.n);
 }
 
