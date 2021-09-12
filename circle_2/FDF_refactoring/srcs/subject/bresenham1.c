@@ -28,7 +28,7 @@ void	based_x(t_2d_crd start, t_2d_crd end, t_icrd diff, t_img *img)
 			get_color(start, end, &crd, TRUE);
 			print_pixel(crd, img);
 			if (get_crd_x(&crd, inc, diff, &f))
-				anti_aliasing_y(crd, inc, &cnt, img);
+				anti_aliasing_x(crd, inc, &cnt, img);
 			else
 				cnt++;
 		}
@@ -38,7 +38,7 @@ void	based_x(t_2d_crd start, t_2d_crd end, t_icrd diff, t_img *img)
 			get_color(start, end, &crd, TRUE);
 			print_pixel(crd, img);
 			if (get_crd_x(&crd, inc, diff, &f))
-				anti_aliasing_y(crd, inc, &cnt, img);
+				anti_aliasing_x(crd, inc, &cnt, img);
 			else
 				cnt++;
 		}

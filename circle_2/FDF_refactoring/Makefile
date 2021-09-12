@@ -37,6 +37,7 @@ SRCS_OBJ	=	fdf.o					\
 				bresenham1.o			\
 				bresenham2.o			\
 				bresenham_utils.o		\
+				anti_aliased.o			\
 				pixel_print.o			\
 				pixel_utils.o			\
 				make_ptr.o				\
@@ -44,6 +45,7 @@ SRCS_OBJ	=	fdf.o					\
 				ft_utils.o				\
 				event_move.o			\
 				event_zoom.o			\
+				event_rotate.o			\
 				get_next_line.o			\
 				get_next_line_utils.o	\
 				ft_atoi_hex.o			\
