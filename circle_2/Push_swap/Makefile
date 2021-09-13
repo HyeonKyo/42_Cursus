@@ -45,7 +45,6 @@ SBJ_OBJ_LST	=	push_swap.o				\
 				make_stack.o			\
 				merge_to_a.o			\
 				merge_to_b.o			\
-				optimize_command.o		\
 				sort_check_status.o		\
 				sort_utils.o			\
 				sort.o
@@ -93,20 +92,31 @@ BNS_OBJS	=	$(addprefix $(OBJ_DIR), $(BNS_OBJ_LST))
 # =============================================================================
 
 $(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_HKF)%.c
-					$(CC) $(CFLAGS) $(CDEBUG) -I$(INC) -c $< -o $@
-					
+					@mkdir -p $(OBJ_DIR)
+					@$(CC) $(CFLAGS) $(CDEBUG) -I$(INC) -c $< -o $@
+					@echo $(YELLOW) "Compiling...\t" $< $(EOC) $(LINE_CLEAR)
 
 $(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_UTL)%.c
-					$(CC) $(CFLAGS) $(CDEBUG) -I$(INC) -c $< -o $@
+					@mkdir -p $(OBJ_DIR)
+					@$(CC) $(CFLAGS) $(CDEBUG) -I$(INC) -c $< -o $@
+					@echo $(YELLOW) "Compiling...\t" $< $(EOC) $(LINE_CLEAR)
 
 $(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_SBJ)%.c
-					$(CC) $(CFLAGS) $(CDEBUG) -I$(INC) -c $< -o $@
+					@mkdir -p $(OBJ_DIR)
+					@$(CC) $(CFLAGS) $(CDEBUG) -I$(INC) -c $< -o $@
+					@echo $(YELLOW) "Compiling...\t" $< $(EOC) $(LINE_CLEAR)
 
 $(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_BNS)%.c
-					$(CC) $(CFLAGS) $(CDEBUG) -I$(INC) -c $< -o $@
+					@mkdir -p $(OBJ_DIR)
+					@$(CC) $(CFLAGS) $(CDEBUG) -I$(INC) -c $< -o $@
+					@echo $(YELLOW) "Compiling...\t" $< $(EOC) $(LINE_CLEAR)
 
 $(NAME)			:	$(SBJ_OBJS) $(UTL_OBJS) $(HKF_OBJS)
-					$(CC) $(CFLAGS) $(CDEBUG) -I$(INC) -o $@ $^
+					@echo $(GREEN) "Source files are compiled!\n" $(EOC)
+					@echo $(WHITE) "Building [$@] for" $(YELLOW) "Mandatory" $(WHITE) "..." $(EOC)
+					@$(CC) $(CFLAGS) $(CDEBUG) -I$(INC) -o $@ $^
+					@echo $(CYAN) "[$@] is created!\n" $(EOC)
+
 
 $(BNS_NAME)		:	$(BNS_OBJS) $(UTL_OBJS) $(HKF_OBJS)
 					@echo $(GREEN) "Bonus source files are compiled!\n" $(EOC)

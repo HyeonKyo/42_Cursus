@@ -67,12 +67,6 @@ int	main(int ac, char **av)
 	ret = check_sorted(deq, len);
 	print_result(ret);
 	clear_deque(deq);
-	/*
-	입력으로 들어오는 명령들 리스트 저장(read함수 사용)
-	리스트 문자 하나씩 strcmp로 비교 후 맞는 명령어 실행
-	다 실행 후 스택 A가 정렬, 길이 맞는지, 스택B는 비어있는지
-	-> 다 됐으면 ok 아니면 ko출력
-	clear스택, 리턴 0
-	*/
+	system("leaks checker");
 	return (0);
 }
