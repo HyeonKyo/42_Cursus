@@ -29,7 +29,11 @@ static void	get_crd_z(t_map *data, char *buf, int idx)
 	tmp = ft_split(buf, ',');
 	data->crd[size + idx].z = ft_atoi(tmp[0]);
 	if (tmp[1] && tmp[1][0] != 0)
+	{
 		data->crd[size + idx].color.n = ft_atoi_hex(tmp[1]);
+		printf("str : %s\n", tmp[1]);
+		printf("in color : %x\n", data->crd[size + idx].color.n);
+	}
 }
 
 static void	fill_value(char **buf, t_map *data)
@@ -72,4 +76,5 @@ void	save_coordinate(int fd, t_map *data)
 		clear_str(buf, &line);
 		data->map->y++;
 	}
+	print_data(data);
 }

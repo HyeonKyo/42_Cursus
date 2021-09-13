@@ -15,25 +15,27 @@ int	ft_atoi_hex(char *str)
 {
 	int		i;
 	int		num;
-	char	*upper_hex;
-	char	*lower_hex;
+	int		len;
+	char	*hex;
 	char	*tmp;
 
 	if (str == 0)
 		return (0);
-	upper_hex = "0123456789ABCDEF";
-	lower_hex = "0123456789abcdef";
-	num = 0;
 	i = 1;
-	while (is_hex(str[++i]))
+	len = (int)ft_strlen(str);
+	hex = "0123456789ABCDEF0123456789abcdef";
+	num = 0;
+	while (++i < len)
 	{
-		tmp = ft_strchr(upper_hex, str[i]);
+		if (!is_hex(str[i]))
+			break ;
+		tmp = ft_strchr(hex, str[i]);
 		if (tmp != NULL)
-			num = num * 16 + (upper_hex - tmp);
+			num = num * 16 + ((tmp - hex) % 16);
 		else
 		{
-			tmp = ft_strchr(lower_hex, str[i]);
-			num = num * 16 + (lower_hex - tmp);
+			tmp = ft_strchr(hex, str[i]);
+			num = num * 16 + ((tmp - hex) % 16);
 		}
 	}
 	return (num);

@@ -22,5 +22,7 @@ t_map *parsing_map(int ac, char **av)
 	fd = check_input(ac, av);
 	data = create_data();
 	save_coordinate(fd, data);
+	if (close(fd) < 0)
+		error("Close error!");
 	return (data);
 }

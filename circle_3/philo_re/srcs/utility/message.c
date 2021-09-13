@@ -5,16 +5,14 @@ void	print_ms_time(t_philo *philo)
 	long long	cur;
 
 	save_time(&cur);
-	ft_putstr("\033[30;47m", STDOUT_FILENO);
 	ft_putnbr(cur - philo->inf->begin, STDOUT_FILENO);
-	ft_putstr("ms\033[0;0m\t", STDOUT_FILENO);
+	ft_putstr("ms\t", STDOUT_FILENO);
 }
 
 void	print_philo_nbr(t_philo *philo)
 {
-	ft_putstr("\033[1;37m", STDOUT_FILENO);
 	ft_putnbr(philo->num, STDOUT_FILENO);
-	ft_putstr("\033[0;0m ", STDOUT_FILENO);
+	ft_putstr(" ", STDOUT_FILENO);
 }
 
 void	all_is_full(void)

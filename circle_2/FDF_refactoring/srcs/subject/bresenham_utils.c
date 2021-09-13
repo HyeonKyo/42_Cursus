@@ -2,19 +2,23 @@
 
 static int	mix_color(t_color color1, t_color color2, double per)
 {
-	unsigned char	red;
-	unsigned char	green;
-	unsigned char	blue;
+	unsigned char		red;
+	unsigned char		green;
+	unsigned char		blue;
 	t_color			c;
 
 	c.n = 0;
 	red = (int)(color1.c[1] * (1 - per) + color2.c[1] * per);
+	// printf("red : %d\n", red);
 	green = (int)(color1.c[2] * (1 - per) + color2.c[2] * per);
+	//printf("green : %d\n", green);
 	blue = (int)(color1.c[3] * (1 - per) + color2.c[3] * per);
+	//printf("blue : %d\n", blue);
 	c.c[1] = red;
 	c.c[2] = green;
 	c.c[3] = blue;
 	c.c[0] = TRANSPARENCY1;
+	//printf("n : %x\n", c.n);
 	return (c.n);
 }
 

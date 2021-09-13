@@ -92,27 +92,21 @@ BNS_OBJS	=	$(addprefix $(OBJ_DIR), $(BNS_OBJ_LST))
 # Target Generating
 # =============================================================================
 
-$(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_HKF)%.c	dir
-					@$(CC) $(CFLAGS) $(CDEBUG) -I$(INC) -c $< -o $@
-					@echo $(YELLOW) "Compiling...\t" $< $(EOC) $(LINE_CLEAR)
+$(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_HKF)%.c
+					$(CC) $(CFLAGS) $(CDEBUG) -I$(INC) -c $< -o $@
+					
 
-$(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_UTL)%.c dir
-					@$(CC) $(CFLAGS) $(CDEBUG) -I$(INC) -c $< -o $@
-					@echo $(YELLOW) "Compiling...\t" $< $(EOC) $(LINE_CLEAR)
+$(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_UTL)%.c
+					$(CC) $(CFLAGS) $(CDEBUG) -I$(INC) -c $< -o $@
 
-$(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_SBJ)%.c dir
-					@$(CC) $(CFLAGS) $(CDEBUG) -I$(INC) -c $< -o $@
-					@echo $(YELLOW) "Compiling...\t" $< $(EOC) $(LINE_CLEAR)
+$(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_SBJ)%.c
+					$(CC) $(CFLAGS) $(CDEBUG) -I$(INC) -c $< -o $@
 
-$(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_BNS)%.c dir
-					@$(CC) $(CFLAGS) $(CDEBUG) -I$(INC) -c $< -o $@
-					@echo $(YELLOW) "Compiling...\t" $< $(EOC) $(LINE_CLEAR)
+$(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_BNS)%.c
+					$(CC) $(CFLAGS) $(CDEBUG) -I$(INC) -c $< -o $@
 
 $(NAME)			:	$(SBJ_OBJS) $(UTL_OBJS) $(HKF_OBJS)
-					@echo $(GREEN) "Source files are compiled!\n" $(EOC)
-					@echo $(WHITE) "Building [$@] for" $(YELLOW) "Mandatory" $(WHITE) "..." $(EOC)
-					@$(CC) $(CFLAGS) $(CDEBUG) -I$(INC) -o $@ $^
-					@echo $(CYAN) "[$@] is created!\n" $(EOC)
+					$(CC) $(CFLAGS) $(CDEBUG) -I$(INC) -o $@ $^
 
 $(BNS_NAME)		:	$(BNS_OBJS) $(UTL_OBJS) $(HKF_OBJS)
 					@echo $(GREEN) "Bonus source files are compiled!\n" $(EOC)
@@ -139,7 +133,4 @@ fclean			:	clean
 
 re				:	fclean all
 
-dir				:
-					mkdir -p $(OBJ_DIR)
-
-.PHONY			:	all bonus clean fclean re dir
+.PHONY			:	all bonus clean fclean re
