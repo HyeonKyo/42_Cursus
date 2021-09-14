@@ -33,10 +33,11 @@ static void	get_crd_z(t_map *data, char *buf, int idx)
 	if (tmp[1] && tmp[1][0] != 0)
 		data->crd[size + idx].color.n = ft_atoi_hex(tmp[1]);
 	i = 0;
-	while (tmp[i] && tmp[i][0] != 0)
+	while (tmp[i][0])
 		free(tmp[i++]);
 	free(tmp[i]);
 	free(tmp);
+	tmp = 0;
 }
 
 static void	fill_value(char **buf, t_map *data)
@@ -48,14 +49,14 @@ static void	fill_value(char **buf, t_map *data)
 
 	if (len_x == 0)//지도의 x값 길이 넣어주기
 	{
-		while (buf[len_x])
+		while (buf[len_x][0])
 			len_x++;
 		data->map->x = len_x;
 	}
 	expand_data(data, len_x);
-	i = -1;
 	size = data->size;
-	while (buf[++i])
+	i = -1;
+	while (buf[++i][0])
 	{
 		data->crd[size + i].x = i;
 		data->crd[size + i].y = save_y;
@@ -79,4 +80,5 @@ void	save_coordinate(int fd, t_map *data)
 		clear_str(buf, &line);
 		data->map->y++;
 	}
+	free(line);
 }

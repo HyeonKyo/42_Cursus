@@ -39,7 +39,7 @@
 # define IMG_X_SIZE 1600
 # define IMG_Y_SIZE 900
 
-typedef	union	s_color
+typedef	union	u_color
 {
 	unsigned char	c[4];
 	int				n;

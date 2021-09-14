@@ -15,7 +15,7 @@ void	clear_str(char **buf, char **line)
 	int	i;
 
 	i = 0;
-	while (buf[i])
+	while (buf[i][0] != 0)
 		free(buf[i++]);
 	free(buf[i]);
 	free(buf);

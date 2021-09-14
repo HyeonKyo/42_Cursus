@@ -11,7 +11,6 @@ static void	pickup_fork(t_philo *philo)
 		if (fork[philo->i]->n == AVAILABLE)
 		{
 			state_message(philo);
-			state_message(philo);
 			pthread_mutex_lock(&(fork[philo->left]->fk_mtx));
 			fork[philo->left]->n -= 1;
 			pthread_mutex_unlock(&(fork[philo->left]->fk_mtx));
@@ -81,7 +80,7 @@ static void	sleeping(t_philo *philo)
 static void	thinking(t_philo *philo)
 {
 	state_message(philo);
-	usleep(DELTA);
+	usleep(100);
 	philo->cond = GRAB;
 }
 

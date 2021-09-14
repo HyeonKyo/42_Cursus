@@ -30,5 +30,11 @@ void	state_message(t_philo *philo)
 	print_ms_time(philo);
 	print_philo_nbr(philo);
 	print_state(philo);
+	if (philo->cond == GRAB)
+	{
+		print_ms_time(philo);
+		print_philo_nbr(philo);
+		print_state(philo);
+	}
 	pthread_mutex_unlock(&(philo->inf->pt_mtx));
 }

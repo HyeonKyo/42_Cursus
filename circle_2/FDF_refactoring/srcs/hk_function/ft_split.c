@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeonkki <hyeonkki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hyeonkyokim <hyeonkyokim@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 16:33:31 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/05/14 16:32:26 by hyeonkki         ###   ########.fr       */
+/*   Updated: 2021/09/14 23:14:48 by hyeonkyokim      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "fdf.h"
 
-static	int		count(char const *s, char c, int *buf_len)
+static int	count(char const *s, char c, int *buf_len)
 {
 	int	i;
 	int	j;
@@ -41,7 +41,7 @@ static	int		count(char const *s, char c, int *buf_len)
 	return (count);
 }
 
-static	int		*make_arr1(char const *s)
+static int	*make_arr1(char const *s)
 {
 	int	*buf_len;
 
@@ -51,12 +51,12 @@ static	int		*make_arr1(char const *s)
 	return (buf_len);
 }
 
-static	int		make_arr2(int *buf_len, char **arr, int cnt)
+static int	make_arr2(int *buf_len, char **arr, int cnt)
 {
 	int	i;
 
 	i = -1;
-	while (++i < cnt)
+	while (++i < cnt + 1)
 	{
 		arr[i] = (char *)malloc((buf_len[i] + 1) * sizeof(char));
 		if (arr[i] == 0)
@@ -68,7 +68,7 @@ static	int		make_arr2(int *buf_len, char **arr, int cnt)
 			return (0);
 		}
 	}
-	arr[cnt] = 0;
+	arr[cnt][0] = 0;
 	free(buf_len);
 	return (1);
 }
