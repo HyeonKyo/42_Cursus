@@ -29,7 +29,7 @@ void	*lifetime(void *data)
 
 	philo = (t_philo *)data;
 	inf = philo->inf;
-	usleep(inf->tm_eat * MILLI - DELTA);//철학자(쓰레드)생성이 되는 시간을 기다리고 수명 체크 시작
+	usleep((inf->tm_die - DELTA) * MILLI);//철학자(쓰레드)생성이 되는 시간을 기다리고 수명 체크 시작
 	while (TRUE)
 	{
 		save_time(&cur);

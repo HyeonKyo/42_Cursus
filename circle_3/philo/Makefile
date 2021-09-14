@@ -56,6 +56,7 @@ OBJ_LIST	=	philo.o			\
 				routine2.o		\
 				lifetime.o		\
 				error.o			\
+				make_fork.o		\
 				message.o		\
 				print_state.o	\
 				time.o			\

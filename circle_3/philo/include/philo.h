@@ -62,6 +62,14 @@ typedef enum	e_cond
 ** =============================================================================
 */
 
+typedef struct	s_node
+{
+	int				n;
+	t_mutex			fk_mtx;
+	struct s_node	*next;
+	struct s_node	*prev;
+}				t_node;
+
 typedef struct	s_info
 {
 	int			n_philo;
@@ -69,13 +77,12 @@ typedef struct	s_info
 	int			tm_eat;
 	int			tm_sleep;
 	int			n_must;
-	int			*fork;
 	int			full_cnt;
 	long long	begin;
+	t_node		**fork;
 	t_pth		ck_odd;
 	t_pth		ck_even;
 	t_mutex		full_mtx;
-	t_mutex		fk_mtx;
 	t_mutex		pt_mtx;
 }				t_info;
 
@@ -114,6 +121,8 @@ int		ft_strlen(char *str);
 void	error(char *str);
 void	merror(void *ret);
 void	input_error(void);
+
+void	make_fork(t_info *inf);
 
 void	save_time(long long *time);
 

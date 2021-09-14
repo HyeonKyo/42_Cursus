@@ -17,14 +17,17 @@ int	save_arg(int ac, char **av, t_info *inf)
 
 void	philo_initialization(t_philo **philo, t_info *inf)
 {
-	int	i;
+	int		i;
+	t_node	*cur;
 
 	*philo = (t_philo *)malloc(sizeof(t_philo) * inf->n_philo);
 	merror(*philo);
+
 	i = 0;
 	while (i < inf->n_philo)
 	{
-		inf->fork[i] = AVAILABLE;
+		cur = inf->fork[i];
+		pthread_mutex_init(&(cur->fk_mtx), NULL);
 		(*philo)[i].i = i;
 		(*philo)[i].left = i - 1;
 		if ((*philo)[i].left < 0)
@@ -41,11 +44,9 @@ void	philo_initialization(t_philo **philo, t_info *inf)
 
 void	setup_dinner(t_philo **philo, t_info *inf)
 {
-	pthread_mutex_init(&(inf->fk_mtx), NULL);
 	pthread_mutex_init(&(inf->full_mtx), NULL);
 	pthread_mutex_init(&(inf->pt_mtx), NULL);
-	inf->fork = (int *)malloc(sizeof(int) * inf->n_philo);
-	merror(inf->fork);
+	make_fork(inf);
 	inf->full_cnt = 0;
 	philo_initialization(philo, inf);
 }
@@ -59,10 +60,8 @@ void	dinning(t_philo *philo)
 	save_time(&inf->begin);
 	i = -1;
 	while (++i < inf->n_philo)
-		philo[i].tm_life = inf->begin;
-	i = -1;
-	while (++i < inf->n_philo)
 	{
+		philo[i].tm_life = inf->begin;
 		pthread_create(&philo[i].th, NULL, routine, &(philo[i]));
 		pthread_create(&philo[i].ck, NULL, lifetime, &(philo[i]));
 	}

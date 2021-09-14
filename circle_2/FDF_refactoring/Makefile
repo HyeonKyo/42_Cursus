@@ -1,7 +1,7 @@
 
 CC			=	gcc
-CFLAGS		=	-Wall -Wextra -Werror
-MLX_FLAGS	=	-framework OpenGL -framework AppKit -fsanitize=address
+CFLAGS		=	-Wall -Wextra -Werror -g
+MLX_FLAGS	=	-framework OpenGL -framework AppKit
 
 INC_DIR 	=	./include
 DIR_SBJ		=	subject/

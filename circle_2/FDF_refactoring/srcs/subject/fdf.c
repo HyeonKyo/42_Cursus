@@ -31,7 +31,7 @@ int		key_press(int keycode, t_ptr *ptr)
 	if (keycode == ESC)
 	{
 		mlx_destroy_window(ptr->mlx, ptr->win);
-		// system("leaks fdf");
+		//system("leaks fdf");
 		exit(0);
 	}
 	else if (keycode == KEY_D)
@@ -48,16 +48,15 @@ int		key_press(int keycode, t_ptr *ptr)
 		zoom_out(ptr->data);
 	else if (keycode == KEY_P)
 		parallel_view(ptr->data, &flag);
+	else if (keycode == KEY_Y)
+		rotate_x(ptr->data);
+	else if (keycode == KEY_T)
+		rotate_y(ptr->data);
 	else if (keycode == KEY_R)
-		rotate(ptr->data);
+		rotate_z(ptr->data);
 	reprint_map(ptr);
 	return (0);
 }
-
-// int	mouse_hook(int botton, int x, int y, void *param)
-// {
-
-// }
 
 void	print_map(t_ptr *ptr)
 {
@@ -69,7 +68,6 @@ void	print_map(t_ptr *ptr)
 	print_pixel_in_vector(&img, ptr->data);
 	mlx_put_image_to_window(ptr->mlx, ptr->win, img.img, 0, 0);
 	mlx_hook(ptr->win, 2, 1L<<0, &key_press, ptr);
-	//mlx_mouse_hook(ptr->win, &mouse_hook, ptr);
 	mlx_loop(ptr->mlx);
 }
 
@@ -87,13 +85,6 @@ int	main(int ac, char **av)
 
 	data = parsing_map(ac, av);
 	isometric_view(data);
-	print_2d_data(data);
 	make_graphic(data);
-	/*
-	3. 화면 출력(print_iso)
-		1. 일련의 과정 수행
-		2. 반복문으로 iso벡터의 점들 z값 제외해서 찍어줌
-		3. 출력.
-	*/
 	return (0);
 }

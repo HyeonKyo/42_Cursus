@@ -2,23 +2,27 @@
 
 static void	pickup_fork(t_philo *philo)
 {
-	t_info	*inf;
+	t_node	**fork;
 
-	inf = philo->inf;
+	fork = philo->inf->fork;
 	while (TRUE)
 	{
-		pthread_mutex_lock(&(inf->fk_mtx));
-		if (inf->fork[philo->i] == AVAILABLE)
+		pthread_mutex_lock(&(fork[philo->i]->fk_mtx));
+		if (fork[philo->i]->n == AVAILABLE)
 		{
 			state_message(philo);
 			state_message(philo);
-			inf->fork[philo->left] -= 1;
-			inf->fork[philo->right] -= 1;
-			pthread_mutex_unlock(&(inf->fk_mtx));
+			pthread_mutex_lock(&(fork[philo->left]->fk_mtx));
+			fork[philo->left]->n -= 1;
+			pthread_mutex_unlock(&(fork[philo->left]->fk_mtx));
+			pthread_mutex_lock(&(fork[philo->right]->fk_mtx));
+			fork[philo->right]->n -= 1;
+			pthread_mutex_unlock(&(fork[philo->right]->fk_mtx));
 			philo->cond = EATING;
+			pthread_mutex_unlock(&(fork[philo->i]->fk_mtx));
 			return ;
 		}
-		pthread_mutex_unlock(&(inf->fk_mtx));
+		pthread_mutex_unlock(&(fork[philo->i]->fk_mtx));
 		usleep(DELTA);
 	}
 }
@@ -30,8 +34,8 @@ static void	eating(t_philo *philo)
 	long long	cur;
 
 	inf = philo->inf;
-	state_message(philo);
 	save_time(&start_eat);
+	state_message(philo);
 	if (inf->n_must > 0)
 	{
 		pthread_mutex_lock(&inf->full_mtx);

@@ -20,6 +20,8 @@
 # define KEY_X 7
 # define KEY_P 35
 # define KEY_R 15
+# define KEY_T 17
+# define KEY_Y 16
 
 # define GR 0x0000FF00
 # define RED 0x00FF0000
@@ -69,6 +71,7 @@ typedef struct	s_map
 {
 	int			size;
 	t_map_len	*map;
+	t_2d_crd	min;
 	t_crd		*crd;
 	t_2d_crd	*crd_2d;
 }				t_map;
@@ -161,7 +164,9 @@ void	zoom_in(t_map *data);
 void	zoom_out(t_map *data);
 void	parallel_view(t_map *data, int *flag);
 //event_rotate
-void	rotate(t_map *data);
+void	rotate_x(t_map *data);
+void	rotate_y(t_map *data);
+void	rotate_z(t_map *data);
 
 //make_ptr
 void	make_ptr(t_ptr *ptr, t_map *data);

@@ -2,12 +2,14 @@
 
 void	putdown_fork(t_philo *philo)
 {
-	t_info	*inf;
+	t_node	**fork;
 
-	inf = philo->inf;
-	pthread_mutex_lock(&(inf->fk_mtx));
-	inf->fork[philo->left] += 1;
-	inf->fork[philo->right] += 1;
-	pthread_mutex_unlock(&(inf->fk_mtx));
+	fork = philo->inf->fork;
+	pthread_mutex_lock(&(fork[philo->left]->fk_mtx));
+	fork[philo->left]->n += 1;
+	pthread_mutex_unlock(&(fork[philo->left]->fk_mtx));
+	pthread_mutex_lock(&(fork[philo->right]->fk_mtx));
+	fork[philo->right]->n += 1;
+	pthread_mutex_unlock(&(fork[philo->right]->fk_mtx));
 	philo->cond = SLEEPING;
 }

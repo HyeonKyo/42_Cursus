@@ -65,7 +65,7 @@ void	based_y(t_2d_crd start, t_2d_crd end, t_icrd diff, t_img *img)
 				cnt++;
 		}
 	else
-		while (crd.y <= end.y)
+		while (crd.y >= end.y)
 		{
 			get_color(start, end, &crd, FALSE);
 			print_pixel(crd, img);
