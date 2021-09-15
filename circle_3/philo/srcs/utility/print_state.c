@@ -23,7 +23,7 @@ int	print_state(t_cond cond)
 	else if (cond == DEAD)
 	{
 		ft_putstr("\033[1;31m", STDOUT_FILENO);
-		ft_putendl("died", STDOUT_FILENO);
+		ft_putendl("died\033[0;0m", STDOUT_FILENO);
 		//usleep(100000);//unlock대기를 하면서 다른 메시지 출력을 막음.
 		return (1);
 	}

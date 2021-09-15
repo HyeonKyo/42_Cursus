@@ -98,7 +98,7 @@ static void	finish_dinning(t_philo *philo, t_info *inf)
 			break ;
 		usleep(DELTA);
 	}
-	usleep(ITER);
+	usleep(100000);//종료 처리 기다림.
 	pthread_mutex_destroy(&(inf->full_mtx));
 	pthread_mutex_destroy(&(inf->pt_mtx));
 	free_fork(inf);
@@ -115,5 +115,6 @@ int	main(int ac, char **av)
 	setup_dinner(&philo, &inf);
 	dinning(philo);
 	finish_dinning(philo, &inf);
+	// system("leaks philo");
 	return (0);
 }

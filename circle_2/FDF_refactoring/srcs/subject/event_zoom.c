@@ -4,7 +4,7 @@ void	zoom_in(t_map *data)
 {
 	int	i;
 	int	move_len;
-	
+
 	move_len = data->map->x / 4;
 	if (move_len == 0)
 		move_len = 3;
@@ -52,8 +52,5 @@ void	parallel_view(t_map *data, int *flag)
 	}
 	else
 		isometric_view(data);
-	if (*flag == TRUE)
-		*flag = FALSE;
-	else
-		*flag = TRUE;
+	*flag ^= TRUE;
 }

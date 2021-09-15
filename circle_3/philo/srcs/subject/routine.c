@@ -3,9 +3,9 @@
 int	check_condition(t_info *inf)
 {
 	if (inf->cond == DEAD || inf->cond == FULL)
-		return (1);
+		return (TRUE);
 	else
-		return (0);
+		return (FALSE);
 }
 
 static int	pickup_fork(t_philo *philo, t_cond cond)
@@ -43,7 +43,7 @@ static int	eating(t_philo *philo, t_cond cond)
 	long long	cur;
 
 	if (check_condition(philo->inf))
-		return (1);
+		return (TRUE);
 	inf = philo->inf;
 	save_time(&start_eat);
 	state_message(philo, cond);
@@ -57,13 +57,13 @@ static int	eating(t_philo *philo, t_cond cond)
 	while (TRUE)
 	{
 		if (check_condition(philo->inf))
-			return (1);
+			return (TRUE);
 		save_time(&cur);
 		if (cur - start_eat >= inf->tm_eat)
 		{
 			philo->tm_life = cur;
 			putdown_fork(philo);
-			return (0);
+			return (FALSE);
 		}
 		usleep(ITER);
 	}
@@ -76,7 +76,7 @@ static int	sleeping(t_philo *philo, t_cond cond)
 	long long	cur;
 
 	if (check_condition(philo->inf))
-		return (1);
+		return (TRUE);
 	inf = philo->inf;
 	state_message(philo, cond);
 	save_time(&start_sleep);
@@ -84,10 +84,10 @@ static int	sleeping(t_philo *philo, t_cond cond)
 	while (TRUE)
 	{
 		if (check_condition(philo->inf))
-			return (1);
+			return (TRUE);
 		save_time(&cur);
 		if (cur - start_sleep >= inf->tm_sleep)
-			return (0);
+			return (FALSE);
 		usleep(ITER);
 	}
 }
@@ -95,10 +95,10 @@ static int	sleeping(t_philo *philo, t_cond cond)
 static int	thinking(t_philo *philo, t_cond cond)
 {
 	if (check_condition(philo->inf))
-		return (1);
+		return (TRUE);
 	state_message(philo, cond);
-	usleep(1000);
-	return (0);
+	usleep(ITER);
+	return (FALSE);
 }
 
 void	*routine(void *data)
@@ -113,14 +113,14 @@ void	*routine(void *data)
 	while (TRUE)
 	{
 		if (check_condition(philo->inf))
-			return (0);
+			return (NULL);
 		if (pickup_fork(philo, GRAB))
-			return (0);
+			return (NULL);
 		if (eating(philo, EATING))
-			return (0);
+			return (NULL);
 		if (sleeping(philo, SLEEPING))
-			return (0);
+			return (NULL);
 		if (thinking(philo, THINKING))
-			return (0);
+			return (NULL);
 	}
 }

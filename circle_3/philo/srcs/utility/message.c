@@ -33,5 +33,6 @@ void	state_message(t_philo *philo, t_cond cond)
 	print_philo_nbr(philo);
 	if (print_state(cond))
 		return ;
-	pthread_mutex_unlock(&(philo->inf->pt_mtx));
+	else
+		pthread_mutex_unlock(&(philo->inf->pt_mtx));
 }
