@@ -1,17 +1,7 @@
 #include "philo.h"
 
-static void	print_dead(void)
+int	print_state(t_cond cond)
 {
-	ft_putstr("\033[1;31m", STDOUT_FILENO);
-	ft_putendl("died", STDOUT_FILENO);
-	exit(0);
-}
-
-void	print_state(t_philo *philo)
-{
-	t_cond	cond;
-
-	cond = philo->cond;
 	if (cond == EATING)
 	{
 		ft_putstr("\033[1;37;42m", STDOUT_FILENO);
@@ -30,6 +20,12 @@ void	print_state(t_philo *philo)
 		ft_putstr("\033[1;33m", STDOUT_FILENO);
 		ft_putendl("has taken a fork\033[0;0m", STDOUT_FILENO);
 	}
-	else if (philo->cond == DEAD)
-		print_dead();
+	else if (cond == DEAD)
+	{
+		ft_putstr("\033[1;31m", STDOUT_FILENO);
+		ft_putendl("died", STDOUT_FILENO);
+		//usleep(100000);//unlock대기를 하면서 다른 메시지 출력을 막음.
+		return (1);
+	}
+	return (0);
 }

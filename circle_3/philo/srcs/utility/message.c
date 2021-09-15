@@ -12,29 +12,26 @@ void	print_ms_time(t_philo *philo)
 void	print_philo_nbr(t_philo *philo)
 {
 	ft_putnbr(philo->num, STDOUT_FILENO);
-	write(STDOUT_FILENO, " ", 1);
+	write(STDOUT_FILENO, "\t", 1);
 }
 
 void	all_is_full(void)
 {
 	ft_putstr("\033[1;33m", STDOUT_FILENO);
 	ft_putendl("\nEvery is finishing dinner!!\n\033[0;0m", STDOUT_FILENO);
-	exit(0);
 }
 
-void	state_message(t_philo *philo)
+void	state_message(t_philo *philo, t_cond cond)
 {
 	pthread_mutex_lock(&(philo->inf->pt_mtx));
-	if (philo->cond == FULL)
+	if (cond == FULL)
+	{
 		all_is_full();
+		return ;
+	}
 	print_ms_time(philo);
 	print_philo_nbr(philo);
-	print_state(philo);
-	if (philo->cond == GRAB)
-	{
-		print_ms_time(philo);
-		print_philo_nbr(philo);
-		print_state(philo);
-	}
+	if (print_state(cond))
+		return ;
 	pthread_mutex_unlock(&(philo->inf->pt_mtx));
 }

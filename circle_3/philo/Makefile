@@ -20,7 +20,7 @@ LINE_CLEAR	=	"\x1b[1A\x1b[M"
 
 CC			=	gcc
 CFLAGS		=	-Wall -Werror -Wextra
-CDEBUG		=	-g -fsanitize=address
+CDEBUG		=	-g
 RM			=	rm -rf
 
 # =============================================================================
@@ -71,15 +71,18 @@ OBJS		=	$(addprefix $(OBJ_DIR), $(OBJ_LIST))
 # Target Generating
 # =============================================================================
 
-$(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_SBJ)%.c dir
+$(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_SBJ)%.c
+					@mkdir -p $(OBJ_DIR)
 					@$(CC) $(CFLAGS) -I$(INC) -c $< -o $@
 					@echo $(YELLOW) "Compiling...\t" $< $(EOC) $(LINE_CLEAR)
 
-$(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_HFT)%.c dir
+$(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_HFT)%.c
+					@mkdir -p $(OBJ_DIR)
 					@$(CC) $(CFLAGS) -I$(INC) -c $< -o $@
 					@echo $(YELLOW) "Compiling...\t" $< $(EOC) $(LINE_CLEAR)
 
-$(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_UTL)%.c dir
+$(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_UTL)%.c
+					@mkdir -p $(OBJ_DIR)
 					@$(CC) $(CFLAGS) -I$(INC) -c $< -o $@
 					@echo $(YELLOW) "Compiling...\t" $< $(EOC) $(LINE_CLEAR)
 
@@ -105,7 +108,4 @@ fclean			:	clean
 
 re				:	fclean all
 
-dir				:
-					mkdir -p $(OBJ_DIR)
-
-.PHONY			:	all clean fclean re dir
+.PHONY			:	all clean fclean re

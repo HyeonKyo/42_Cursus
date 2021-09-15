@@ -22,7 +22,6 @@ void	philo_initialization(t_philo **philo, t_info *inf)
 
 	*philo = (t_philo *)malloc(sizeof(t_philo) * inf->n_philo);
 	merror(*philo);
-
 	i = 0;
 	while (i < inf->n_philo)
 	{
@@ -37,7 +36,6 @@ void	philo_initialization(t_philo **philo, t_info *inf)
 			(*philo)[i].right = 0;
 		(*philo)[i].num = i + 1;
 		(*philo)[i].n_eat = 0;
-		(*philo)[i].cond = GRAB;
 		(*philo)[i++].inf = inf;
 	}
 }
@@ -47,6 +45,7 @@ void	setup_dinner(t_philo **philo, t_info *inf)
 	pthread_mutex_init(&(inf->full_mtx), NULL);
 	pthread_mutex_init(&(inf->pt_mtx), NULL);
 	make_fork(inf);
+	inf->cond = LIFE;
 	inf->full_cnt = 0;
 	philo_initialization(philo, inf);
 }
@@ -62,15 +61,48 @@ void	dinning(t_philo *philo)
 	while (++i < inf->n_philo)
 	{
 		philo[i].tm_life = inf->begin;
-		pthread_create(&philo[i].th, NULL, routine, &(philo[i]));
-		pthread_create(&philo[i].ck, NULL, lifetime, &(philo[i]));
+		pthread_create(&(philo[i].th), NULL, routine, &(philo[i]));
+		pthread_detach(philo[i].th);
+		pthread_create(&(philo[i].ck), NULL, lifetime, &(philo[i]));
+		pthread_detach(philo[i].ck);
 	}
-	i = -1;
+}
+
+void	free_fork(t_info *inf)
+{
+	int	i;
+	t_node **fork;
+
+	fork = inf->fork;
+	i = 0;
 	while (i < inf->n_philo)
 	{
-		pthread_join(philo[i].th, NULL);
-		pthread_join(philo[i].ck, NULL);
+		pthread_mutex_destroy(&(fork[i]->fk_mtx));
+		free(fork[i++]);
 	}
+	free(fork);
+	inf->fork = NULL;
+}
+
+static void	finish_dinning(t_philo *philo, t_info *inf)
+{
+	/*
+	할당된 메모리
+	1. mutex
+	2. fork
+	3. philos
+	*/
+	while (TRUE)
+	{
+		if (inf->cond == FULL || inf->cond == DEAD)
+			break ;
+		usleep(DELTA);
+	}
+	usleep(ITER);
+	pthread_mutex_destroy(&(inf->full_mtx));
+	pthread_mutex_destroy(&(inf->pt_mtx));
+	free_fork(inf);
+	free(philo);
 }
 
 int	main(int ac, char **av)
@@ -82,5 +114,6 @@ int	main(int ac, char **av)
 		input_error();
 	setup_dinner(&philo, &inf);
 	dinning(philo);
+	finish_dinning(philo, &inf);
 	return (0);
 }

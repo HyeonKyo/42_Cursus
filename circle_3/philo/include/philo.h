@@ -27,6 +27,7 @@
 
 # define MILLI 1000
 # define DELTA 10
+# define ITER 100
 
 # define AVAILABLE 2
 # define ISEVEN 1
@@ -48,6 +49,7 @@ typedef pthread_mutex_t	t_mutex;
 
 typedef enum	e_cond
 {
+	LIFE,
 	DEAD,
 	GRAB,
 	EATING,
@@ -80,8 +82,7 @@ typedef struct	s_info
 	int			full_cnt;
 	long long	begin;
 	t_node		**fork;
-	t_pth		ck_odd;
-	t_pth		ck_even;
+	t_cond		cond;
 	t_mutex		full_mtx;
 	t_mutex		pt_mtx;
 }				t_info;
@@ -96,7 +97,6 @@ typedef struct	s_philo
 	long long	tm_life;
 	t_pth		th;
 	t_pth		ck;
-	t_cond		cond;
 	t_info		*inf;
 }				t_philo;
 
@@ -126,8 +126,8 @@ void	make_fork(t_info *inf);
 
 void	save_time(long long *time);
 
-void	print_state(t_philo *philo);
-void	state_message(t_philo *philo);
+int		print_state(t_cond cond);
+void	state_message(t_philo *philo, t_cond cond);
 void	all_is_full(void);
 
 /*
@@ -139,5 +139,6 @@ void	all_is_full(void);
 void	putdown_fork(t_philo *philo);
 void	*routine(void *data);
 void	*lifetime(void *data);
+int		check_condition(t_info *inf);
 
 #endif

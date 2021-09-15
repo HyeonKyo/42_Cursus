@@ -1,6 +1,6 @@
 #include "philo.h"
 
-static void	full_check(t_philo *philo)
+static int	full_check(t_philo *philo)
 {
 	t_info	*inf;
 
@@ -13,11 +13,13 @@ static void	full_check(t_philo *philo)
 		if (inf->full_cnt == inf->n_philo)
 		{
 			usleep(inf->tm_eat * MILLI);//마지막으로 먹을 시간 주기
-			philo->cond = FULL;
-			state_message(philo);
+			inf->cond = FULL;
+			state_message(philo, FULL);
+			return (1);
 		}
 	}
 	pthread_mutex_unlock(&inf->full_mtx);
+	return (0);
 }
 
 void	*lifetime(void *data)
@@ -25,21 +27,21 @@ void	*lifetime(void *data)
 	t_philo		*philo;
 	t_info		*inf;
 	long long	cur;
-	long long	life;
 
 	philo = (t_philo *)data;
 	inf = philo->inf;
-	usleep((inf->tm_die - DELTA) * MILLI);//철학자(쓰레드)생성이 되는 시간을 기다리고 수명 체크 시작
+	usleep(inf->tm_die * MILLI * 3 / 4);//철학자(쓰레드)생성이 되는 시간을 기다리고 수명 체크 시작
 	while (TRUE)
 	{
 		save_time(&cur);
-		life = cur - philo->tm_life;
-		if (life >= inf->tm_die)
+		if (cur - philo->tm_life >= inf->tm_die)
 		{
-			philo->cond = DEAD;
-			state_message(philo);
+			inf->cond = DEAD;
+			state_message(philo, DEAD);
+			return (0);
 		}
-		full_check(philo);
+		if (full_check(philo))
+			return (0);
 		usleep(DELTA);
 	}
 }
