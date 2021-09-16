@@ -127,8 +127,7 @@ void	make_fork(t_info *inf);
 void	save_time(long long *time);
 
 int		print_state(t_cond cond);
-void	state_message(t_philo *philo, t_cond cond);
-void	all_is_full(void);
+int		state_message(t_philo *philo, t_cond cond);
 
 /*
 ** =============================================================================

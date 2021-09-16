@@ -1,18 +1,12 @@
 #include "philo.h"
 
-int	check_condition(t_info *inf)
-{
-	if (inf->cond == DEAD || inf->cond == FULL)
-		return (TRUE);
-	else
-		return (FALSE);
-}
-
 static int	pickup_fork(t_philo *philo, t_cond cond)
 {
+	int		i;
 	t_node	**fork;
 
 	fork = philo->inf->fork;
+	i = AVAILABLE;
 	while (TRUE)
 	{
 		if (check_condition(philo->inf))
@@ -26,8 +20,14 @@ static int	pickup_fork(t_philo *philo, t_cond cond)
 			pthread_mutex_unlock(&(fork[philo->left]->fk_mtx));
 			fork[philo->right]->n -= 1;
 			pthread_mutex_unlock(&(fork[philo->right]->fk_mtx));
-			state_message(philo, cond);
-			state_message(philo, cond);
+			while (i--)
+			{
+				if (state_message(philo, cond))
+				{
+					pthread_mutex_unlock(&(fork[philo->i]->fk_mtx));
+					return (TRUE);
+				}
+			}
 			pthread_mutex_unlock(&(fork[philo->i]->fk_mtx));
 			return (FALSE);
 		}
@@ -42,11 +42,10 @@ static int	eating(t_philo *philo, t_cond cond)
 	long long	start_eat;
 	long long	cur;
 
-	if (check_condition(philo->inf))
-		return (TRUE);
 	inf = philo->inf;
 	save_time(&start_eat);
-	state_message(philo, cond);
+	if (state_message(philo, cond))
+		return (TRUE);
 	if (inf->n_must > 0)
 	{
 		pthread_mutex_lock(&inf->full_mtx);
@@ -75,10 +74,9 @@ static int	sleeping(t_philo *philo, t_cond cond)
 	long long	start_sleep;
 	long long	cur;
 
-	if (check_condition(philo->inf))
-		return (TRUE);
 	inf = philo->inf;
-	state_message(philo, cond);
+	if (state_message(philo, cond))
+		return (TRUE);
 	save_time(&start_sleep);
 	usleep(inf->tm_sleep * MILLI * 3 / 4);
 	while (TRUE)
@@ -94,9 +92,8 @@ static int	sleeping(t_philo *philo, t_cond cond)
 
 static int	thinking(t_philo *philo, t_cond cond)
 {
-	if (check_condition(philo->inf))
+	if (state_message(philo, cond))
 		return (TRUE);
-	state_message(philo, cond);
 	usleep(ITER);
 	return (FALSE);
 }
@@ -112,8 +109,6 @@ void	*routine(void *data)
 		usleep((philo->inf->tm_eat * MILLI) - DELTA);//짝수 철학자는 홀수 철학자가 어느정도 먹었을 때 부터 실행
 	while (TRUE)
 	{
-		if (check_condition(philo->inf))
-			return (NULL);
 		if (pickup_fork(philo, GRAB))
 			return (NULL);
 		if (eating(philo, EATING))

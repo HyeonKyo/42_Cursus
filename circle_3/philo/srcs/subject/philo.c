@@ -62,13 +62,17 @@ void	dinning(t_philo *philo)
 	{
 		philo[i].tm_life = inf->begin;
 		pthread_create(&(philo[i].th), NULL, routine, &(philo[i]));
-		pthread_detach(philo[i].th);
 		pthread_create(&(philo[i].ck), NULL, lifetime, &(philo[i]));
-		pthread_detach(philo[i].ck);
+	}
+	i = -1;
+	while (++i < inf->n_philo)
+	{
+		pthread_join(philo[i].th, NULL);
+		pthread_join(philo[i].ck, NULL);
 	}
 }
 
-void	free_fork(t_info *inf)
+static void	free_fork(t_info *inf)
 {
 	int	i;
 	t_node **fork;
@@ -86,19 +90,6 @@ void	free_fork(t_info *inf)
 
 static void	finish_dinning(t_philo *philo, t_info *inf)
 {
-	/*
-	할당된 메모리
-	1. mutex
-	2. fork
-	3. philos
-	*/
-	while (TRUE)
-	{
-		if (inf->cond == FULL || inf->cond == DEAD)
-			break ;
-		usleep(DELTA);
-	}
-	usleep(100000);//종료 처리 기다림.
 	pthread_mutex_destroy(&(inf->full_mtx));
 	pthread_mutex_destroy(&(inf->pt_mtx));
 	free_fork(inf);
