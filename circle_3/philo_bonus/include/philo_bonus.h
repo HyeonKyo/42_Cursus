@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <pthread.h>
+#include <semaphore.h>
 #include <sys/time.h>
 
 /*
@@ -24,9 +25,6 @@
 
 # define FALSE 0
 # define TRUE 1
-
-# define ERROR 1
-# define NORMAL 0
 
 # define MILLI 1000
 # define DELTA 10
@@ -121,13 +119,11 @@ int		ft_strlen(char *str);
 ** =============================================================================
 */
 
-int		merror(void *ret);
-int		usage(void);
+void	error(char *str);
+void	merror(void *ret);
+void	input_error(void);
 
-t_node	*create_node(void);
-
-int		make_fork(t_info *inf);
-void	free_fork(t_info *inf);
+void	make_fork(t_info *inf);
 
 void	save_time(long long *time);
 

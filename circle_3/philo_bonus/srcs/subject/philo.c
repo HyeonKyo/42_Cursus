@@ -15,14 +15,13 @@ int	save_arg(int ac, char **av, t_info *inf)
 	return (TRUE);
 }
 
-int	philo_initialization(t_philo **philo, t_info *inf)
+void	philo_initialization(t_philo **philo, t_info *inf)
 {
 	int		i;
 	t_node	*cur;
 
 	*philo = (t_philo *)malloc(sizeof(t_philo) * inf->n_philo);
-	if (merror(*philo) == ERROR)
-		return (ERROR);
+	merror(*philo);
 	i = 0;
 	while (i < inf->n_philo)
 	{
@@ -39,27 +38,16 @@ int	philo_initialization(t_philo **philo, t_info *inf)
 		(*philo)[i].n_eat = 0;
 		(*philo)[i++].inf = inf;
 	}
-	return (NORMAL);
 }
 
-static int	setup_dinner(t_philo **philo, t_info *inf)
+void	setup_dinner(t_philo **philo, t_info *inf)
 {
 	pthread_mutex_init(&(inf->full_mtx), NULL);
 	pthread_mutex_init(&(inf->pt_mtx), NULL);
-	if (make_fork(inf) == ERROR)
-	{
-		free_fork(inf);
-		return (ERROR);
-	}
+	make_fork(inf);
 	inf->cond = LIFE;
 	inf->full_cnt = 0;
-	if (philo_initialization(philo, inf) == ERROR)
-	{
-		free_fork(inf);
-		free(*philo);
-		return (ERROR);
-	}
-	return (NORMAL);
+	philo_initialization(philo, inf);
 }
 
 void	dinning(t_philo *philo)
@@ -80,10 +68,26 @@ void	dinning(t_philo *philo)
 	while (++i < inf->n_philo)
 	{
 		pthread_join(philo[i].th, NULL);
-		// printf("%d th\n", i);
+		printf("%d th\n", i);
 		pthread_join(philo[i].ck, NULL);
-		// printf("%d ck\n", i);
+		printf("%d ck\n", i);
 	}
+}
+
+static void	free_fork(t_info *inf)
+{
+	int	i;
+	t_node **fork;
+
+	fork = inf->fork;
+	i = 0;
+	while (i < inf->n_philo)
+	{
+		pthread_mutex_destroy(&(fork[i]->fk_mtx));
+		free(fork[i++]);
+	}
+	free(fork);
+	inf->fork = NULL;
 }
 
 static void	finish_dinning(t_philo *philo, t_info *inf)
@@ -100,9 +104,8 @@ int	main(int ac, char **av)
 	t_info	inf;
 
 	if (!(ac == 5 || ac == 6) || !save_arg(ac, av, &inf))
-		return (usage());
-	if (setup_dinner(&philo, &inf) == ERROR)
-		return (ERROR);
+		input_error();
+	setup_dinner(&philo, &inf);
 	dinning(philo);
 	finish_dinning(philo, &inf);
 	// system("leaks philo");

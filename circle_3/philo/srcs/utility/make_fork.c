@@ -1,6 +1,6 @@
 #include "philo.h"
 
-void	make_fork(t_info *inf)
+int	make_fork(t_info *inf)
 {
 	int	i;
 	t_node	*head;
@@ -8,18 +8,20 @@ void	make_fork(t_info *inf)
 	t_node	*new;
 
 	inf->fork = (t_node **)malloc(sizeof(t_node *) * inf->n_philo);
-	merror(inf->fork);
-	head = (t_node *)malloc(sizeof(t_node));
-	merror(head);
-	head->n = AVAILABLE;
-	head->prev = NULL;
+	if (merror(inf->fork))
+		return (ERROR);
+	memset(inf->fork, 0, sizeof(t_node *) * inf->n_philo);
+	head = create_node();
+	if (merror(head))
+		return (ERROR);
 	inf->fork[0] = head;
 	cur = head;
 	i = 0;
 	while (++i < inf->n_philo)
 	{
-		new = (t_node *)malloc(sizeof(t_node));
-		merror(new);
+		new = create_node();
+		if (merror(new))
+			return (ERROR);
 		inf->fork[i] = new;
 		new->n = AVAILABLE;
 		new->next = NULL;
@@ -27,4 +29,21 @@ void	make_fork(t_info *inf)
 		new->prev = cur;
 		cur = cur->next;
 	}
+	return (NORMAL);
+}
+
+void	free_fork(t_info *inf)
+{
+	int	i;
+	t_node **fork;
+
+	fork = inf->fork;
+	i = 0;
+	while (fork[i] && i < inf->n_philo)
+	{
+		pthread_mutex_destroy(&(fork[i]->fk_mtx));
+		free(fork[i++]);
+	}
+	free(fork);
+	inf->fork = NULL;
 }
