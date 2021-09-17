@@ -1,101 +1,63 @@
-#include "philo.h"
+#include "philo_bonus.h"
 
-static int	pickup_fork(t_philo *philo, t_cond cond)
+static void	pickup_fork(t_philo *philo)
 {
-	int		i;
-	t_node	**fork;
-
-	fork = philo->inf->fork;
-	i = -1;
-	while (TRUE)
-	{
-		if (check_condition(philo->inf))
-			return (TRUE);
-		pthread_mutex_lock(&(fork[philo->i]->fk_mtx));
-		if (fork[philo->i]->n == AVAILABLE)
-		{
-			pthread_mutex_lock(&(fork[philo->left]->fk_mtx));
-			pthread_mutex_lock(&(fork[philo->right]->fk_mtx));
-			fork[philo->left]->n -= 1;
-			pthread_mutex_unlock(&(fork[philo->left]->fk_mtx));
-			fork[philo->right]->n -= 1;
-			pthread_mutex_unlock(&(fork[philo->right]->fk_mtx));
-			while (++i < AVAILABLE)
-			{
-				if (state_message(philo, cond))
-				{
-					pthread_mutex_unlock(&(fork[philo->i]->fk_mtx));
-					return (TRUE);
-				}
-			}
-			pthread_mutex_unlock(&(fork[philo->i]->fk_mtx));
-			return (FALSE);
-		}
-		pthread_mutex_unlock(&(fork[philo->i]->fk_mtx));
-		usleep(ITER);
-	}
+	sem_wait(philo->sem.fork);
+	state_message(philo, GRAB);
+	sem_wait(philo->sem.fork);
+	state_message(philo, GRAB);
 }
 
-static int	eating(t_philo *philo, t_cond cond)
+static void	eating(t_philo *philo)
 {
-	t_info		*inf;
 	long long	start_eat;
 	long long	cur;
 
-	inf = philo->inf;
 	save_time(&start_eat);
-	if (state_message(philo, cond))
-		return (TRUE);
-	if (inf->n_must > 0)
+	state_message(philo, EATING);
+	if (philo->n_must > 0)
 	{
-		pthread_mutex_lock(&inf->full_mtx);
-		philo->n_eat++;
-		pthread_mutex_unlock(&inf->full_mtx);
+		philo->cnt_eat++;
+		if (philo->cnt_eat == philo->n_must)
+			sem_post(philo->sem.full);
 	}
-	//usleep(inf->tm_eat * MILLI * 3 / 4);철학자가 죽을때 10ms안에 죽어야 하므로 이 부분은 빼야함.
+	usleep(philo->tm_eat * MILLI * 3 / 4);
 	while (TRUE)
 	{
-		if (check_condition(philo->inf))
-			return (TRUE);
 		save_time(&cur);
-		if (cur - start_eat >= inf->tm_eat)
+		if (cur - start_eat >= philo->tm_eat)
 		{
 			philo->tm_life = cur;
-			putdown_fork(philo);
-			return (FALSE);
+			sem_post(philo->sem.fork);
+			sem_post(philo->sem.fork);
+			return ;
 		}
 		usleep(ITER);
 	}
 }
 
-static int	sleeping(t_philo *philo, t_cond cond)
+static void	sleeping(t_philo *philo)
 {
-	t_info		*inf;
 	long long	start_sleep;
 	long long	cur;
 
-	inf = philo->inf;
-	if (state_message(philo, cond))
-		return (TRUE);
+	state_message(philo, SLEEPING);
 	save_time(&start_sleep);
-	//usleep(inf->tm_sleep * MILLI * 3 / 4);
+	usleep(philo->tm_sleep * MILLI * 3 / 4);
 	while (TRUE)
 	{
-		if (check_condition(philo->inf))
-			return (TRUE);
 		save_time(&cur);
-		if (cur - start_sleep >= inf->tm_sleep)
-			return (FALSE);
+		if (cur - start_sleep >= philo->tm_sleep)
+			return ;
 		usleep(ITER);
 	}
 }
 
-static int	thinking(t_philo *philo, t_cond cond)
+static void	thinking(t_philo *philo)
 {
-	if (state_message(philo, cond))
-		return (TRUE);
+	state_message(philo, THINKING);
 	usleep(DELTA);
-	return (FALSE);
+	return ;
 }
 
 void	*routine(void *data)
@@ -103,19 +65,13 @@ void	*routine(void *data)
 	t_philo	*philo;
 
 	philo = (t_philo *)data;
-	if (philo->inf->n_philo == 1)//철학자 1명일 때 예외처리
-		usleep(philo->inf->tm_die * MILLI);
 	if (philo->i & ISEVEN)
-		usleep((philo->inf->tm_eat * MILLI) - DELTA);//짝수 철학자는 홀수 철학자가 어느정도 먹었을 때 부터 실행
+		usleep((philo->tm_eat * MILLI) - DELTA);//짝수 철학자는 홀수 철학자가 어느정도 먹었을 때 부터 실행
 	while (TRUE)
 	{
-		if (pickup_fork(philo, GRAB))
-			return (NULL);
-		if (eating(philo, EATING))
-			return (NULL);
-		if (sleeping(philo, SLEEPING))
-			return (NULL);
-		if (thinking(philo, THINKING))
-			return (NULL);
+		pickup_fork(philo);
+		eating(philo);
+		sleeping(philo);
+		thinking(philo);
 	}
 }

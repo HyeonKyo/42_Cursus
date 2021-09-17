@@ -1,6 +1,6 @@
 #include "philo.h"
 
-static int	pickup_fork(t_philo *philo, t_cond cond)
+static int	pickup_fork(t_philo *philo)
 {
 	int		i;
 	t_node	**fork;
@@ -22,7 +22,7 @@ static int	pickup_fork(t_philo *philo, t_cond cond)
 			pthread_mutex_unlock(&(fork[philo->right]->fk_mtx));
 			while (++i < AVAILABLE)
 			{
-				if (state_message(philo, cond))
+				if (state_message(philo, GRAB))
 				{
 					pthread_mutex_unlock(&(fork[philo->i]->fk_mtx));
 					return (TRUE);
@@ -36,7 +36,7 @@ static int	pickup_fork(t_philo *philo, t_cond cond)
 	}
 }
 
-static int	eating(t_philo *philo, t_cond cond)
+static int	eating(t_philo *philo)
 {
 	t_info		*inf;
 	long long	start_eat;
@@ -44,7 +44,7 @@ static int	eating(t_philo *philo, t_cond cond)
 
 	inf = philo->inf;
 	save_time(&start_eat);
-	if (state_message(philo, cond))
+	if (state_message(philo, EATING))
 		return (TRUE);
 	if (inf->n_must > 0)
 	{
@@ -68,14 +68,14 @@ static int	eating(t_philo *philo, t_cond cond)
 	}
 }
 
-static int	sleeping(t_philo *philo, t_cond cond)
+static int	sleeping(t_philo *philo)
 {
 	t_info		*inf;
 	long long	start_sleep;
 	long long	cur;
 
 	inf = philo->inf;
-	if (state_message(philo, cond))
+	if (state_message(philo, SLEEPING))
 		return (TRUE);
 	save_time(&start_sleep);
 	//usleep(inf->tm_sleep * MILLI * 3 / 4);
@@ -90,9 +90,9 @@ static int	sleeping(t_philo *philo, t_cond cond)
 	}
 }
 
-static int	thinking(t_philo *philo, t_cond cond)
+static int	thinking(t_philo *philo)
 {
-	if (state_message(philo, cond))
+	if (state_message(philo, THINKING))
 		return (TRUE);
 	usleep(DELTA);
 	return (FALSE);
@@ -109,13 +109,13 @@ void	*routine(void *data)
 		usleep((philo->inf->tm_eat * MILLI) - DELTA);//짝수 철학자는 홀수 철학자가 어느정도 먹었을 때 부터 실행
 	while (TRUE)
 	{
-		if (pickup_fork(philo, GRAB))
+		if (pickup_fork(philo))
 			return (NULL);
-		if (eating(philo, EATING))
+		if (eating(philo))
 			return (NULL);
-		if (sleeping(philo, SLEEPING))
+		if (sleeping(philo))
 			return (NULL);
-		if (thinking(philo, THINKING))
+		if (thinking(philo))
 			return (NULL);
 	}
 }

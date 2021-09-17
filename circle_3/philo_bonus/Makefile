@@ -27,7 +27,7 @@ RM			=	rm -rf
 # File Variables
 # =============================================================================
 
-NAME		=	philo
+NAME		=	philo_bonus
 
 INC			=	./include
 DIR_HFT		=	hk_function/
@@ -37,7 +37,6 @@ DIR_SBJ		=	subject/
 SRC_DIR		=	./srcs/
 SRC_LIST	=	$(DIR_SBJ)philo.c		\
 				$(DIR_SBJ)routine.c		\
-				$(DIR_SBJ)routine2.c	\
 				$(DIR_SBJ)lifetime.c	\
 				$(DIR_UTL)error.c		\
 				$(DIR_UTL)message.c		\
@@ -53,10 +52,8 @@ SRCS		=	$(addprefix $(SRC_DIR), $(SRC_LIST))
 OBJ_DIR		=	./objs/
 OBJ_LIST	=	philo.o			\
 				routine.o		\
-				routine2.o		\
 				lifetime.o		\
 				error.o			\
-				make_fork.o		\
 				message.o		\
 				print_state.o	\
 				time.o			\

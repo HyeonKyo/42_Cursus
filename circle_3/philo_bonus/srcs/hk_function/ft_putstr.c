@@ -6,11 +6,11 @@
 /*   By: hyeonkyokim <hyeonkyokim@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 16:31:39 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/08/18 17:40:17 by hyeonkyokim      ###   ########.fr       */
+/*   Updated: 2021/09/18 01:28:31 by hyeonkyokim      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 void	ft_putstr(char *s, int fd)
 {

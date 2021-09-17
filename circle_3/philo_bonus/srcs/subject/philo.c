@@ -1,113 +1,109 @@
-#include "philo.h"
+#include "philo_bonus.h"
 
-int	save_arg(int ac, char **av, t_info *inf)
+int	save_arg(int ac, char **av, t_philo *philo)
 {
-	if (!(ft_atoi(av[1], &inf->n_philo) && ft_atoi(av[2], &inf->tm_die)
-		&& ft_atoi(av[3], &inf->tm_eat) && ft_atoi(av[4], &inf->tm_sleep)))
-		return (FALSE);
+	if (!(ft_atoi(av[1], &(philo->n_philo)) && ft_atoi(av[2], &(philo->tm_die))
+		&& ft_atoi(av[3], &(philo->tm_eat)) && ft_atoi(av[4], &(philo->tm_sleep))))
+		return (ERROR);
 	if (ac == 6)
 	{
-		if (!ft_atoi(av[5], &inf->n_must))
-			return (FALSE);
+		if (!ft_atoi(av[5], &(philo->n_must)))
+			return (ERROR);
 	}
 	else
-		inf->n_must = -1;
-	return (TRUE);
+		philo->n_must = -1;
+	return (NORMAL);
 }
 
-void	philo_initialization(t_philo **philo, t_info *inf)
+void	setup_dinner(t_philo *philo, pid_t **pid_array)
 {
-	int		i;
-	t_node	*cur;
-
-	*philo = (t_philo *)malloc(sizeof(t_philo) * inf->n_philo);
-	merror(*philo);
-	i = 0;
-	while (i < inf->n_philo)
-	{
-		cur = inf->fork[i];
-		pthread_mutex_init(&(cur->fk_mtx), NULL);
-		(*philo)[i].i = i;
-		(*philo)[i].left = i - 1;
-		if ((*philo)[i].left < 0)
-			(*philo)[i].left = inf->n_philo - 1;
-		(*philo)[i].right = i + 1;
-		if ((*philo)[i].right == inf->n_philo)
-			(*philo)[i].right = 0;
-		(*philo)[i].num = i + 1;
-		(*philo)[i].n_eat = 0;
-		(*philo)[i++].inf = inf;
-	}
-}
-
-void	setup_dinner(t_philo **philo, t_info *inf)
-{
-	pthread_mutex_init(&(inf->full_mtx), NULL);
-	pthread_mutex_init(&(inf->pt_mtx), NULL);
-	make_fork(inf);
-	inf->cond = LIFE;
-	inf->full_cnt = 0;
-	philo_initialization(philo, inf);
+	philo->cnt_eat = 0;
+	/*
+	세마포어 open
+	*/
+	philo->sem.die = sem_open("die", O_CREAT | O_EXCL, 744, 0);
+	philo->sem.die = sem_open("full", O_CREAT | O_EXCL, 744, 0);//추후 수정
+	philo->sem.die = sem_open("fork", O_CREAT | O_EXCL, 744, philo->n_philo);
+	philo->sem.die = sem_open("print", O_CREAT | O_EXCL, 744, 1);
+	*pid_array = (pid_t *)malloc(sizeof(pid_t) * philo->n_philo);
+	merror(*pid_array);
+	save_time(&(philo->begin));
+	philo->tm_life = philo->begin;
 }
 
 void	dinning(t_philo *philo)
 {
-	int		i;
-	t_info	*inf;
-
-	inf = philo->inf;
-	save_time(&inf->begin);
-	i = -1;
-	while (++i < inf->n_philo)
-	{
-		philo[i].tm_life = inf->begin;
-		pthread_create(&(philo[i].th), NULL, routine, &(philo[i]));
-		pthread_create(&(philo[i].ck), NULL, lifetime, &(philo[i]));
-	}
-	i = -1;
-	while (++i < inf->n_philo)
-	{
-		pthread_join(philo[i].th, NULL);
-		printf("%d th\n", i);
-		pthread_join(philo[i].ck, NULL);
-		printf("%d ck\n", i);
-	}
+	if (pthread_create(&(philo->th_rout), NULL, routine, &philo)
+		|| pthread_detach(philo->th_rout))
+		{
+			sem_post(philo->sem.die);
+			error("thread error!");
+		}
+	if (pthread_create(&(philo->th_die), NULL, die_check, &philo)
+		|| pthread_detach(philo->th_die))
+		{
+			sem_post(philo->sem.die);
+			error("thread error!");
+		}
+	if (philo->n_must > 0)
+		if (pthread_create(&(philo->th_full), NULL, full_check, &philo)
+			|| pthread_detach(philo->th_full))
+			{
+				sem_post(philo->sem.die);
+				error("thread error!");
+			}
+	//error만 실행하면 이 철학자만 죽고 나머지 철학자들은 계속 동작하므로
+	//pthread_error함수를 만들어서 error + die세마포어도 켜주는 식으로
+	//만들어서 모든 프로세스를 종료시켜줌.
 }
 
-static void	free_fork(t_info *inf)
+void	check_main(t_philo *philo, pid_t *pid_array)
 {
 	int	i;
-	t_node **fork;
 
-	fork = inf->fork;
-	i = 0;
-	while (i < inf->n_philo)
-	{
-		pthread_mutex_destroy(&(fork[i]->fk_mtx));
-		free(fork[i++]);
-	}
-	free(fork);
-	inf->fork = NULL;
+	i = -1;
+	sem_wait(philo->sem.die);
+	while (++i < philo->n_philo)
+		kill(pid_array[i], SIGTERM);
+	i = -1;
+	while (++i < philo->n_philo)
+		waitpid(0, NULL, 0);
 }
 
-static void	finish_dinning(t_philo *philo, t_info *inf)
-{
-	pthread_mutex_destroy(&(inf->full_mtx));
-	pthread_mutex_destroy(&(inf->pt_mtx));
-	free_fork(inf);
-	free(philo);
-}
+// static void	finish_dinning(t_philo *philo)
+// {
+// 	pthread_mutex_destroy(&(inf->full_mtx));
+// 	pthread_mutex_destroy(&(inf->pt_mtx));
+// }
 
 int	main(int ac, char **av)
 {
-	t_philo	*philo;
-	t_info	inf;
+	t_philo	philo;
+	pid_t	*pid_array;
+	pid_t	ret;
+	int		i;
 
-	if (!(ac == 5 || ac == 6) || !save_arg(ac, av, &inf))
+	if (!(ac == 5 || ac == 6) || save_arg(ac, av, &philo))
 		input_error();
-	setup_dinner(&philo, &inf);
-	dinning(philo);
-	finish_dinning(philo, &inf);
+	setup_dinner(&philo, &pid_array);
+	i = -1;
+	while (++i < philo.n_philo)
+	{
+		ret = fork();
+		if (ret == 0)
+		{
+			philo.i = i;
+			philo.num = i + 1;
+			break ;
+		}
+		pid_array[i] = ret;
+	}
+	if (ret == 0)
+		dinning(&philo);//자식들의 동작
+	else
+		check_main(&philo, pid_array);//부모 프로세스의 동작
+	exit(0);
+	//finish_dinning(&philo);//waitpid로 자식 종료를 기다린 후 free
 	// system("leaks philo");
 	return (0);
 }

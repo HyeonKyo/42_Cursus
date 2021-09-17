@@ -6,11 +6,11 @@
 /*   By: hyeonkyokim <hyeonkyokim@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 16:29:36 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/08/19 15:47:00 by hyeonkyokim      ###   ########.fr       */
+/*   Updated: 2021/09/18 01:28:26 by hyeonkyokim      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 static void	print_num(int n, int fd, int *flag)
 {

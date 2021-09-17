@@ -6,11 +6,11 @@
 /*   By: hyeonkyokim <hyeonkyokim@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 21:30:21 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/08/19 22:06:34 by hyeonkyokim      ###   ########.fr       */
+/*   Updated: 2021/09/18 01:28:07 by hyeonkyokim      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 int	ft_atoi(const char *str, int *val)
 {

@@ -1,11 +1,11 @@
-#include "philo.h"
+#include "philo_bonus.h"
 
 void	print_ms_time(t_philo *philo)
 {
 	long long	cur;
 
 	save_time(&cur);
-	ft_putnbr(cur - philo->inf->begin, STDOUT_FILENO);
+	ft_putnbr(cur - philo->begin, STDOUT_FILENO);
 	ft_putstr("ms\t", STDOUT_FILENO);
 }
 
@@ -21,28 +21,18 @@ static void	all_is_full(void)
 	ft_putendl("\nEvery is finishing dinner!!\n\033[0;0m", STDOUT_FILENO);
 }
 
-int	state_message(t_philo *philo, t_cond cond)
+void	state_message(t_philo *philo, t_cond cond)
 {
-	pthread_mutex_lock(&(philo->inf->pt_mtx));
+	sem_wait(philo->sem.print);
 	if (cond == FULL)
 	{
 		all_is_full();
-		pthread_mutex_unlock(&(philo->inf->pt_mtx));
-		return (TRUE);
-	}
-	if (check_condition(philo->inf))
-	{
-		pthread_mutex_unlock(&(philo->inf->pt_mtx));
-		return (TRUE);
+		return ;
 	}
 	print_ms_time(philo);
 	print_philo_nbr(philo);
 	if (print_state(cond))
-	{
-		philo->inf->cond = DEAD;
-		pthread_mutex_unlock(&(philo->inf->pt_mtx));
-		return (TRUE);
-	}
-	pthread_mutex_unlock(&(philo->inf->pt_mtx));
-	return (FALSE);
+		return ;
+	else
+		sem_post(philo->sem.print);
 }
