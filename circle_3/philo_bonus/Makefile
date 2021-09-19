@@ -35,20 +35,6 @@ DIR_UTL		=	utility/
 DIR_SBJ		=	subject/
 
 SRC_DIR		=	./srcs/
-SRC_LIST	=	$(DIR_SBJ)philo.c		\
-				$(DIR_SBJ)routine.c		\
-				$(DIR_SBJ)lifetime.c	\
-				$(DIR_UTL)error.c		\
-				$(DIR_UTL)message.c		\
-				$(DIR_UTL)print_state.c	\
-				$(DIR_UTL)time.c		\
-				$(DIR_HFT)ft_atoi.c		\
-				$(DIR_HFT)ft_strlen.c	\
-				$(DIR_HFT)ft_putnbr.c	\
-				$(DIR_HFT)ft_putstr.c	\
-				$(DIR_HFT)ft_putendl.c
-SRCS		=	$(addprefix $(SRC_DIR), $(SRC_LIST))
-
 OBJ_DIR		=	./objs/
 OBJ_LIST	=	philo.o			\
 				routine.o		\

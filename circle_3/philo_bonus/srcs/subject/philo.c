@@ -22,9 +22,9 @@ void	setup_dinner(t_philo *philo, pid_t **pid_array)
 	세마포어 open
 	*/
 	philo->sem.die = sem_open("die", O_CREAT | O_EXCL, 744, 0);
-	philo->sem.die = sem_open("full", O_CREAT | O_EXCL, 744, 0);//추후 수정
-	philo->sem.die = sem_open("fork", O_CREAT | O_EXCL, 744, philo->n_philo);
-	philo->sem.die = sem_open("print", O_CREAT | O_EXCL, 744, 1);
+	philo->sem.full = sem_open("full", O_CREAT | O_EXCL, 744, 0);//추후 수정
+	philo->sem.fork = sem_open("fork", O_CREAT | O_EXCL, 744, philo->n_philo);
+	philo->sem.print = sem_open("print", O_CREAT | O_EXCL, 744, 1);
 	*pid_array = (pid_t *)malloc(sizeof(pid_t) * philo->n_philo);
 	merror(*pid_array);
 	save_time(&(philo->begin));
@@ -33,25 +33,17 @@ void	setup_dinner(t_philo *philo, pid_t **pid_array)
 
 void	dinning(t_philo *philo)
 {
-	if (pthread_create(&(philo->th_rout), NULL, routine, &philo)
-		|| pthread_detach(philo->th_rout))
-		{
-			sem_post(philo->sem.die);
-			error("thread error!");
-		}
-	if (pthread_create(&(philo->th_die), NULL, die_check, &philo)
-		|| pthread_detach(philo->th_die))
-		{
-			sem_post(philo->sem.die);
-			error("thread error!");
-		}
-	if (philo->n_must > 0)
-		if (pthread_create(&(philo->th_full), NULL, full_check, &philo)
-			|| pthread_detach(philo->th_full))
-			{
-				sem_post(philo->sem.die);
-				error("thread error!");
-			}
+	if (pthread_create(&(philo->th_rout), NULL, routine, philo)
+		|| pthread_create(&(philo->th_die), NULL, die_check, philo))
+	{
+		sem_post(philo->sem.die);
+		error("thread error!");
+	}
+	if (pthread_join(philo->th_rout, NULL) || pthread_join(philo->th_die, NULL))
+	{
+		sem_post(philo->sem.die);
+		error("thread error!");
+	}
 	//error만 실행하면 이 철학자만 죽고 나머지 철학자들은 계속 동작하므로
 	//pthread_error함수를 만들어서 error + die세마포어도 켜주는 식으로
 	//만들어서 모든 프로세스를 종료시켜줌.
@@ -68,13 +60,17 @@ void	check_main(t_philo *philo, pid_t *pid_array)
 	i = -1;
 	while (++i < philo->n_philo)
 		waitpid(0, NULL, 0);
+	sem_close(philo->sem.die);
+	sem_close(philo->sem.full);
+	sem_close(philo->sem.fork);
+	sem_close(philo->sem.print);
+	sem_unlink("die");
+	sem_unlink("full");
+	sem_unlink("fork");
+	sem_unlink("print");
+	// system("leaks philo_bonus");
+	exit(0);
 }
-
-// static void	finish_dinning(t_philo *philo)
-// {
-// 	pthread_mutex_destroy(&(inf->full_mtx));
-// 	pthread_mutex_destroy(&(inf->pt_mtx));
-// }
 
 int	main(int ac, char **av)
 {
@@ -90,7 +86,7 @@ int	main(int ac, char **av)
 	while (++i < philo.n_philo)
 	{
 		ret = fork();
-		if (ret == 0)
+		if (ret == 0)//자식
 		{
 			philo.i = i;
 			philo.num = i + 1;
@@ -101,9 +97,19 @@ int	main(int ac, char **av)
 	if (ret == 0)
 		dinning(&philo);//자식들의 동작
 	else
+	{
+		usleep(1000);
+		if (philo.n_must > 0)
+		{
+			if (pthread_create(&philo.th_full, NULL, full_check, &philo)
+				|| pthread_detach(philo.th_full))
+				{
+					sem_wait(philo.sem.print);
+					ft_putendl("Thread error!", STDERR_FILENO);
+					sem_post(philo.sem.die);
+				}
+		}
 		check_main(&philo, pid_array);//부모 프로세스의 동작
-	exit(0);
-	//finish_dinning(&philo);//waitpid로 자식 종료를 기다린 후 free
-	// system("leaks philo");
+	}
 	return (0);
 }

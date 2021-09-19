@@ -1,5 +1,18 @@
 #include "philo.h"
 
+static void	get_fork(t_philo *philo)
+{
+	t_node	**fork;
+
+	fork = philo->inf->fork;
+	pthread_mutex_lock(&(fork[philo->left]->fk_mtx));
+	pthread_mutex_lock(&(fork[philo->right]->fk_mtx));
+	fork[philo->left]->n -= 1;
+	pthread_mutex_unlock(&(fork[philo->left]->fk_mtx));
+	fork[philo->right]->n -= 1;
+	pthread_mutex_unlock(&(fork[philo->right]->fk_mtx));
+}
+
 static int	pickup_fork(t_philo *philo)
 {
 	int		i;
@@ -14,12 +27,7 @@ static int	pickup_fork(t_philo *philo)
 		pthread_mutex_lock(&(fork[philo->i]->fk_mtx));
 		if (fork[philo->i]->n == AVAILABLE)
 		{
-			pthread_mutex_lock(&(fork[philo->left]->fk_mtx));
-			pthread_mutex_lock(&(fork[philo->right]->fk_mtx));
-			fork[philo->left]->n -= 1;
-			pthread_mutex_unlock(&(fork[philo->left]->fk_mtx));
-			fork[philo->right]->n -= 1;
-			pthread_mutex_unlock(&(fork[philo->right]->fk_mtx));
+			get_fork(philo);
 			while (++i < AVAILABLE)
 			{
 				if (state_message(philo, GRAB))

@@ -39,7 +39,7 @@ static int	die_check(t_philo *philo)
 	save_time(&cur);
 	if (cur - philo->tm_life >= inf->tm_die)
 	{
-		state_message(philo, DEAD);	
+		state_message(philo, DEAD);
 		return (TRUE);
 	}
 	return (FALSE);
@@ -47,8 +47,8 @@ static int	die_check(t_philo *philo)
 
 void	*lifetime(void *data)
 {
-	t_philo		*philo;
-	t_info		*inf;
+	t_philo	*philo;
+	t_info	*inf;
 
 	philo = (t_philo *)data;
 	inf = philo->inf;
@@ -57,6 +57,6 @@ void	*lifetime(void *data)
 	{
 		if (check_condition(inf) || die_check(philo) || full_check(philo))
 			return (NULL);
-		usleep(DELTA);
+		usleep(ITER);
 	}
 }
