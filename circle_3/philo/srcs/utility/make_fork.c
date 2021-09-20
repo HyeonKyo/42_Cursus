@@ -23,8 +23,6 @@ int	make_fork(t_info *inf)
 		if (merror(new))
 			return (ERROR);
 		inf->fork[i] = new;
-		new->n = AVAILABLE;
-		new->next = NULL;
 		cur->next = new;
 		new->prev = cur;
 		cur = cur->next;

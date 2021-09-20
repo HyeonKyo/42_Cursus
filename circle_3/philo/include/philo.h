@@ -141,6 +141,7 @@ int		state_message(t_philo *philo, t_cond cond);
 */
 
 void	putdown_fork(t_philo *philo);
+void	plus_eat_count(t_philo *philo);
 void	*routine(void *data);
 void	*lifetime(void *data);
 int		check_condition(t_info *inf);

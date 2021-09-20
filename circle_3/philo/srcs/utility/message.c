@@ -40,6 +40,7 @@ int	state_message(t_philo *philo, t_cond cond)
 	if (print_state(cond))
 	{
 		philo->inf->cond = DEAD;
+		usleep(DELTA);
 		pthread_mutex_unlock(&(philo->inf->pt_mtx));
 		return (TRUE);
 	}

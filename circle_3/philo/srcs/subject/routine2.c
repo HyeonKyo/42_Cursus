@@ -12,3 +12,13 @@ void	putdown_fork(t_philo *philo)
 	fork[philo->right]->n += 1;
 	pthread_mutex_unlock(&(fork[philo->right]->fk_mtx));
 }
+
+void	plus_eat_count(t_philo *philo)
+{
+	if (philo->inf->n_must > 0)
+	{
+		pthread_mutex_lock(&philo->inf->full_mtx);
+		philo->n_eat++;
+		pthread_mutex_unlock(&philo->inf->full_mtx);
+	}
+}

@@ -54,13 +54,7 @@ static int	eating(t_philo *philo)
 	save_time(&start_eat);
 	if (state_message(philo, EATING))
 		return (TRUE);
-	if (inf->n_must > 0)
-	{
-		pthread_mutex_lock(&inf->full_mtx);
-		philo->n_eat++;
-		pthread_mutex_unlock(&inf->full_mtx);
-	}
-	//usleep(inf->tm_eat * MILLI * 3 / 4);철학자가 죽을때 10ms안에 죽어야 하므로 이 부분은 빼야함.
+	plus_eat_count(philo);
 	while (TRUE)
 	{
 		if (check_condition(philo->inf))
@@ -86,10 +80,9 @@ static int	sleeping(t_philo *philo)
 	if (state_message(philo, SLEEPING))
 		return (TRUE);
 	save_time(&start_sleep);
-	//usleep(inf->tm_sleep * MILLI * 3 / 4);
 	while (TRUE)
 	{
-		if (check_condition(philo->inf))
+		if (check_condition(inf))
 			return (TRUE);
 		save_time(&cur);
 		if (cur - start_sleep >= inf->tm_sleep)
@@ -114,7 +107,7 @@ void	*routine(void *data)
 	if (philo->inf->n_philo == 1)//철학자 1명일 때 예외처리
 		usleep(philo->inf->tm_die * MILLI);
 	if (philo->i & ISEVEN)
-		usleep((philo->inf->tm_eat * MILLI) - DELTA);//짝수 철학자는 홀수 철학자가 어느정도 먹었을 때 부터 실행
+		usleep((philo->inf->tm_eat * MILLI) / 2);//짝수 철학자는 홀수 철학자가 어느정도 먹었을 때 부터 실행
 	while (TRUE)
 	{
 		if (pickup_fork(philo))

@@ -17,8 +17,7 @@ int	save_arg(int ac, char **av, t_info *inf)
 
 int	philo_initialization(t_philo **philo, t_info *inf)
 {
-	int		i;
-	t_node	*cur;
+	int	i;
 
 	*philo = (t_philo *)malloc(sizeof(t_philo) * inf->n_philo);
 	if (merror(*philo) == ERROR)
@@ -26,8 +25,6 @@ int	philo_initialization(t_philo **philo, t_info *inf)
 	i = 0;
 	while (i < inf->n_philo)
 	{
-		cur = inf->fork[i];
-		pthread_mutex_init(&(cur->fk_mtx), NULL);
 		(*philo)[i].i = i;
 		(*philo)[i].left = i - 1;
 		if ((*philo)[i].left < 0)
@@ -44,19 +41,17 @@ int	philo_initialization(t_philo **philo, t_info *inf)
 
 static int	setup_dinner(t_philo **philo, t_info *inf)
 {
-	pthread_mutex_init(&(inf->full_mtx), NULL);
-	pthread_mutex_init(&(inf->pt_mtx), NULL);
-	if (make_fork(inf) == ERROR)
-	{
-		free_fork(inf);
-		return (ERROR);
-	}
 	inf->cond = LIFE;
 	inf->full_cnt = 0;
-	if (philo_initialization(philo, inf) == ERROR)
+	if (pthread_mutex_init(&(inf->full_mtx), NULL)
+		|| pthread_mutex_init(&(inf->pt_mtx), NULL))
+		{
+			ft_putendl("Mutex error", STDERR_FILENO);
+			return (ERROR);
+		}
+	if (make_fork(inf) == ERROR || philo_initialization(philo, inf) == ERROR)
 	{
 		free_fork(inf);
-		free(*philo);
 		return (ERROR);
 	}
 	return (NORMAL);
@@ -80,16 +75,15 @@ void	dinning(t_philo *philo)
 	while (++i < inf->n_philo)
 	{
 		pthread_join(philo[i].th, NULL);
-		// printf("%d th\n", i);
 		pthread_join(philo[i].ck, NULL);
-		// printf("%d ck\n", i);
 	}
 }
 
 static void	finish_dinning(t_philo *philo, t_info *inf)
 {
-	pthread_mutex_destroy(&(inf->full_mtx));
-	pthread_mutex_destroy(&(inf->pt_mtx));
+	if (pthread_mutex_destroy(&(inf->full_mtx))
+		|| pthread_mutex_destroy(&(inf->pt_mtx)))
+			ft_putendl("Mutex error", STDERR_FILENO);
 	free_fork(inf);
 	free(philo);
 }
@@ -105,6 +99,5 @@ int	main(int ac, char **av)
 		return (ERROR);
 	dinning(philo);
 	finish_dinning(philo, &inf);
-	// system("leaks philo");
 	return (0);
 }
