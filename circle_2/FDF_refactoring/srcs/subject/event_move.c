@@ -17,7 +17,6 @@ void	right(t_map *data)
 	i = -1;
 	while (++i < data->size)
 		data->crd_2d[i].x -= move_len;
-	//단순히 1씩 이동하면 맵이 커질 때 속도가 너무 느림.
 }
 
 void	left(t_map *data)

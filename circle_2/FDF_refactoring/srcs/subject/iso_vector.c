@@ -194,12 +194,6 @@ static void	put_in_color(t_map *data)
 			continue ;
 		crd[i].color.n = return_color(crd[i].z, max_z);
 	}
-	/*
-	1. max값을 4등분 함
-	2. 0~1/4, 1/4 ~ 2/4, 2/4 ~ 3/4, 3/4 ~ 4/4의 범위마다 색깔을 지정
-	3. 범위 확인 후 맞는 색깔 리턴 함수 생성
-	4. 그 함수로 각 노드마다 색깔 값을 넣어줌.
-	*/
 }
 
 void	isometric_view(t_map *data)

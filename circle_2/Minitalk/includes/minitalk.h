@@ -7,10 +7,9 @@
 ** =============================================================================
 */
 
-#include <signal.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
+# include <signal.h>
+# include <unistd.h>
+# include <stdlib.h>
 
 /*
 ** =============================================================================
@@ -48,7 +47,7 @@ typedef union u_info
 ** =============================================================================
 */
 
-typedef struct sigaction t_act;
+typedef struct sigaction	t_act;
 
 /*
 ** =============================================================================
@@ -88,7 +87,6 @@ void	send_string(char *str, int len, t_act *act);
 ** =============================================================================
 */
 
-int	return_mask_number(int mask_num);
-
+int		return_mask_number(int mask_num);
 
 #endif

@@ -4,6 +4,7 @@ CFLAGS		=	-Wall -Wextra -Werror -g
 MLX_FLAGS	=	-framework OpenGL -framework AppKit
 
 INC_DIR 	=	./include
+MLX_DIR		=	./mlx/
 DIR_SBJ		=	subject/
 DIR_HKF		=	hk_function/
 DIR_UTL		=	utility/
@@ -66,24 +67,28 @@ RM = rm -rf
 all		:	$(NAME)
 
 $(OBJS_DIR)%.o	:	$(SRCS_DIR)$(DIR_SBJ)%.c
-					mkdir -p $(OBJS_DIR)
+					@mkdir -p $(OBJS_DIR)
 					$(CC) $(CFLAGS) -I$(INC_DIR) -c $< -o $@
 
 $(OBJS_DIR)%.o	:	$(SRCS_DIR)$(DIR_UTL)%.c
-					mkdir -p $(OBJS_DIR)
+					@mkdir -p $(OBJS_DIR)
 					$(CC) $(CFLAGS) -I$(INC_DIR) -c $< -o $@
 
 $(OBJS_DIR)%.o	:	$(SRCS_DIR)$(DIR_HKF)%.c
-					mkdir -p $(OBJS_DIR)
+					@mkdir -p $(OBJS_DIR)
 					$(CC) $(CFLAGS) -I$(INC_DIR) -c $< -o $@
 
 $(NAME)	:	$(OBJS)
+			@$(MAKE) -C $(MLX_DIR)
+			@cp $(MLX_DIR)$(LIBS) ./
 			$(CC) -I$(INC_DIR) -o $@ $(MLX_FLAGS) $^ $(LIBS)
 
 clean	:
 			$(RM) $(OBJS_DIR)
 
 fclean	:	clean
+			$(MAKE) -C $(MLX_DIR) clean
+			$(RM) $(LIBS)
 			$(RM) $(NAME)
 
 re		:	fclean all

@@ -22,26 +22,35 @@ void	based_x(t_2d_crd start, t_2d_crd end, t_icrd diff, t_img *img)
 	bresenham_init(start, end, &crd, &inc);
 	f = (2 * diff.y) - diff.x;//p의 초기값
 	cnt = 0;
-	if (start.x <= end.x)
-		while (crd.x <= end.x)
-		{
-			get_color(start, end, &crd, TRUE);
-			print_pixel(crd, img);
-			if (get_crd_x(&crd, inc, diff, &f))
-				anti_aliasing_x(crd, inc, &cnt, img);
-			else
-				cnt++;
-		}
-	else
-		while (crd.x >= end.x)
-		{
-			get_color(start, end, &crd, TRUE);
-			print_pixel(crd, img);
-			if (get_crd_x(&crd, inc, diff, &f))
-				anti_aliasing_x(crd, inc, &cnt, img);
-			else
-				cnt++;
-		}
+	while ((start.x <= end.x) ^ (crd.x > end.x))
+	{
+		get_color(start, end, &crd, TRUE);
+		print_pixel(crd, img);
+		if (get_crd_x(&crd, inc, diff, &f))
+			anti_aliasing_x(crd, inc, &cnt, img);
+		else
+			cnt++;
+	}
+	// if (start.x <= end.x)
+	// 	while (crd.x <= end.x)
+	// 	{
+	// 		get_color(start, end, &crd, TRUE);
+	// 		print_pixel(crd, img);
+	// 		if (get_crd_x(&crd, inc, diff, &f))
+	// 			anti_aliasing_x(crd, inc, &cnt, img);
+	// 		else
+	// 			cnt++;
+	// 	}
+	// else
+	// 	while (crd.x >= end.x)
+	// 	{
+	// 		get_color(start, end, &crd, TRUE);
+	// 		print_pixel(crd, img);
+	// 		if (get_crd_x(&crd, inc, diff, &f))
+	// 			anti_aliasing_x(crd, inc, &cnt, img);
+	// 		else
+	// 			cnt++;
+	// 	}
 }
 
 void	based_y(t_2d_crd start, t_2d_crd end, t_icrd diff, t_img *img)
@@ -54,24 +63,13 @@ void	based_y(t_2d_crd start, t_2d_crd end, t_icrd diff, t_img *img)
 	bresenham_init(start, end, &crd, &inc);
 	f = (2 * diff.x) - diff.y;//p의 초기값
 	cnt = 0;
-	if (start.y <= end.y)
-		while (crd.y <= end.y)
-		{
-			get_color(start, end, &crd, FALSE);
-			print_pixel(crd, img);
-			if (get_crd_y(&crd, inc, diff, &f))
-				anti_aliasing_y(crd, inc, &cnt, img);
-			else
-				cnt++;
-		}
-	else
-		while (crd.y >= end.y)
-		{
-			get_color(start, end, &crd, FALSE);
-			print_pixel(crd, img);
-			if (get_crd_y(&crd, inc, diff, &f))
-				anti_aliasing_y(crd, inc, &cnt, img);
-			else
-				cnt++;
-		}
+	while ((start.y <= end.y) ^ (crd.y > end.y))
+	{
+		get_color(start, end, &crd, FALSE);
+		print_pixel(crd, img);
+		if (get_crd_y(&crd, inc, diff, &f))
+			anti_aliasing_y(crd, inc, &cnt, img);
+		else
+			cnt++;
+	}
 }

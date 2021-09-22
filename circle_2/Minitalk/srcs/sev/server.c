@@ -69,9 +69,6 @@ void	len_handler(int sig, siginfo_t *info, void *context)
 
 int	main(void)
 {
-	//pid_t는 언사인드 인트 32비트
-	//클라이언트에서 처음 4바이트를 클라이언트 pid값을 보내면
-	//서버에서는 최초 클라이언트의 pid값을 알 수 있다.
 	pid_t	pid;
 	t_act	act;
 

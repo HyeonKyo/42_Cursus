@@ -19,10 +19,11 @@ void	setup_dinner(t_philo *philo, pid_t **pid_array)
 {
 	philo->cnt_eat = 0;
 	/*
-	세마포어 open
+	세마포어 open / 권한 어떻게?
+	함수 리턴 값 체크 추가하기
 	*/
 	philo->sem.die = sem_open("die", O_CREAT | O_EXCL, 744, 0);
-	philo->sem.full = sem_open("full", O_CREAT | O_EXCL, 744, 0);//추후 수정
+	philo->sem.full = sem_open("full", O_CREAT | O_EXCL, 744, 0);
 	philo->sem.fork = sem_open("fork", O_CREAT | O_EXCL, 744, philo->n_philo);
 	philo->sem.print = sem_open("print", O_CREAT | O_EXCL, 744, 1);
 	*pid_array = (pid_t *)malloc(sizeof(pid_t) * philo->n_philo);
@@ -53,13 +54,29 @@ void	check_main(t_philo *philo, pid_t *pid_array)
 {
 	int	i;
 
+	usleep(100);
 	i = -1;
+	if (philo->n_must > 0)
+	{
+		if (pthread_create(&philo->th_full, NULL, full_check, philo)
+			|| pthread_detach(philo->th_full))
+			{
+				sem_wait(philo->sem.print);
+				ft_putendl("Thread error!", STDERR_FILENO);
+				sem_post(philo->sem.die);
+			}
+	}
 	sem_wait(philo->sem.die);
 	while (++i < philo->n_philo)
 		kill(pid_array[i], SIGTERM);
 	i = -1;
 	while (++i < philo->n_philo)
 		waitpid(0, NULL, 0);
+}
+
+void	finish_dinning(t_philo *philo, pid_t *pid_array)
+{
+	free(pid_array);
 	sem_close(philo->sem.die);
 	sem_close(philo->sem.full);
 	sem_close(philo->sem.fork);
@@ -68,8 +85,27 @@ void	check_main(t_philo *philo, pid_t *pid_array)
 	sem_unlink("full");
 	sem_unlink("fork");
 	sem_unlink("print");
-	// system("leaks philo_bonus");
 	exit(0);
+}
+
+int	make_philo(t_philo *philo, pid_t *pid_array)
+{
+	pid_t	ret;
+	int		i;
+
+	i = -1;
+	while (++i < philo->n_philo)
+	{
+		ret = fork();
+		if (ret == 0)//자식
+		{
+			philo->i = i;
+			philo->num = i + 1;
+			break ;
+		}
+		pid_array[i] = ret;
+	}
+	return (ret);
 }
 
 int	main(int ac, char **av)
@@ -77,39 +113,17 @@ int	main(int ac, char **av)
 	t_philo	philo;
 	pid_t	*pid_array;
 	pid_t	ret;
-	int		i;
 
 	if (!(ac == 5 || ac == 6) || save_arg(ac, av, &philo))
 		input_error();
 	setup_dinner(&philo, &pid_array);
-	i = -1;
-	while (++i < philo.n_philo)
-	{
-		ret = fork();
-		if (ret == 0)//자식
-		{
-			philo.i = i;
-			philo.num = i + 1;
-			break ;
-		}
-		pid_array[i] = ret;
-	}
+	ret = make_philo(&philo, pid_array);
 	if (ret == 0)
 		dinning(&philo);//자식들의 동작
 	else
 	{
-		usleep(1000);
-		if (philo.n_must > 0)
-		{
-			if (pthread_create(&philo.th_full, NULL, full_check, &philo)
-				|| pthread_detach(philo.th_full))
-				{
-					sem_wait(philo.sem.print);
-					ft_putendl("Thread error!", STDERR_FILENO);
-					sem_post(philo.sem.die);
-				}
-		}
 		check_main(&philo, pid_array);//부모 프로세스의 동작
+		finish_dinning(&philo, pid_array);
 	}
 	return (0);
 }

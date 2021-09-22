@@ -1,27 +1,33 @@
 #include "fdf.h"
 
-void	print_data(t_map *data)
-{
-	printf("3d data\n");
-	for (int i = 0; i < data->size; i++)
-	{
-		printf("(%.1f %.1f %.1f)", data->crd[i].x, data->crd[i].y, data->crd[i].z);
-		printf("(%x) ", data->crd[i].color.n);
-		if (i % data->map->x == data->map->x - 1)
-			printf("\n");
-	}
-}
+// void	print_data(t_map *data)
+// {
+// 	printf("3d data\n");
+// 	for (int i = 0; i < data->size; i++)
+// 	{
+// 		printf("(%.1f %.1f %.1f)", data->crd[i].x, data->crd[i].y, data->crd[i].z);
+// 		printf("(%x) ", data->crd[i].color.n);
+// 		if (i % data->map->x == data->map->x - 1)
+// 			printf("\n");
+// 	}
+// }
 
-void	print_2d_data(t_map *data)
+// void	print_2d_data(t_map *data)
+// {
+// 	printf("2d data\n");
+// 	for (int i = 0; i < data->size; i++)
+// 	{
+// 		printf("(%.1f %.1f)", data->crd_2d[i].x, data->crd_2d[i].y);
+// 		printf("(%x) ", data->crd_2d[i].color.n);
+// 		if (i % data->map->x == data->map->x - 1)
+// 			printf("\n");
+// 	}
+// }
+
+static void	finish_fdf(t_ptr *ptr)
 {
-	printf("2d data\n");
-	for (int i = 0; i < data->size; i++)
-	{
-		printf("(%.1f %.1f)", data->crd_2d[i].x, data->crd_2d[i].y);
-		printf("(%x) ", data->crd_2d[i].color.n);
-		if (i % data->map->x == data->map->x - 1)
-			printf("\n");
-	}
+	mlx_destroy_window(ptr->mlx, ptr->win);
+	exit(0);
 }
 
 int		key_press(int keycode, t_ptr *ptr)
@@ -29,11 +35,7 @@ int		key_press(int keycode, t_ptr *ptr)
 	static int	flag;
 
 	if (keycode == ESC)
-	{
-		mlx_destroy_window(ptr->mlx, ptr->win);
-		//system("leaks fdf");
-		exit(0);
-	}
+		finish_fdf(ptr);
 	else if (keycode == KEY_D)
 		right(ptr->data);
 	else if (keycode == KEY_A)

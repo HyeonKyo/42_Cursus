@@ -13,7 +13,7 @@ void	*full_check(void *data)
 		i++;
 	}
 	sem_wait(philo->sem.full);
-	usleep(philo->tm_eat * MILLI);
+	usleep(philo->tm_eat * MILLI + 1);
 	state_message(philo, FULL);
 	sem_post(philo->sem.die);
 	return (NULL);
@@ -31,7 +31,7 @@ void	*die_check(void *data)
 		if (cur - philo->tm_life >= philo->tm_die)
 		{
 			state_message(philo, DEAD);
-			sem_post(philo->sem.die);//메인 쓰레드에서 wait중, 들어가면 종료 시그널로 모든 철학자를 죽여줌.
+			sem_post(philo->sem.die);
 			return (NULL);
 		}
 		usleep(ITER);

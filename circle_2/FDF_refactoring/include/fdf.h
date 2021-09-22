@@ -23,9 +23,6 @@
 # define KEY_T 17
 # define KEY_Y 16
 
-# define GR 0x0000FF00
-# define RED 0x00FF0000
-
 # define COLOR1 0x0033FF33
 # define COLOR2 0x006633CC
 # define COLOR3 0x00FF99FF
@@ -173,6 +170,6 @@ void	make_ptr(t_ptr *ptr, t_map *data);
 
 int		ft_atoi_hex(char *str);
 
-void	print_data(t_map *data);
-void	print_2d_data(t_map *data);
+// void	print_data(t_map *data);
+// void	print_2d_data(t_map *data);
 #endif
