@@ -2,15 +2,15 @@
 
 static int	mix_color(t_color color1, t_color color2, double per)
 {
-	unsigned char		red;
-	unsigned char		green;
-	unsigned char		blue;
+	unsigned char	red;
+	unsigned char	green;
+	unsigned char	blue;
 	t_color			c;
 
 	c.n = 0;
-	red = (int)(color1.c[1] * (1 - per) + color2.c[1] * per);
-	green = (int)(color1.c[2] * (1 - per) + color2.c[2] * per);
-	blue = (int)(color1.c[3] * (1 - per) + color2.c[3] * per);
+	red = (unsigned char)((double)color1.c[1] * (1 - per) + (double)color2.c[1] * per);
+	green = (unsigned char)((double)color1.c[2] * (1 - per) + (double)color2.c[2] * per);
+	blue = (unsigned char)((double)color1.c[3] * (1 - per) + (double)color2.c[3] * per);
 	c.c[1] = red;
 	c.c[2] = green;
 	c.c[3] = blue;

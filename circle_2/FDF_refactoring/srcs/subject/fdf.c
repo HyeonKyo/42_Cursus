@@ -32,8 +32,6 @@ static void	finish_fdf(t_ptr *ptr)
 
 int		key_press(int keycode, t_ptr *ptr)
 {
-	static int	flag;
-
 	if (keycode == ESC)
 		finish_fdf(ptr);
 	else if (keycode == KEY_D)
@@ -49,7 +47,7 @@ int		key_press(int keycode, t_ptr *ptr)
 	else if (keycode == KEY_X)
 		zoom_out(ptr->data);
 	else if (keycode == KEY_P)
-		parallel_view(ptr->data, &flag);
+		parallel_view(ptr->data);
 	else if (keycode == KEY_Y)
 		rotate_x(ptr->data);
 	else if (keycode == KEY_T)

@@ -36,21 +36,23 @@ void	zoom_out(t_map *data)
 	}
 }
 
-void	parallel_view(t_map *data, int *flag)
+void	parallel_view(t_map *data)
 {
-	int	i;
+	int			i;
+	static int	flag;
 
 	i = 0;
-	if (*flag == FALSE)
+	if (flag == FALSE)
 	{
 		while (i < data->size)
 		{
-			data->crd_2d[i].x = data->crd[i].x;
-			data->crd_2d[i].y = data->crd[i].y;
+			data->crd_2d[i].x = data->parallel_crd[i].x;
+			data->crd_2d[i].y = data->parallel_crd[i].y;
+			data->crd_2d[i].color.n = data->parallel_crd[i].color.n;
 			i++;
 		}
 	}
 	else
 		isometric_view(data);
-	*flag ^= TRUE;
+	flag ^= TRUE;
 }

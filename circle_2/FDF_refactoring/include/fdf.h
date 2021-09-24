@@ -71,6 +71,7 @@ typedef struct	s_map
 	t_2d_crd	min;
 	t_crd		*crd;
 	t_2d_crd	*crd_2d;
+	t_2d_crd	*parallel_crd;
 }				t_map;
 
 typedef struct s_img
@@ -159,7 +160,7 @@ void	down(t_map *data);
 //event_zoom
 void	zoom_in(t_map *data);
 void	zoom_out(t_map *data);
-void	parallel_view(t_map *data, int *flag);
+void	parallel_view(t_map *data);
 //event_rotate
 void	rotate_x(t_map *data);
 void	rotate_y(t_map *data);

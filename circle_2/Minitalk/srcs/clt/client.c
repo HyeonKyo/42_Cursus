@@ -4,7 +4,7 @@ void	catch_signal(int sig, siginfo_t *info, void *context)
 {
 	if (context == NULL)
 		return ;
-	if (info->si_pid != g_server_pid)
+	if (info->si_pid != g_server_pid)//응답을 보내는 시그널이 서버의 시그널이 아니면 오류.
 		sigerror();
 	if (sig == SIGUSR1)//문자열 보내는 중에 서버가 USR1시그널을 보내면 오류.
 		sigerror();
@@ -42,7 +42,7 @@ static int	check_pid(char *av1)
 	while (av1[++i])
 	{
 		if (!ft_isdigit(av1[i]))
-			error("Input error");
+			input_error();
 	}
 	return (mt_atoi(av1));
 }
@@ -61,7 +61,7 @@ int	main(int ac, char **av)
 	int		str_len;
 	t_act	act;
 
-	if (ac < 2)
+	if (ac < 2 || ac > 3)
 		input_error();
 	setup_input(av, &act, &str, &str_len);
 	sigaction(SIGUSR1, &act, 0);

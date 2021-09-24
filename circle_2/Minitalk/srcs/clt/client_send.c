@@ -20,7 +20,7 @@ static void	send_bit(char c, int mask_num)
 		ret = kill(g_server_pid, SIGUSR2);
 	else
 		ret = kill(g_server_pid, SIGUSR1);
-	if (ret < 0)
+	if (ret < 0)//시그널을 보낸 프로세스가 없을 때 등.
 		sigerror();
 }
 
@@ -33,7 +33,7 @@ static void	send_eight_bits(char c)
 	{
 		send_bit(c, i--);
 		pause();
-		usleep(50);
+		usleep(20);
 	}
 }
 
@@ -49,7 +49,7 @@ void	send_message(char *str, int len)
 void	end_signal(int sig)
 {
 	if (sig == SIGUSR2)
-		write(1, "\nComplete send message!\n", 25);
+		write(STDOUT_FILENO, "\nComplete send message!\n", 25);
 	else
 		error("\nSend error!!\n");
 	exit(0);

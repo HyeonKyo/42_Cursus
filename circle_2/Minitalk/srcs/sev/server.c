@@ -31,7 +31,7 @@ static int	get_string(t_info *len, int sig, int client_pid)
 	if (print_cnt == len->num)//다 받았을 때
 	{
 		write(1, "\n", 1);
-		usleep(500);
+		usleep(200);
 		kill(client_pid, SIGUSR2);
 		usleep(200);
 		kill(client_pid, SIGUSR2);
@@ -63,8 +63,9 @@ void	len_handler(int sig, siginfo_t *info, void *context)
 		client_pid = -1;
 		return ;
 	}
-	usleep(150);
-	kill(client_pid, SIGUSR2);
+	usleep(20);
+	if (kill(client_pid, SIGUSR2) < 0)
+		sigerror();
 }
 
 int	main(void)

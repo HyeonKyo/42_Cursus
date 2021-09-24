@@ -26,13 +26,16 @@ UTL_OBJ_LST	=	ft_utils1.o		\
 				error.o
 UTL_OBJS	=	$(addprefix $(OBJ_DIR), $(UTL_OBJ_LST))
 
-$(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_SEV)%.c dir
+$(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_SEV)%.c
+					@mkdir -p $(OBJ_DIR)
 					$(CC) $(CFLAGS) -I$(INC_DIR) -c $< -o $@
 
-$(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_CLT)%.c dir
+$(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_CLT)%.c
+					@mkdir -p $(OBJ_DIR)
 					$(CC) $(CFLAGS) -I$(INC_DIR) -c $< -o $@
 
-$(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_UTL)%.c dir
+$(OBJ_DIR)%.o	:	$(SRC_DIR)$(DIR_UTL)%.c
+					@mkdir -p $(OBJ_DIR)
 					$(CC) $(CFLAGS) -I$(INC_DIR) -c $< -o $@
 
 all				:	$(CLT_NAME)	$(NAME)
@@ -53,7 +56,4 @@ re				:	fclean all
 
 bonus			:	all
 
-dir				:
-					mkdir -p $(OBJ_DIR)
-
-.PHONY			:	all clean fclean re bonus dir
+.PHONY			:	all clean fclean re bonus
