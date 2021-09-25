@@ -173,4 +173,5 @@ int		ft_atoi_hex(char *str);
 
 // void	print_data(t_map *data);
 // void	print_2d_data(t_map *data);
+void	print_p_data(t_map *data);
 #endif

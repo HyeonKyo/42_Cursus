@@ -12,17 +12,29 @@
 // 	}
 // }
 
-// void	print_2d_data(t_map *data)
-// {
-// 	printf("2d data\n");
-// 	for (int i = 0; i < data->size; i++)
-// 	{
-// 		printf("(%.1f %.1f)", data->crd_2d[i].x, data->crd_2d[i].y);
-// 		printf("(%x) ", data->crd_2d[i].color.n);
-// 		if (i % data->map->x == data->map->x - 1)
-// 			printf("\n");
-// 	}
-// }
+void	print_2d_data(t_map *data)
+{
+	printf("2d data\n");
+	for (int i = 0; i < data->size; i++)
+	{
+		printf("(%.1f %.1f)", data->crd_2d[i].x, data->crd_2d[i].y);
+		printf("(%x) ", data->crd_2d[i].color.n);
+		if (i % data->map->x == data->map->x - 1)
+			printf("\n");
+	}
+}
+
+void	print_p_data(t_map *data)
+{
+	printf("2d data\n");
+	for (int i = 0; i < data->size; i++)
+	{
+		printf("(%.1f %.1f)", data->parallel_crd[i].x, data->parallel_crd[i].y);
+		printf("(%x) ", data->parallel_crd[i].color.n);
+		if (i % data->map->x == data->map->x - 1)
+			printf("\n");
+	}
+}
 
 static void	finish_fdf(t_ptr *ptr)
 {
