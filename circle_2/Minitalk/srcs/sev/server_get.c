@@ -11,9 +11,9 @@ static void	check_incorrect_pid(pid_t *client_pid, siginfo_t *info)
 {
 	if (info->si_pid != *client_pid)
 	{
-		while (kill(*client_pid, SIGUSR1) >= 0)
-			usleep(10);
 		while (kill(info->si_pid, SIGUSR1) >= 0)
+			usleep(10);
+		while (kill(*client_pid, SIGUSR1) >= 0)
 			usleep(10);
 		*client_pid = -1;
 		sigerror();
