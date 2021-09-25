@@ -7,22 +7,25 @@ void	bit_masking(char *c, int signo)
 		*c |= ADD_BIT;
 }
 
-static void	check_incorrect_pid(pid_t *client_pid, siginfo_t *info)
+static int	check_incorrect_pid(pid_t *client_pid, siginfo_t *info)
 {
 	if (info->si_pid != *client_pid)
 	{
-		while (kill(info->si_pid, SIGUSR1) >= 0)
-			usleep(10);
-		while (kill(*client_pid, SIGUSR1) >= 0)
-			usleep(10);
+		usleep(20);
+		kill(info->si_pid, SIGUSR1);
+		usleep(20);
+		kill(*client_pid, SIGUSR1);
 		*client_pid = -1;
-		sigerror();
+		return (1);
 	}
+	return (0);
 }
 
-void	get_client_pid(pid_t *client_pid, siginfo_t *info)
+int	get_client_pid(pid_t *client_pid, siginfo_t *info)
 {
 	if (*client_pid <= 0)//처음 클라이언트 신호를 받을 때
 		*client_pid = info->si_pid;
-	check_incorrect_pid(client_pid, info);
+	if (check_incorrect_pid(client_pid, info))
+		return (1);
+	return (0);
 }

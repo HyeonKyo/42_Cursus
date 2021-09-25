@@ -2,12 +2,14 @@
 
 void	catch_signal(int sig, siginfo_t *info, void *context)
 {
-	if (context == NULL)
+	if (context == NULL){
+		ft_putendl("flag", 1);
 		return ;
-	if (info->si_pid != g_server_pid)//응답을 보내는 시그널이 서버의 시그널이 아니면 오류.
+	}
+	if ((sig == SIGUSR1) || (info->si_pid != g_server_pid))
 		sigerror();
-	if (sig == SIGUSR1)//문자열 보내는 중에 서버가 USR1시그널을 보내면 오류.
-		sigerror();
+	//문자열 보내는 중에 서버가 USR1시그널을 보내면 오류.
+	//응답을 보내는 시그널이 서버의 시그널이 아니면 오류.
 }
 
 int	return_mask_number(int mask_num)
@@ -68,7 +70,5 @@ int	main(int ac, char **av)
 	sigaction(SIGUSR2, &act, 0);
 	send_len(str_len);
 	send_string(str, str_len, &act);
-	while (1)
-		pause();
 	return (0);
 }

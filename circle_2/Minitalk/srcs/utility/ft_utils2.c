@@ -39,6 +39,9 @@ void	ft_putendl(char *str, int fd)
 
 void	setup_act(t_act *act, void (*handler)(int, siginfo_t *, void *))
 {
+	sigemptyset(&(act->sa_mask));
+	sigaddset(&(act->sa_mask), SIGUSR1);
+	sigaddset(&(act->sa_mask), SIGUSR2);
 	act->sa_sigaction = handler;
 	act->sa_flags = SA_SIGINFO;//sa_sigaction에 있는 핸들러를 사용
 }
