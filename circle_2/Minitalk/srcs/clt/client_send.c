@@ -62,4 +62,5 @@ void	send_string(char *str, int len, t_act *act)
 	act->sa_flags = 0;
 	sigaction(SIGUSR1, act, 0);
 	sigaction(SIGUSR2, act, 0);
+	pause();
 }

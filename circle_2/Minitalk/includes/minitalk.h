@@ -7,6 +7,7 @@
 ** =============================================================================
 */
 
+#include <stdio.h>//지우기
 # include <signal.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -75,7 +76,7 @@ void	sigerror(void);
 ** =============================================================================
 */
 void	bit_masking(char *c, int signo);
-void	get_client_pid(pid_t *client_pid, siginfo_t *info);
+int		get_client_pid(pid_t *client_pid, siginfo_t *info);
 
 void	send_len(int str_len);
 void	send_message(char *str, int len);
