@@ -1,40 +1,93 @@
+# =============================================================================
+# Color Variables
+# =============================================================================
 
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror
-MLX_FLAGS = -framework OpenGL -framework AppKit
+BLACK		= 	"\033[0;30m"
+GRAY		= 	"\033[1;30m"
+RED			=	"\033[1;31m"
+GREEN		=	"\033[1;32m"
+YELLOW		=	"\033[1;33m"
+PURPLE		=	"\033[0;35m"
+CYAN		=	"\033[1;36m"
+WHITE		=	"\033[1;37m"
+EOC			=	"\033[0;0m"
+LINE_CLEAR	=	"\x1b[1A\x1b[M"
 
-SRCS_DIR = ./src
-SRCS_NAME = fdf.c ft_utils.c get_next_line.c get_next_line_utils.c parse1.c \
-			parse2.c parse_utils.c event_move.c event_zoom.c make_ptr.c		\
-			iso_vector.c vector.c
-SRCS = $(addprefix $(SRCS_DIR)/, $(SRCS_NAME))
+# =============================================================================
+# Command Variables
+# =============================================================================
 
-OBJS_DIR = ./obj
-OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS_NAME:.c=.o))
+CC			=	gcc
+CFLAGS		=	-Wall -Wextra -Werror -g
+MLX_FLAGS	=	-framework OpenGL -framework AppKit
 
-INC_DIR = ./include
+INC_DIR 	=	./include
+MLX_DIR		=	./mlx/
+DIR_SBJ		=	subject/
+DIR_HKF		=	hk_function/
+DIR_UTL		=	utility/
 
-LIBS = libft.a libmlx.a
+SRCS_DIR	=	./srcs/
+OBJS_DIR	=	./objs/
 
-NAME = fdf
+SRCS_OBJ	=	fdf.o					\
+				parse1.o				\
+				parse2.o				\
+				iso_vector.o			\
+				bresenham1.o			\
+				bresenham2.o			\
+				bresenham_utils.o		\
+				anti_aliased.o			\
+				pixel_print.o			\
+				pixel_utils.o			\
+				make_ptr.o				\
+				ft_utils.o				\
+				parse_utils.o			\
+				get_next_line.o			\
+				get_next_line_utils.o	\
+				ft_atoi_hex.o			\
+				ft_atoi.o				\
+				ft_isdigit.o			\
+				ft_memset.o				\
+				ft_split.o				\
+				ft_strchr.o				\
+				ft_strlen.o
 
-RM = rm -rf
+OBJS	=	$(addprefix $(OBJS_DIR), $(SRCS_OBJ))
 
-all		:	$(NAME)
+LIBS	=	libmlx.a
 
-$(OBJS_DIR)/%.o	:	$(SRCS_DIR)/%.c
-					mkdir -p $(OBJS_DIR)
+NAME	=	fdf
+
+RM		=	rm -rf
+
+$(OBJS_DIR)%.o	:	$(SRCS_DIR)$(DIR_SBJ)%.c
+					@mkdir -p $(OBJS_DIR)
 					$(CC) $(CFLAGS) -I$(INC_DIR) -c $< -o $@
 
-$(NAME)	:	$(OBJS)
-			$(CC) -I$(INC_DIR) -o $@ $(MLX_FLAGS) $^ $(LIBS)
+$(OBJS_DIR)%.o	:	$(SRCS_DIR)$(DIR_UTL)%.c
+					@mkdir -p $(OBJS_DIR)
+					$(CC) $(CFLAGS) -I$(INC_DIR) -c $< -o $@
 
-clean	:
-			$(RM) $(OBJS)
+$(OBJS_DIR)%.o	:	$(SRCS_DIR)$(DIR_HKF)%.c
+					@mkdir -p $(OBJS_DIR)
+					$(CC) $(CFLAGS) -I$(INC_DIR) -c $< -o $@
 
-fclean	:	clean
-			$(RM) $(NAME)
+$(NAME)			:	$(OBJS)
+					@$(MAKE) -C $(MLX_DIR)
+					@cp $(MLX_DIR)$(LIBS) ./
+					$(CC) -I$(INC_DIR) -o $@ $(MLX_FLAGS) $^ $(LIBS)
 
-re		:	fclean all
+all				:	$(NAME)
 
-.PHONY	:	all clean fclean re bonus
+clean			:
+					$(RM) $(OBJS_DIR)
+
+fclean			:	clean
+					$(MAKE) -C $(MLX_DIR) clean
+					$(RM) $(LIBS)
+					$(RM) $(NAME)
+
+re				:	fclean all
+
+.PHONY			:	all clean fclean re
