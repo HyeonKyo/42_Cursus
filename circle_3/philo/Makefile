@@ -1,3 +1,14 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: hyeonkki <hyeonkki@student.42.kr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/09/29 14:35:33 by hyeonkki          #+#    #+#              #
+#    Updated: 2021/09/29 14:35:35 by hyeonkki         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
 # =============================================================================
 # Color Variables
@@ -35,20 +46,20 @@ DIR_UTL		=	utility/
 DIR_SBJ		=	subject/
 
 SRC_DIR		=	./srcs/
-SRC_LIST	=	$(DIR_SBJ)philo.c		\
-				$(DIR_SBJ)routine.c		\
-				$(DIR_SBJ)routine2.c	\
-				$(DIR_SBJ)lifetime.c	\
-				$(DIR_UTL)error.c		\
-				$(DIR_UTL)message.c		\
-				$(DIR_UTL)print_state.c	\
-				$(DIR_UTL)time.c		\
-				$(DIR_HFT)ft_atoi.c		\
-				$(DIR_HFT)ft_strlen.c	\
-				$(DIR_HFT)ft_putnbr.c	\
-				$(DIR_HFT)ft_putstr.c	\
-				$(DIR_HFT)ft_putendl.c
-SRCS		=	$(addprefix $(SRC_DIR), $(SRC_LIST))
+# SRC_LIST	=	$(DIR_SBJ)philo.c		\
+# 				$(DIR_SBJ)routine.c		\
+# 				$(DIR_SBJ)routine2.c	\
+# 				$(DIR_SBJ)lifetime.c	\
+# 				$(DIR_UTL)error.c		\
+# 				$(DIR_UTL)message.c		\
+# 				$(DIR_UTL)print_state.c	\
+# 				$(DIR_UTL)time.c		\
+# 				$(DIR_HFT)ft_atoi.c		\
+# 				$(DIR_HFT)ft_strlen.c	\
+# 				$(DIR_HFT)ft_putnbr.c	\
+# 				$(DIR_HFT)ft_putstr.c	\
+# 				$(DIR_HFT)ft_putendl.c
+# SRCS		=	$(addprefix $(SRC_DIR), $(SRC_LIST))
 
 OBJ_DIR		=	./objs/
 OBJ_LIST	=	philo.o			\
@@ -57,7 +68,7 @@ OBJ_LIST	=	philo.o			\
 				lifetime.o		\
 				error.o			\
 				list.o			\
-				make_fork.o		\
+				setup_dinning.o	\
 				message.o		\
 				print_state.o	\
 				time.o			\

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fdf.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hyeonkki <hyeonkki@student.42.kr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/28 14:51:42 by hyeonkki          #+#    #+#             */
+/*   Updated: 2021/09/28 14:51:45 by hyeonkki         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef FDF_H
 # define FDF_H
 
@@ -93,6 +105,7 @@ typedef struct s_map
 	t_2d_crd	min;
 	t_crd		*crd;
 	t_2d_crd	*crd_2d;
+	t_2d_crd	*parallel_crd;
 }			t_map;
 
 typedef struct s_img

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   error.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hyeonkki <hyeonkki@student.42.kr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/29 17:08:50 by hyeonkki          #+#    #+#             */
+/*   Updated: 2021/09/29 17:08:52 by hyeonkki         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo_bonus.h"
 
 void	error(char *str)
@@ -28,4 +40,10 @@ void	input_error(void)
 	ft_putendl("\nInput Error!", STDERR_FILENO);
 	usage();
 	exit(1);
+}
+
+void	thread_error(t_philo *philo)
+{
+	sem_post(philo->sem.die);
+	error("thread error!");
 }

@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hyeonkki <hyeonkki@student.42.kr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/29 14:35:46 by hyeonkki          #+#    #+#             */
+/*   Updated: 2021/09/29 14:35:48 by hyeonkki         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
@@ -8,13 +19,11 @@
 ** =============================================================================
 */
 
-#include <stdio.h>
-
-#include <unistd.h>
-#include <stdlib.h>
-#include <string.h>
-#include <pthread.h>
-#include <sys/time.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <string.h>
+# include <pthread.h>
+# include <sys/time.h>
 
 /*
 ** =============================================================================
@@ -50,7 +59,7 @@ typedef pthread_mutex_t	t_mutex;
 ** =============================================================================
 */
 
-typedef enum	e_cond
+typedef enum e_cond
 {
 	LIFE,
 	DEAD,
@@ -59,7 +68,7 @@ typedef enum	e_cond
 	SLEEPING,
 	THINKING,
 	FULL
-}				t_cond;
+}			t_cond;
 
 /*
 ** =============================================================================
@@ -67,7 +76,7 @@ typedef enum	e_cond
 ** =============================================================================
 */
 
-typedef struct	s_node
+typedef struct s_node
 {
 	int				n;
 	t_mutex			fk_mtx;
@@ -75,7 +84,7 @@ typedef struct	s_node
 	struct s_node	*prev;
 }				t_node;
 
-typedef struct	s_info
+typedef struct s_info
 {
 	int			n_philo;
 	int			tm_die;
@@ -88,9 +97,9 @@ typedef struct	s_info
 	t_cond		cond;
 	t_mutex		full_mtx;
 	t_mutex		pt_mtx;
-}				t_info;
+}			t_info;
 
-typedef struct	s_philo
+typedef struct s_philo
 {
 	int			i;
 	int			num;
@@ -126,7 +135,8 @@ int		usage(void);
 
 t_node	*create_node(void);
 
-int		make_fork(t_info *inf);
+int	setup_dinner(t_philo **philo, t_info *inf);
+
 void	free_fork(t_info *inf);
 
 void	save_time(long long *time);

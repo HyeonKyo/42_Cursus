@@ -1,6 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_bonus.h                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hyeonkki <hyeonkki@student.42.kr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/29 17:02:34 by hyeonkki          #+#    #+#             */
+/*   Updated: 2021/09/29 17:02:38 by hyeonkki         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
+#ifndef PHILO_BONUS_H
+# define PHILO_BONUS_H
 
 /*
 ** =============================================================================
@@ -8,15 +19,13 @@
 ** =============================================================================
 */
 
-#include <stdio.h>
-
-#include <unistd.h>
-#include <stdlib.h>
-#include <string.h>
-#include <pthread.h>
-#include <semaphore.h>
-#include <signal.h>
-#include <sys/time.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <string.h>
+# include <pthread.h>
+# include <semaphore.h>
+# include <signal.h>
+# include <sys/time.h>
 
 /*
 ** =============================================================================
@@ -52,7 +61,7 @@ typedef pthread_mutex_t	t_mutex;
 ** =============================================================================
 */
 
-typedef enum	e_cond
+typedef enum e_cond
 {
 	LIFE,
 	DEAD,
@@ -61,7 +70,7 @@ typedef enum	e_cond
 	SLEEPING,
 	THINKING,
 	FULL
-}				t_cond;
+}			t_cond;
 
 /*
 ** =============================================================================
@@ -69,38 +78,23 @@ typedef enum	e_cond
 ** =============================================================================
 */
 
-typedef struct	s_node
+typedef struct s_node
 {
 	int				n;
 	t_mutex			fk_mtx;
 	struct s_node	*next;
 	struct s_node	*prev;
-}				t_node;
+}			t_node;
 
-// typedef struct	s_info
-// {
-// 	int			n_philo;
-// 	int			tm_die;
-// 	int			tm_eat;
-// 	int			tm_sleep;
-// 	int			n_must;
-// 	int			full_cnt;
-// 	long long	begin;
-// 	t_node		**fork;
-// 	t_cond		cond;
-// 	t_mutex		full_mtx;
-// 	t_mutex		pt_mtx;
-// }				t_info;
-
-typedef struct	s_sem
+typedef struct s_sem
 {
 	sem_t		*fork;
 	sem_t		*die;
 	sem_t		*full;
 	sem_t		*print;
-}				t_sem;
+}			t_sem;
 
-typedef struct	s_philo
+typedef struct s_philo
 {
 	int			i;
 	int			num;
@@ -116,7 +110,7 @@ typedef struct	s_philo
 	t_pth		th_die;
 	t_pth		th_full;
 	t_sem		sem;
-}				t_philo;
+}			t_philo;
 
 /*
 ** =============================================================================
@@ -139,6 +133,7 @@ int		ft_strlen(char *str);
 void	error(char *str);
 void	merror(void *ret);
 void	input_error(void);
+void	thread_error(t_philo *philo);
 
 void	save_time(long long *time);
 

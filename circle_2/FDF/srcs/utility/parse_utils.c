@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hyeonkki <hyeonkki@student.42.kr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/28 15:00:04 by hyeonkki          #+#    #+#             */
+/*   Updated: 2021/09/28 15:00:05 by hyeonkki         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fdf.h"
 
 void	clear_arr(int **arr, t_map_len *map)
@@ -34,4 +46,21 @@ t_map	*create_data(void)
 	merror(data->map);
 	ft_memset(data->map, 0, sizeof(t_map_len));
 	return (data);
+}
+
+void	save_parallel_data(t_map *data)
+{
+	int			i;
+	t_2d_crd	*tmp;
+
+	tmp = (t_2d_crd *)malloc(sizeof(t_2d_crd) * data->size);
+	merror(tmp);
+	i = -1;
+	while (++i < data->size)
+	{
+		tmp[i].x = data->crd[i].x;
+		tmp[i].y = data->crd[i].y;
+		tmp[i].color = data->crd[i].color;
+	}
+	data->parallel_crd = tmp;
 }

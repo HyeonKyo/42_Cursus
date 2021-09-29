@@ -1,7 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   routine.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hyeonkki <hyeonkki@student.42.kr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/29 17:03:38 by hyeonkki          #+#    #+#             */
+/*   Updated: 2021/09/29 17:03:39 by hyeonkki         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo_bonus.h"
 
 static void	pickup_fork(t_philo *philo)
 {
+	//포크 두 개를 동시에 드는 원자성은 어떻게 보장?
+	//두 개를 동시에 들 필요는 없는지?
 	sem_wait(philo->sem.fork);
 	state_message(philo, GRAB);
 	sem_wait(philo->sem.fork);
