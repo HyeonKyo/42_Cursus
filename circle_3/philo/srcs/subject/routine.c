@@ -25,6 +25,23 @@ static void	get_fork(t_philo *philo)
 	pthread_mutex_unlock(&(fork[philo->right]->fk_mtx));
 }
 
+int	print_grap(t_philo *philo, t_node **fork)
+{
+	int	i;
+
+	i = 2;
+	while (i--)
+	{
+		if (state_message(philo, GRAB))
+		{
+			pthread_mutex_unlock(&(fork[philo->i]->fk_mtx));
+			return (TRUE);
+		}
+	}
+	pthread_mutex_unlock(&(fork[philo->i]->fk_mtx));
+	return (FALSE);
+}
+
 static int	pickup_fork(t_philo *philo)
 {
 	int		i;
@@ -40,16 +57,7 @@ static int	pickup_fork(t_philo *philo)
 		if (fork[philo->i]->n == AVAILABLE)
 		{
 			get_fork(philo);
-			while (++i < AVAILABLE)
-			{
-				if (state_message(philo, GRAB))
-				{
-					pthread_mutex_unlock(&(fork[philo->i]->fk_mtx));
-					return (TRUE);
-				}
-			}
-			pthread_mutex_unlock(&(fork[philo->i]->fk_mtx));
-			return (FALSE);
+			return (print_grap(philo, fork));
 		}
 		pthread_mutex_unlock(&(fork[philo->i]->fk_mtx));
 		usleep(DELTA);
