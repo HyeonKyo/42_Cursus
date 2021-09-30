@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeonkki <hyeonkki@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/29 17:09:16 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/09/29 17:09:17 by hyeonkki         ###   ########.fr       */
+/*   Created: 2021/09/29 14:37:52 by hyeonkki          #+#    #+#             */
+/*   Updated: 2021/09/29 14:37:53 by hyeonkki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_bonus.h"
+#include "philo.h"
 
 void	save_time(long long *time)
 {

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   routine.c                                          :+:      :+:    :+:   */
+/*   routine_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeonkki <hyeonkki@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/29 17:03:38 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/09/29 17:03:39 by hyeonkki         ###   ########.fr       */
+/*   Created: 2021/09/30 16:35:56 by hyeonkki          #+#    #+#             */
+/*   Updated: 2021/09/30 16:35:57 by hyeonkki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ static void	eating(t_philo *philo)
 		if (cur - start_eat >= philo->tm_eat)
 		{
 			philo->tm_life = cur;
-			sem_post(philo->sem.fork);
-			sem_post(philo->sem.fork);
 			return ;
 		}
 		usleep(ITER);
@@ -56,6 +54,8 @@ static void	sleeping(t_philo *philo)
 	long long	cur;
 
 	state_message(philo, SLEEPING);
+	sem_post(philo->sem.fork);
+	sem_post(philo->sem.fork);
 	save_time(&start_sleep);
 	usleep(philo->tm_sleep * MILLI * 3 / 4);
 	while (TRUE)
@@ -80,7 +80,7 @@ void	*routine(void *data)
 
 	philo = (t_philo *)data;
 	if (philo->i & ISEVEN)
-		usleep((philo->tm_eat * MILLI) - DELTA);//짝수 철학자는 홀수 철학자가 어느정도 먹었을 때 부터 실행
+		usleep((philo->tm_eat * MILLI) - DELTA);
 	while (TRUE)
 	{
 		pickup_fork(philo);

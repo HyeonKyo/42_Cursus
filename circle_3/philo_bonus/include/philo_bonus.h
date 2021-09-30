@@ -146,8 +146,12 @@ void	state_message(t_philo *philo, t_cond cond);
 ** =============================================================================
 */
 
+int		make_philo(t_philo *philo, pid_t *pid_array);
+void	setup_dinner(t_philo *philo, pid_t **pid_array);
+
 void	*routine(void *data);
 void	*die_check(void *data);
 void	*full_check(void *data);
+void	check_main(t_philo *philo, pid_t *pid_array);
 
 #endif

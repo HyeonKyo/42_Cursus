@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeonkki <hyeonkki@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/29 17:09:05 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/09/29 17:09:06 by hyeonkki         ###   ########.fr       */
+/*   Created: 2021/09/29 14:37:47 by hyeonkki          #+#    #+#             */
+/*   Updated: 2021/09/29 14:37:48 by hyeonkki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_bonus.h"
+#include "philo.h"
 
 int	print_state(t_cond cond)
 {

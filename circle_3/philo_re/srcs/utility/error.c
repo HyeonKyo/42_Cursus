@@ -5,45 +5,33 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeonkki <hyeonkki@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/29 17:08:50 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/09/29 17:08:52 by hyeonkki         ###   ########.fr       */
+/*   Created: 2021/09/29 14:37:28 by hyeonkki          #+#    #+#             */
+/*   Updated: 2021/09/29 14:37:29 by hyeonkki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_bonus.h"
+#include "philo.h"
 
-void	error(char *str)
+int	merror(void *ret)
 {
-	ft_putendl(str, STDERR_FILENO);
-	exit(1);
+	if (ret == NULL)
+	{
+		ft_putstr("\033[1;31m", STDERR_FILENO);
+		ft_putendl("\nMalloc Error!\033[0;0m", STDERR_FILENO);
+		return (ERROR);
+	}
+	return (NORMAL);
 }
 
-void	merror(void *ret)
+int	usage(void)
 {
-	if (ret == 0)
-		error("Malloc error!");
-}
-
-static void	usage(void)
-{
+	ft_putstr("\033[1;31m", STDERR_FILENO);
+	ft_putendl("\nInput Error!", STDERR_FILENO);
 	ft_putstr("\033[1;37m", STDERR_FILENO);
 	ft_putstr("\nUsage : ./philo [number of philo] ", STDERR_FILENO);
 	ft_putstr("[time to die] [time to eat] ", STDERR_FILENO);
 	ft_putendl("[time to sleep]", STDERR_FILENO);
 	ft_putstr("([number_of_times_each", STDERR_FILENO);
 	ft_putendl("_philosopher_must_eat])\n", STDERR_FILENO);
-}
-
-void	input_error(void)
-{
-	ft_putstr("\033[1;31m", STDERR_FILENO);
-	ft_putendl("\nInput Error!", STDERR_FILENO);
-	usage();
-	exit(1);
-}
-
-void	thread_error(t_philo *philo)
-{
-	sem_post(philo->sem.die);
-	error("thread error!");
+	return (ERROR);
 }

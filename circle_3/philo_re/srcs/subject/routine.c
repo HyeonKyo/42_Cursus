@@ -85,7 +85,7 @@ static int	eating(t_philo *philo)
 			philo->tm_life = cur;
 			return (FALSE);
 		}
-		usleep(ITER);
+		usleep(500);
 	}
 }
 
@@ -107,7 +107,7 @@ static int	sleeping(t_philo *philo)
 		save_time(&cur);
 		if (cur - start_sleep >= inf->tm_sleep)
 			return (FALSE);
-		usleep(ITER);
+		usleep(500);
 	}
 }
 
@@ -115,7 +115,7 @@ static int	thinking(t_philo *philo)
 {
 	if (state_message(philo, THINKING))
 		return (TRUE);
-	//usleep();
+	usleep(200);
 	return (FALSE);
 }
 

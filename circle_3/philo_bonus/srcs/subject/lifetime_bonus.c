@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lifetime.c                                         :+:      :+:    :+:   */
+/*   lifetime_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeonkki <hyeonkki@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/29 17:03:22 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/09/29 17:03:25 by hyeonkki         ###   ########.fr       */
+/*   Created: 2021/09/30 16:35:42 by hyeonkki          #+#    #+#             */
+/*   Updated: 2021/09/30 16:35:43 by hyeonkki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,28 @@ void	*die_check(void *data)
 		}
 		usleep(ITER);
 	}
+}
+
+void	check_main(t_philo *philo, pid_t *pid_array)
+{
+	int	i;
+
+	usleep(100);
+	i = -1;
+	if (philo->n_must > 0)
+	{
+		if (pthread_create(&philo->th_full, NULL, full_check, philo)
+			|| pthread_detach(philo->th_full))
+		{
+			sem_wait(philo->sem.print);
+			ft_putendl("Thread error!", STDERR_FILENO);
+			sem_post(philo->sem.die);
+		}
+	}
+	sem_wait(philo->sem.die);
+	while (++i < philo->n_philo)
+		kill(pid_array[i], SIGTERM);
+	i = -1;
+	while (++i < philo->n_philo)
+		waitpid(0, NULL, 0);
 }

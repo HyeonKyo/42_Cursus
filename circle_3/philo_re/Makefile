@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: hyeonkki <hyeonkki@student.42.kr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/09/29 14:35:33 by hyeonkki          #+#    #+#              #
+#    Updated: 2021/09/29 14:35:35 by hyeonkki         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 # =============================================================================
 # Color Variables
 # =============================================================================
@@ -18,14 +30,15 @@ LINE_CLEAR	=	"\x1b[1A\x1b[M"
 # =============================================================================
 
 CC			=	gcc
-CFLAGS		=	-Wall -Werror -Wextra
+CFLAGS		=	-Wall -Werror -Wextra -g
+CDEBUG		=	-g
 RM			=	rm -rf
 
 # =============================================================================
 # File Variables
 # =============================================================================
 
-NAME		=	philo_bonus
+NAME		=	philo
 
 INC			=	./include
 DIR_HFT		=	hk_function/
@@ -33,20 +46,37 @@ DIR_UTL		=	utility/
 DIR_SBJ		=	subject/
 
 SRC_DIR		=	./srcs/
+# SRC_LIST	=	$(DIR_SBJ)philo.c		\
+# 				$(DIR_SBJ)routine.c		\
+# 				$(DIR_SBJ)routine2.c	\
+# 				$(DIR_SBJ)lifetime.c	\
+# 				$(DIR_UTL)error.c		\
+# 				$(DIR_UTL)message.c		\
+# 				$(DIR_UTL)print_state.c	\
+# 				$(DIR_UTL)time.c		\
+# 				$(DIR_HFT)ft_atoi.c		\
+# 				$(DIR_HFT)ft_strlen.c	\
+# 				$(DIR_HFT)ft_putnbr.c	\
+# 				$(DIR_HFT)ft_putstr.c	\
+# 				$(DIR_HFT)ft_putendl.c
+# SRCS		=	$(addprefix $(SRC_DIR), $(SRC_LIST))
+
 OBJ_DIR		=	./objs/
-OBJ_LIST	=	philo_bonus.o		\
-				setting_bonus.o		\
-				routine_bonus.o		\
-				lifetime_bonus.o	\
-				error_bonus.o		\
-				message_bonus.o		\
-				print_state_bonus.o	\
-				time_bonus.o		\
-				ft_atoi_bonus.o		\
-				ft_strlen_bonus.o	\
-				ft_putnbr_bonus.o	\
-				ft_putstr_bonus.o	\
-				ft_putendl_bonus.o
+OBJ_LIST	=	philo.o			\
+				routine.o		\
+				routine2.o		\
+				lifetime.o		\
+				error.o			\
+				list.o			\
+				setup_dinning.o	\
+				message.o		\
+				print_state.o	\
+				time.o			\
+				ft_atoi.o		\
+				ft_strlen.o		\
+				ft_putnbr.o		\
+				ft_putstr.o		\
+				ft_putendl.o
 OBJS		=	$(addprefix $(OBJ_DIR), $(OBJ_LIST))
 
 # =============================================================================
@@ -90,6 +120,4 @@ fclean			:	clean
 
 re				:	fclean all
 
-bonus			:	all
-
-.PHONY			:	all clean fclean re bonus
+.PHONY			:	all clean fclean re
