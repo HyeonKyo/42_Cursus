@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   make_fork.c                                        :+:      :+:    :+:   */
+/*   setup_dinning.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeonkki <hyeonkki@student.42.kr>          +#+  +:+       +#+        */
+/*   By: hyeonkyokim <hyeonkyokim@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 14:37:36 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/09/29 14:37:37 by hyeonkki         ###   ########.fr       */
+/*   Updated: 2021/09/30 20:11:11 by hyeonkyokim      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,29 +39,19 @@ static int	philo_initialization(t_philo **philo, t_info *inf)
 static int	make_fork(t_info *inf)
 {
 	int	i;
-	t_node	*head;
-	t_node	*cur;
-	t_node	*new;
 
-	inf->fork = (t_node **)malloc(sizeof(t_node *) * inf->n_philo);
+	inf->fork = (t_mutex *)malloc(sizeof(t_mutex) * inf->n_philo);
 	if (merror(inf->fork))
 		return (ERROR);
-	memset(inf->fork, 0, sizeof(t_node *) * inf->n_philo);
-	head = create_node();
-	if (merror(head))
-		return (ERROR);
-	inf->fork[0] = head;
-	cur = head;
-	i = 0;
+	i = -1;
 	while (++i < inf->n_philo)
 	{
-		new = create_node();
-		if (merror(new))
+		if (pthread_mutex_init(&(inf->fork[i]), NULL))
+		{
+			ft_putendl("Mutex error", STDERR_FILENO);
+			free(inf->fork);
 			return (ERROR);
-		inf->fork[i] = new;
-		cur->next = new;
-		new->prev = cur;
-		cur = cur->next;
+		}
 	}
 	return (NORMAL);
 }
@@ -86,16 +76,7 @@ int	setup_dinner(t_philo **philo, t_info *inf)
 
 void	free_fork(t_info *inf)
 {
-	int	i;
-	t_node **fork;
-
-	fork = inf->fork;
-	i = 0;
-	while (fork[i] && i < inf->n_philo)
-	{
-		pthread_mutex_destroy(&(fork[i]->fk_mtx));
-		free(fork[i++]);
-	}
-	free(fork);
-	inf->fork = NULL;
+	if (inf->fork)
+		free(inf->fork);
+	inf->fork = 0;
 }

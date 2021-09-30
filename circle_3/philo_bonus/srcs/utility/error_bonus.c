@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeonkki <hyeonkki@student.42.kr>          +#+  +:+       +#+        */
+/*   By: hyeonkyokim <hyeonkyokim@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:36:19 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/09/30 16:36:20 by hyeonkki         ###   ########.fr       */
+/*   Updated: 2021/09/30 21:52:27 by hyeonkyokim      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ static void	usage(void)
 	ft_putstr("[time to die] [time to eat] ", STDERR_FILENO);
 	ft_putendl("[time to sleep]", STDERR_FILENO);
 	ft_putstr("([number_of_times_each", STDERR_FILENO);
-	ft_putendl("_philosopher_must_eat])\n", STDERR_FILENO);
+	ft_putendl("_philosopher_must_eat])", STDERR_FILENO);
+	ft_putstr("\nAll arguments are positive ", STDERR_FILENO);
+	ft_putendl("and within an integer range.\n", STDERR_FILENO);
 }
 
 void	input_error(void)

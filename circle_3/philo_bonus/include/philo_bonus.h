@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeonkki <hyeonkki@student.42.kr>          +#+  +:+       +#+        */
+/*   By: hyeonkyokim <hyeonkyokim@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 17:02:34 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/09/29 17:02:38 by hyeonkki         ###   ########.fr       */
+/*   Updated: 2021/09/30 21:43:37 by hyeonkyokim      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@
 
 # define ERROR 1
 # define NORMAL 0
+
+# define INT_MAX 2147483647
 
 # define MILLI 1000
 # define DELTA 10

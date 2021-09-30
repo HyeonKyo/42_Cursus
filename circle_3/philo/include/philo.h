@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeonkki <hyeonkki@student.42.kr>          +#+  +:+       +#+        */
+/*   By: hyeonkyokim <hyeonkyokim@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 14:35:46 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/09/29 14:35:48 by hyeonkki         ###   ########.fr       */
+/*   Updated: 2021/09/30 21:41:54 by hyeonkyokim      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@
 
 # define ERROR 1
 # define NORMAL 0
+
+# define INT_MAX 2147483647
 
 # define MILLI 1000
 # define DELTA 10
@@ -76,14 +78,6 @@ typedef enum e_cond
 ** =============================================================================
 */
 
-typedef struct s_node
-{
-	int				n;
-	t_mutex			fk_mtx;
-	struct s_node	*next;
-	struct s_node	*prev;
-}				t_node;
-
 typedef struct s_info
 {
 	int			n_philo;
@@ -93,8 +87,8 @@ typedef struct s_info
 	int			n_must;
 	int			full_cnt;
 	long long	begin;
-	t_node		**fork;
 	t_cond		cond;
+	t_mutex		*fork;
 	t_mutex		full_mtx;
 	t_mutex		pt_mtx;
 }			t_info;
@@ -133,9 +127,7 @@ int		ft_strlen(char *str);
 int		merror(void *ret);
 int		usage(void);
 
-t_node	*create_node(void);
-
-int	setup_dinner(t_philo **philo, t_info *inf);
+int		setup_dinner(t_philo **philo, t_info *inf);
 
 void	free_fork(t_info *inf);
 
@@ -150,8 +142,11 @@ int		state_message(t_philo *philo, t_cond cond);
 ** =============================================================================
 */
 
-void	putdown_fork(t_philo *philo);
+int		print_grap(t_philo *philo);
+void	get_fork(t_philo *philo);
+int		putdown_fork(t_philo *philo);
 void	plus_eat_count(t_philo *philo);
+
 void	*routine(void *data);
 void	*lifetime(void *data);
 int		check_condition(t_info *inf);
