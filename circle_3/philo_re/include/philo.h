@@ -6,7 +6,7 @@
 /*   By: hyeonkyokim <hyeonkyokim@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 14:35:46 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/10/01 16:50:40 by hyeonkyokim      ###   ########.fr       */
+/*   Updated: 2021/10/01 16:53:11 by hyeonkyokim      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,12 @@ typedef enum e_cond
 ** =============================================================================
 */
 
+typedef struct s_fork
+{
+	int		flag;
+	t_mutex	fk_mtx;
+}		t_fork;
+
 typedef struct s_info
 {
 	int			n_philo;
@@ -88,7 +94,7 @@ typedef struct s_info
 	int			full_cnt;
 	long long	begin;
 	t_cond		cond;
-	t_mutex		*fork;
+	t_fork		*fork;
 	t_mutex		full_mtx;
 	t_mutex		pt_mtx;
 }			t_info;

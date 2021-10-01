@@ -6,7 +6,7 @@
 /*   By: hyeonkyokim <hyeonkyokim@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 14:37:04 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/10/01 15:08:08 by hyeonkyokim      ###   ########.fr       */
+/*   Updated: 2021/10/01 15:35:31 by hyeonkyokim      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,12 @@
 
 static int	pickup_fork(t_philo *philo)
 {
-	int		i;
-	t_mutex	*fork;
+	int	i;
 
-	fork = philo->inf->fork;
 	i = -1;
 	if (check_condition(philo->inf))
 		return (TRUE);
 	return (get_fork(philo));
-	// get_fork(philo);
-	// return (print_grap(philo));
 }
 
 static int	eating(t_philo *philo)

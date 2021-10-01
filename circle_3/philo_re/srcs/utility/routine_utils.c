@@ -6,7 +6,7 @@
 /*   By: hyeonkyokim <hyeonkyokim@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 14:37:15 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/10/01 15:50:32 by hyeonkyokim      ###   ########.fr       */
+/*   Updated: 2021/10/01 16:04:13 by hyeonkyokim      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,45 +14,42 @@
 
 int	get_fork(t_philo *philo)
 {
-	t_mutex	*fork;
+	t_fork	*fork;
 
 	fork = philo->inf->fork;
-	pthread_mutex_lock(&(fork[philo->i]));
-	if (state_message(philo, GRAB))
+	while (TRUE)
 	{
-		pthread_mutex_unlock(&(fork[philo->i]));
-		return (TRUE);
-	}
-	/*
-	여기에 왼쪽의 왼쪽 포크 값 확인
-	*/
-	pthread_mutex_lock(&(fork[philo->right]));
-	if (state_message(philo, GRAB))
-	{
-		putdown_fork(philo);
-		return (TRUE);
-	}
-	return (FALSE);
-}
-
-int	print_grap(t_philo *philo)
-{
-	int	i;
-
-	i = 2;
-	while (i--)
+		if (check_condition(philo->inf))
+			return (TRUE);
+		pthread_mutex_lock(&(fork[philo->i].fk_mtx));
+		fork[philo->i].flag ^= TRUE;
+		if (state_message(philo, GRAB))
+		{
+			pthread_mutex_unlock(&(fork[philo->i].fk_mtx));
+			return (TRUE);
+		}
+		if (fork[philo->left].flag)
+		{
+			pthread_mutex_unlock(&(fork[philo->i].fk_mtx));
+			fork[philo->i].flag ^= TRUE;
+			usleep(DELTA);
+			continue ;
+		}
+		pthread_mutex_lock(&(fork[philo->right].fk_mtx));
 		if (state_message(philo, GRAB))
 			return (putdown_fork(philo));
-	return (FALSE);
+		return (FALSE);
+	}
 }
 
 int	putdown_fork(t_philo *philo)
 {
-	t_mutex	*fork;
+	t_fork	*fork;
 
 	fork = philo->inf->fork;
-	pthread_mutex_unlock(&(fork[philo->i]));
-	pthread_mutex_unlock(&(fork[philo->right]));
+	pthread_mutex_unlock(&(fork[philo->i].fk_mtx));
+	fork[philo->i].flag ^= TRUE;
+	pthread_mutex_unlock(&(fork[philo->right].fk_mtx));
 	return (TRUE);
 }
 

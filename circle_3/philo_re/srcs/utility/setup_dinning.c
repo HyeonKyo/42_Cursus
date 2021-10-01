@@ -6,7 +6,7 @@
 /*   By: hyeonkyokim <hyeonkyokim@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 14:37:36 by hyeonkki          #+#    #+#             */
-/*   Updated: 2021/10/01 16:50:49 by hyeonkyokim      ###   ########.fr       */
+/*   Updated: 2021/10/01 16:53:02 by hyeonkyokim      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,18 +48,18 @@ static int	make_fork(t_info *inf)
 {
 	int	i;
 
-	inf->fork = (t_mutex *)malloc(sizeof(t_mutex) * inf->n_philo);
+	inf->fork = (t_fork *)malloc(sizeof(t_fork) * inf->n_philo);
 	if (merror(inf->fork))
 		return (ERROR);
 	i = -1;
 	while (++i < inf->n_philo)
 	{
-		if (pthread_mutex_init(&(inf->fork[i]), NULL))
+		if (pthread_mutex_init(&(inf->fork[i].fk_mtx), NULL))
 		{
 			ft_putendl("Mutex error", STDERR_FILENO);
-			free(inf->fork);
 			return (ERROR);
 		}
+		inf->fork[i].flag = FALSE;
 	}
 	return (NORMAL);
 }
@@ -86,5 +86,5 @@ void	free_fork(t_info *inf)
 {
 	if (inf->fork)
 		free(inf->fork);
-	inf->fork = 0;
+	inf->fork = NULL;
 }
