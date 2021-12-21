@@ -16,8 +16,8 @@ static void	anti_aliasing_x_init(t_icrd crd, t_icrd inc, t_icrd *c1, t_icrd *c2)
 {
 	*c1 = crd;
 	*c2 = crd;
-	(*c1).color.c[0] += TRANSPARENCY1;
-	(*c2).color.c[0] += TRANSPARENCY1;
+	(*c1).color.c[3] += TRANSPARENCY1;
+	(*c2).color.c[3] += TRANSPARENCY1;
 	if (inc.y > 0)
 		(*c2).y--;
 	else
@@ -28,8 +28,8 @@ static void	anti_aliasing_y_init(t_icrd crd, t_icrd inc, t_icrd *c1, t_icrd *c2)
 {
 	*c1 = crd;
 	*c2 = crd;
-	(*c1).color.c[0] += TRANSPARENCY1;
-	(*c2).color.c[0] += TRANSPARENCY1;
+	(*c1).color.c[3] += TRANSPARENCY1;
+	(*c2).color.c[3] += TRANSPARENCY1;
 	if (inc.y > 0)
 		(*c2).x--;
 	else
@@ -40,13 +40,13 @@ static void	get_transperency(t_icrd *crd1, t_icrd *crd2, int i, int cnt)
 {
 	if (i > cnt / 3)
 	{
-		crd1->color.c[0] += TRANSPARENCY2;
-		crd2->color.c[0] += TRANSPARENCY2;
+		crd1->color.c[3] += TRANSPARENCY2;
+		crd2->color.c[3] += TRANSPARENCY2;
 	}
 	else if (i > cnt * 2 / 3)
 	{
-		crd1->color.c[0] += TRANSPARENCY3;
-		crd2->color.c[0] += TRANSPARENCY3;
+		crd1->color.c[3] += TRANSPARENCY3;
+		crd2->color.c[3] += TRANSPARENCY3;
 	}
 }
 

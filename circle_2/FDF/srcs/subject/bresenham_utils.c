@@ -20,13 +20,13 @@ static int	mix_color(t_color color1, t_color color2, double per)
 	t_color	c;
 
 	c.n = 0;
-	red = (t_uchar)(color1.c[1] * (1 - per) + color2.c[1] * per);
-	green = (t_uchar)(color1.c[2] * (1 - per) + color2.c[2] * per);
-	blue = (t_uchar)(color1.c[3] * (1 - per) + color2.c[3] * per);
-	c.c[1] = red;
-	c.c[2] = green;
-	c.c[3] = blue;
-	c.c[0] = TRANSPARENCY1;
+	red = (t_uchar)(color1.c[2] * (1 - per) + color2.c[2] * per);
+	green = (t_uchar)(color1.c[1] * (1 - per) + color2.c[1] * per);
+	blue = (t_uchar)(color1.c[0] * (1 - per) + color2.c[0] * per);
+	c.c[2] = red;
+	c.c[1] = green;
+	c.c[0] = blue;
+	c.c[3] = TRANSPARENCY1;
 	return (c.n);
 }
 
